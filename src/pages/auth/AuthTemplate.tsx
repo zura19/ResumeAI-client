@@ -22,7 +22,7 @@ export default function AuthTemplate(props: props) {
         />
       </div>
 
-      <div className="p-4 sm:px-6 md:px-12 sm:py-24 space-y-12">
+      <div className="p-4 sm:px-6 md:px-12 sm:py-24 space-y-8">
         <div>
           <AnimatedText
             text={heading}
