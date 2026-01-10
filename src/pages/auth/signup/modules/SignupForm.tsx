@@ -33,29 +33,25 @@ export default function SignupForm() {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-5 max-w-full mx-auto"
-      >
-        <AnimationProvider duration={0.7} initY={-40}>
+      <AnimationProvider duration={0.7} initY={40}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-5 max-w-full mx-auto"
+        >
           <FormInput
             placeholder="John Doe"
             name="fullName"
             control={form.control}
             className="h-12"
           />
-        </AnimationProvider>
 
-        <AnimationProvider duration={0.7} initY={-40} delay={0.15}>
           <FormInput
             placeholder="example@ex.com"
             name="email"
             control={form.control}
             className="h-12"
           />
-        </AnimationProvider>
 
-        <AnimationProvider duration={0.7} initY={-40} delay={0.25}>
           <FormInput
             placeholder="Password"
             name="password"
@@ -63,9 +59,7 @@ export default function SignupForm() {
             type="password"
             className="h-12"
           />
-        </AnimationProvider>
 
-        <AnimationProvider duration={0.7} initY={-40} delay={0.35}>
           <FormButton
             className="w-full h-12 font-semibold text-lg bg-[#5B21B6] text-white hover:bg-[#5B21B6]/90"
             loading={form.formState.isSubmitting}
@@ -75,8 +69,8 @@ export default function SignupForm() {
           >
             Sign Up
           </FormButton>
-        </AnimationProvider>
-      </form>
+        </form>
+      </AnimationProvider>
     </Form>
   );
 }

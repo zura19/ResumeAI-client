@@ -4,7 +4,7 @@ export interface NavbarItem {
   type: "btn" | "link";
 }
 
-export const navbarData: NavbarItem[] = [
+export const navbarDataLandingPage: NavbarItem[] = [
   {
     label: "Features",
     to: "features",
@@ -35,6 +35,24 @@ export const navbarData: NavbarItem[] = [
     type: "btn",
   },
 
+  {
+    label: "Login",
+    to: "/login",
+    type: "link",
+  },
+];
+
+export const navbarData: NavbarItem[] = [
+  {
+    label: "Home",
+    to: "/",
+    type: "link",
+  },
+  {
+    label: "Build",
+    to: "/build",
+    type: "link",
+  },
   {
     label: "Login",
     to: "/login",

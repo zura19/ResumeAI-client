@@ -37,7 +37,7 @@ export function Footer() {
         </div>
 
         <div className="mt-12 border-t border-border/40 pt-8 text-center text-sm text-muted-foreground">
-          <p>© 2025 ResumeAI. All rights reserved.</p>
+          <p>© 2026 ResumeAI. All rights reserved.</p>
         </div>
       </Wrapper>
     </footer>
