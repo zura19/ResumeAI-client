@@ -10,7 +10,7 @@ export default function GoogleCallback() {
 
   const navigate = useNavigate();
 
-  const { isLoading, error } = useQuery({
+  const { error } = useQuery({
     queryKey: ["google-user"],
     queryFn: async () => {
       const data = await getMeService();
@@ -25,12 +25,10 @@ export default function GoogleCallback() {
 
   return (
     <div className="bg-muted/75 border backdrop-blur-md h-full flex items-center justify-center rounded-md">
-      {isLoading && (
-        <p className="flex items-center gap-1 text-muted-foreground">
-          <Loader className="animate-spin" />
-          <span>Getting user Information...</span>
-        </p>
-      )}
+      <p className="flex items-center gap-1 text-muted-foreground">
+        <Loader className="animate-spin" />
+        <span>Getting user Information...</span>
+      </p>
     </div>
   );
 }

@@ -1,7 +1,10 @@
 import { motion } from "framer-motion";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Logo from "@/components/shared/Logo";
-import { navbarData as data } from "@/constants/navbar/navbar";
+import {
+  navbarDataLandingPage,
+  navbarData as navbarDataOtherPage,
+} from "@/constants/navbar/navbar";
 import ResponsiveNav from "./ResponsiveNav";
 import { useMemo } from "react";
 import { useUser } from "@/lib/store/userState";
@@ -42,12 +45,15 @@ export default function Navbar() {
   }
 
   const navbarData = useMemo(() => {
+    const data =
+      location.pathname === "/" ? navbarDataLandingPage : navbarDataOtherPage;
+
     if (user) {
       return data.filter((item) => item.label !== "Login");
     }
 
     return data;
-  }, [user]);
+  }, [user, location.pathname]);
 
   return (
     <motion.nav
