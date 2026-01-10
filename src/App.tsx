@@ -9,6 +9,7 @@ import Resume from "./pages/resume";
 import NotFound from "./pages/notFound";
 import LightRaysLayout from "./layouts/lightRays";
 import Profile from "./pages/profile";
+import GoogleCallback from "./pages/auth/google";
 import { useUser } from "./lib/store/userState";
 
 function App() {
@@ -34,6 +35,11 @@ function App() {
           <Route
             path="/signup"
             element={user ? <Navigate to="/" /> : <Signup />}
+          />
+
+          <Route
+            path="/google/callback"
+            element={user ? <Navigate to="/profile" /> : <GoogleCallback />}
           />
         </Route>
 
