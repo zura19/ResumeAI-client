@@ -1,4 +1,5 @@
-import type { Plan } from "@/constants/plans/plans";
+import type { Plan } from "@/lib/types/plan";
+import { formatCurrency } from "@/lib/utils";
 import { Sparkles } from "lucide-react";
 interface props {
   plan: Plan;
@@ -25,11 +26,11 @@ export default function Header({ plan }: props) {
       <div className="text-left md:text-right">
         <div className="flex items-baseline gap-1">
           <span className="text-5xl font-bold text-foreground">
-            ${plan.price}
+            {formatCurrency(plan.priceMonthly / 100)}
           </span>
-          <span className="text-muted-foreground">{plan.period}</span>
+          <span className="text-muted-foreground"> / month</span>
         </div>
-        {plan.price > 0 && (
+        {plan.priceMonthly > 0 && (
           <p className="mt-1 text-sm text-muted-foreground">Billed monthly</p>
         )}
       </div>

@@ -1,9 +1,10 @@
 import { Check } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, formatCurrency, uppercaseFirstLetter } from "@/lib/utils";
 import { Link } from "react-router-dom";
-import type { Plan } from "@/constants/plans/plans";
-import SpotlightCard from "./SpotlightCard";
-import { CardContent } from "../ui/card";
+// import type { Plan } from "@/constants/plans/p/lans";
+import SpotlightCard from "../SpotlightCard";
+import { CardContent } from "../../ui/card";
+import type { Plan } from "@/lib/types/plan";
 
 interface props {
   plan: Plan;
@@ -14,11 +15,11 @@ export function PlanCard({ plan }: props) {
 
   function getBtnText() {
     switch (plan.name) {
-      case "Free":
+      case "free":
         return "Get Started";
-      case "Pro":
+      case "pro":
         return "Upgrade to Pro";
-      case "Enterprise":
+      case "enterprise":
         return "Upgrade to Enterprise";
     }
   }
@@ -32,19 +33,19 @@ export function PlanCard({ plan }: props) {
           recommendedPlan && "shadow-[0px_0px_5px_2px_#625fff]",
         )}
       >
-        <Link to={`/plans/${plan.id}`} className="block group h-full">
+        <Link to={`/plans/${plan.name}`} className="block group h-full">
           <CardContent className="flex flex-col h-full">
             <div className="mb-4">
               <h3 className="text-lg font-semibold text-foreground">
-                {plan.name}
+                {uppercaseFirstLetter(plan.name)}
               </h3>
             </div>
 
             <div className="mb-4">
               <span className="text-4xl font-bold text-foreground bg-indigo-">
-                ${plan.price}
+                {formatCurrency(plan.priceMonthly / 100)}
               </span>
-              <span className="text-muted-foreground">{plan.period}</span>
+              <span className="text-muted-foreground"> /month</span>
             </div>
 
             <p className="mb-6 text-sm text-muted-foreground">

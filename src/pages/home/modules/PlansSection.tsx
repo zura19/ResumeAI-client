@@ -1,4 +1,4 @@
-import { PlanCard } from "@/components/shared/PlanCard";
+import { PlanCard } from "@/components/shared/plan/PlanCard";
 import { plans } from "@/constants/plans/plans";
 import Section from "../components/Section";
 import { containerVariant, itemVariant } from "@/lib/animations/cardAppear";

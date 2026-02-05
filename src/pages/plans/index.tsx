@@ -1,14 +1,13 @@
 import Wrapper from "@/components/shared/Wrapper";
-import { PlanCard } from "@/components/shared/PlanCard";
-import { plans } from "@/constants/plans/plans";
-import { containerVariant, itemVariant } from "@/lib/animations/cardAppear";
 import { motion } from "framer-motion";
+import Plans from "@/components/shared/plan/Plans";
 
-export default function Plans() {
+export default function PlansPage() {
   return (
     <Wrapper className="h-dvh overflow-y-scroll">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
+        viewport={{ once: true }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
         className="mb-12 text-center"
@@ -44,23 +43,7 @@ export default function Plans() {
         </p>
       </motion.div>
 
-      <motion.div
-        variants={containerVariant}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-50px" }}
-        className="grid gap-6 md:grid-cols-3"
-      >
-        {plans.map((plan) => (
-          <motion.div
-            key={plan.id}
-            variants={itemVariant}
-            className="rounded-lg"
-          >
-            <PlanCard key={plan.id} plan={plan} />
-          </motion.div>
-        ))}
-      </motion.div>
+      <Plans />
     </Wrapper>
   );
 }

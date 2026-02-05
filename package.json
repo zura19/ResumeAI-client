@@ -35,6 +35,7 @@
     "react-day-picker": "^9.12.0",
     "react-dom": "^19.2.0",
     "react-hook-form": "^7.68.0",
+    "react-intersection-observer": "^10.0.2",
     "react-router-dom": "^7.10.1",
     "react-to-pdf": "^2.0.3",
     "sonner": "^2.0.7",

@@ -1,9 +1,6 @@
 // import GetStartedBtn from "../../components/GetStartedBtn";
+import Plans from "@/components/shared/plan/Plans";
 import Section from "../../components/Section";
-import { PlanCard } from "@/components/shared/PlanCard";
-import { plans } from "@/constants/plans/plans";
-import { containerVariant, itemVariant } from "@/lib/animations/cardAppear";
-import { motion } from "framer-motion";
 
 export function CTASection() {
   return (
@@ -14,23 +11,7 @@ export function CTASection() {
       background=""
       gradient="red"
     >
-      <motion.div
-        variants={containerVariant}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-50px" }}
-        className="grid gap-6 md:grid-cols-3"
-      >
-        {plans.map((plan) => (
-          <motion.div
-            key={plan.id}
-            variants={itemVariant}
-            className="rounded-lg"
-          >
-            <PlanCard key={plan.id} plan={plan} />
-          </motion.div>
-        ))}
-      </motion.div>
+      <Plans />
     </Section>
   );
 }

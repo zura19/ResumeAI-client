@@ -20,3 +20,14 @@ export function formatDate(dateString: string) {
     day: "numeric",
   });
 }
+
+export function formatCurrency(amount: number) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(amount);
+}
+
+export function uppercaseFirstLetter(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
