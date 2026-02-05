@@ -1,15 +1,15 @@
-// import GetStartedBtn from "../../components/GetStartedBtn";
-import Section from "../../components/Section";
 import { PlanCard } from "@/components/shared/PlanCard";
 import { plans } from "@/constants/plans/plans";
+import Section from "../components/Section";
 import { containerVariant, itemVariant } from "@/lib/animations/cardAppear";
 import { motion } from "framer-motion";
 
-export function CTASection() {
+export function PlansSection() {
   return (
+    // < className="py-20">
     <Section
-      id="cta"
-      heading="Ready to Build Your Future?"
+      id="plans"
+      heading="Plans and Pricing"
       description="Get started immediately for free. Upgrade for more AI credits, templates, and advanced features."
       background=""
       gradient="red"

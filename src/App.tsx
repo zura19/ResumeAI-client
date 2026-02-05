@@ -11,6 +11,8 @@ import LightRaysLayout from "./layouts/lightRays";
 import Profile from "./pages/profile";
 import GoogleCallback from "./pages/auth/google";
 import { useUser } from "./lib/store/userState";
+import Plans from "./pages/plans";
+import PlanDetails from "./pages/detailedPlan";
 
 function App() {
   const { user } = useUser();
@@ -48,11 +50,23 @@ function App() {
             path="/resume/:id"
             element={user ? <Resume /> : <Navigate to="/login" />}
           />
+          <Route path="/plans" element={<Plans />} />
+          <Route
+            path="/plans/:id"
+            element={user ? <PlanDetails /> : <Navigate to="/login" />}
+          />
           <Route
             path="/profile"
             element={user ? <Profile /> : <Navigate to="/login" />}
           />
-          <Route path="*" element={<NotFound />} />
+          <Route
+            path="*"
+            element={
+              <div className="h-dvh flex items-center justify-center">
+                <NotFound />
+              </div>
+            }
+          />
         </Route>
       </Routes>
     </BrowserRouter>
