@@ -6,10 +6,12 @@ import Wrapper from "@/components/shared/Wrapper";
 import Contact from "./components/Contact";
 import Header from "./components/Header";
 import FormButton from "@/components/shared/FormButton";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { getPlansByNameService } from "@/lib/services/plan/getPlanByName";
 import type { PlanName } from "@/lib/types/plan";
 import { Spinner } from "@/components/ui/spinner";
+import { createCheckoutService } from "@/lib/services/checkout/createCheckout";
+import { toast } from "sonner";
 
 export default function PlanDetails() {
   const params = useParams();
@@ -21,6 +23,21 @@ export default function PlanDetails() {
   });
 
   const plan = data?.data;
+
+  const { mutate: createCheckout, isPending: isCreating } = useMutation({
+    mutationFn: async () => await createCheckoutService(plan?.name as PlanName),
+    onSuccess: (data) => {
+      console.log(data);
+      toast.success("Redirecting to checkout...");
+      // go to another webpage url:
+      window.location.href = data.data.sessionUrl;
+      // window = data.data.sessionUrl;
+    },
+    onError: (err) => {
+      console.log(err);
+      toast.error(err.message);
+    },
+  });
 
   if (isError)
     return (
@@ -96,6 +113,10 @@ export default function PlanDetails() {
               </div>
 
               <FormButton
+                disabled={isCreating}
+                onClick={createCheckout}
+                loading={isCreating}
+                loadingText="Creating Checkout..."
                 className={cn(
                   "inline-flex items-center justify-center rounded-lg px-8 py-3 text-sm font-medium transition-colors",
                   plan.recommended

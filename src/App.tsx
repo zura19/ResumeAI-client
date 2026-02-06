@@ -16,6 +16,7 @@ import PlanDetails from "./pages/detailedPlan";
 import Admin from "./pages/admin";
 import AdminLayout from "./layouts/admin";
 import UpdatePlan from "./pages/admin/updatePlan";
+import Checkout from "./pages/checkout";
 
 function App() {
   const { user } = useUser();
@@ -62,6 +63,12 @@ function App() {
             path="/profile"
             element={user ? <Profile /> : <Navigate to="/login" />}
           />
+
+          <Route
+            path="/checkout/:state"
+            element={user ? <Checkout /> : <Navigate to="/login" />}
+          />
+
           <Route
             path="*"
             element={
