@@ -3,4 +3,7 @@ export interface User {
   firstName: string;
   lastName: string;
   email: string;
+  role: Role;
 }
+
+type Role = "user" | "admin";

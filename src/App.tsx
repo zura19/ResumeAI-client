@@ -13,6 +13,9 @@ import GoogleCallback from "./pages/auth/google";
 import { useUser } from "./lib/store/userState";
 import Plans from "./pages/plans";
 import PlanDetails from "./pages/detailedPlan";
+import Admin from "./pages/admin";
+import AdminLayout from "./layouts/admin";
+import UpdatePlan from "./pages/admin/updatePlan";
 
 function App() {
   const { user } = useUser();
@@ -22,7 +25,7 @@ function App() {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<p>about</p>} />
+          {/* <Route path="/admin" element={<Admin />} /> */}
         </Route>
 
         <Route element={<SecondaryLayout />}>
@@ -65,6 +68,19 @@ function App() {
               <div className="h-dvh flex items-center justify-center">
                 <NotFound />
               </div>
+            }
+          />
+        </Route>
+
+        <Route element={<AdminLayout />}>
+          <Route
+            path="/admin"
+            element={user?.role === "admin" ? <Admin /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/admin/plan/:name"
+            element={
+              user?.role === "admin" ? <UpdatePlan /> : <Navigate to="/" />
             }
           />
         </Route>

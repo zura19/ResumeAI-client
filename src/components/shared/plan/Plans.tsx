@@ -6,7 +6,11 @@ import { getPlansService } from "@/lib/services/plan/getPlans";
 import PlanSkeleton from "./PlanSkeleton";
 import { useInView } from "react-intersection-observer";
 
-export default function Plans() {
+interface props {
+  updateSession?: boolean;
+}
+
+export default function Plans({ updateSession = false }: props) {
   const { ref, inView } = useInView({
     triggerOnce: true, // Only trigger once when component comes into view
     threshold: 0.1, // Trigger when 10% of component is visible
@@ -50,7 +54,11 @@ export default function Plans() {
               variants={itemVariant}
               className="rounded-lg"
             >
-              <PlanCard key={plan.id} plan={plan} />
+              <PlanCard
+                key={plan.id}
+                plan={plan}
+                updateSession={updateSession}
+              />
             </motion.div>
           ))}
         </motion.div>

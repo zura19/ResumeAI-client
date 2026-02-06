@@ -5,12 +5,14 @@ import { Link } from "react-router-dom";
 import SpotlightCard from "../SpotlightCard";
 import { CardContent } from "../../ui/card";
 import type { Plan } from "@/lib/types/plan";
+import { Button } from "@/components/ui/button";
 
 interface props {
   plan: Plan;
+  updateSession?: boolean;
 }
 
-export function PlanCard({ plan }: props) {
+export function PlanCard({ plan, updateSession = false }: props) {
   const recommendedPlan = plan.recommended;
 
   function getBtnText() {
@@ -24,6 +26,10 @@ export function PlanCard({ plan }: props) {
     }
   }
 
+  function goTo(): string {
+    return updateSession ? `/admin/plan/${plan.name}` : `/plans/${plan.name}`;
+  }
+
   return (
     <div className="relative h-full w-full rounded-xl flex group ">
       <SpotlightCard
@@ -33,7 +39,7 @@ export function PlanCard({ plan }: props) {
           recommendedPlan && "shadow-[0px_0px_5px_2px_#625fff]",
         )}
       >
-        <Link to={`/plans/${plan.name}`} className="block group h-full">
+        <Link to={goTo()} className="block group h-full">
           <CardContent className="flex flex-col h-full">
             <div className="mb-4">
               <h3 className="text-lg font-semibold text-foreground">
@@ -74,10 +80,19 @@ export function PlanCard({ plan }: props) {
                 recommendedPlan
                   ? "bg-indigo-500 text-primary group-hover:bg-indigo-600"
                   : "border border-border bg-transparent text-foreground group-hover:bg-secondary",
+                updateSession && "hidden",
               )}
             >
               {getBtnText()}
             </div>
+            {updateSession && (
+              <Button
+                className="w-full rounded-lg py-3 mt-auto text-center text-sm font-medium transition-colors"
+                onClick={() => {}}
+              >
+                Update Plan
+              </Button>
+            )}
           </CardContent>
         </Link>
       </SpotlightCard>

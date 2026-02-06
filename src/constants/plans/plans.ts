@@ -1,4 +1,4 @@
-export interface Plan {
+interface Plan {
   id: string;
   name: string;
   price: number;
@@ -11,7 +11,7 @@ export interface Plan {
   additionalFeatures: string[];
 }
 
-export const plans: Plan[] = [
+const plans: Plan[] = [
   {
     id: "free",
     name: "Free",
