@@ -9,4 +9,4 @@ export interface User {
   plan: PlanName;
 }
 
-type Role = "user" | "admin";
+export type Role = "user" | "admin";

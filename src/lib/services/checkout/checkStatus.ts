@@ -1,3 +1,4 @@
+import type { User } from "@/lib/types/User";
 import { API } from "../helpers";
 import type { PromiseResponseSuccess } from "@/lib/types/requestResponseTypes";
 
@@ -9,6 +10,7 @@ interface Res {
   created: Date;
   email?: string | null;
   isProcessed: boolean;
+  user: User;
 }
 
 export async function checkStatusService(

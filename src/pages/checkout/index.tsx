@@ -5,11 +5,14 @@ import FailedView from "./modules/FailedView";
 import { useQuery } from "@tanstack/react-query";
 import { checkStatusService } from "@/lib/services/checkout/checkStatus";
 import { ErrorComponent } from "@/components/shared/ErrorComponents";
+import { useEffect } from "react";
+import { useUser } from "@/lib/store/userState";
 
 export default function Checkout() {
   const [searchParams] = useSearchParams();
 
   const sessionId = searchParams.get("session_id");
+  const { setUser } = useUser();
 
   const navigate = useNavigate();
 
@@ -32,6 +35,12 @@ export default function Checkout() {
   // function goToProfile() {
   //   navigate("/profile");
   // }
+
+  useEffect(() => {
+    if (showSuccess) {
+      setUser(data?.data.user);
+    }
+  }, [showSuccess, setUser, data?.data.user]);
 
   function goTo(path: string) {
     navigate(path);
