@@ -1,7 +1,13 @@
 import { PaymentCard } from "../components/PaymentCard";
 import { AnimatedCross } from "../components/PaymentIcons";
 
-export default function FailedView({ onReset }: { onReset: () => void }) {
+export default function FailedView({
+  onReset,
+  goHome,
+}: {
+  onReset: () => void;
+  goHome: () => void;
+}) {
   return (
     <PaymentCard>
       <div className="flex flex-col items-center gap-6">
@@ -61,7 +67,7 @@ export default function FailedView({ onReset }: { onReset: () => void }) {
           </button>
           <button
             type="button"
-            onClick={onReset}
+            onClick={goHome}
             className="w-full py-3 rounded-xl text-sm font-medium transition-all duration-200 hover:opacity-80 cursor-pointer"
             style={{
               color: "rgba(255,255,255,0.5)",
@@ -69,7 +75,7 @@ export default function FailedView({ onReset }: { onReset: () => void }) {
               border: "1px solid rgba(255,255,255,0.08)",
             }}
           >
-            Contact Support
+            Go To Home Page
           </button>
         </div>
       </div>

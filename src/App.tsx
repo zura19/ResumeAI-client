@@ -65,7 +65,7 @@ function App() {
           />
 
           <Route
-            path="/checkout/:state"
+            path="/checkout"
             element={user ? <Checkout /> : <Navigate to="/login" />}
           />
 

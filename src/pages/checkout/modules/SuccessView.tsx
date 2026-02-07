@@ -1,7 +1,22 @@
+import { formatCurrency, formatDate } from "@/lib/utils";
 import { PaymentCard } from "../components/PaymentCard";
 import { AnimatedCheckmark } from "../components/PaymentIcons";
 
-export default function SuccessView({ onReset }: { onReset: () => void }) {
+interface props {
+  total: number;
+  last4: string;
+  createdAt: string;
+  email: string;
+  continueClick: () => void;
+}
+
+export default function SuccessView({
+  continueClick,
+  total,
+  last4,
+  createdAt,
+  email,
+}: props) {
   return (
     <PaymentCard>
       <div className="flex flex-col items-center gap-6">
@@ -14,9 +29,12 @@ export default function SuccessView({ onReset }: { onReset: () => void }) {
             className="text-sm leading-relaxed"
             style={{ color: "rgba(255,255,255,0.5)" }}
           >
-            Your payment of{" "}
-            <span className="text-white font-medium">$49.99</span> has been
-            confirmed. A receipt has been sent to your email.
+            Your payment of{"    "}
+            <span className="text-white font-medium">
+              {formatCurrency(total / 100)}
+            </span>
+            {"  "}
+            has been confirmed. A receipt has been sent to your email.
           </p>
         </div>
 
@@ -29,10 +47,8 @@ export default function SuccessView({ onReset }: { onReset: () => void }) {
           }}
         >
           <div className="flex items-center justify-between">
-            <span style={{ color: "rgba(255,255,255,0.4)" }}>
-              Transaction ID
-            </span>
-            <span className="text-white font-mono text-xs">TXN-2026-8A4F</span>
+            <span style={{ color: "rgba(255,255,255,0.4)" }}>User Email</span>
+            <span className="text-white font-mono text-xs">{email}</span>
           </div>
           <div
             className="w-full h-px"
@@ -40,7 +56,10 @@ export default function SuccessView({ onReset }: { onReset: () => void }) {
           />
           <div className="flex items-center justify-between">
             <span style={{ color: "rgba(255,255,255,0.4)" }}>Date</span>
-            <span className="text-white text-xs">Feb 7, 2026</span>
+            <span className="text-white text-xs">
+              {formatDate(createdAt)}
+              {/* {new Date(createdAt).getFullYear()} */}
+            </span>
           </div>
           <div
             className="w-full h-px"
@@ -48,14 +67,13 @@ export default function SuccessView({ onReset }: { onReset: () => void }) {
           />
           <div className="flex items-center justify-between">
             <span style={{ color: "rgba(255,255,255,0.4)" }}>Method</span>
-            <span className="text-white text-xs">Visa ending 4242</span>
+            <span className="text-white text-xs">Visa ending {last4}</span>
           </div>
         </div>
 
         <button
-          onClick={onReset}
+          onClick={continueClick}
           type="button"
-          //   onClick={onReset}
           className="w-full py-3 rounded-xl text-sm font-medium text-white transition-all duration-200 hover:opacity-90 cursor-pointer"
           style={{
             background: "linear-gradient(135deg, #615fff 0%, #7c6fff 100%)",

@@ -6,6 +6,7 @@ import SpotlightCard from "../SpotlightCard";
 import { CardContent } from "../../ui/card";
 import type { Plan } from "@/lib/types/plan";
 import { Button } from "@/components/ui/button";
+import { useUser } from "@/lib/store/userState";
 
 interface props {
   plan: Plan;
@@ -13,21 +14,44 @@ interface props {
 }
 
 export function PlanCard({ plan, updateSession = false }: props) {
+  const { user } = useUser();
+  console.log(user);
+
   const recommendedPlan = plan.recommended;
 
   function getBtnText() {
-    switch (plan.name) {
-      case "free":
-        return "Get Started";
-      case "pro":
-        return "Upgrade to Pro";
-      case "enterprise":
-        return "Upgrade to Enterprise";
-    }
+    if (!user)
+      switch (plan.name) {
+        case "free":
+          return "Get Started";
+        case "pro":
+          return "Upgrade to Pro";
+        case "enterprise":
+          return "Upgrade to Enterprise";
+      }
+
+    if (user)
+      switch (plan.name) {
+        case "free":
+          return user.plan === "free" ? "Current Plan" : "Downgrade to Free";
+        case "pro":
+          return user.plan === "pro" ? "Current Plan" : "Upgrade to Pro";
+        case "enterprise":
+          return user.plan === "enterprise"
+            ? "Current Plan"
+            : "Upgrade to Enterprise";
+      }
   }
 
-  function goTo(): string {
-    return updateSession ? `/admin/plan/${plan.name}` : `/plans/${plan.name}`;
+  function goTo(): string | null {
+    let goto: string | null = `/plans/${plan.name}`;
+
+    if (!updateSession && user?.role === "admin") {
+      goto = `/admin/plan/${plan.name}`;
+    }
+    if (plan.name === user?.plan) goto = null;
+
+    return goto;
   }
 
   return (
@@ -74,9 +98,10 @@ export function PlanCard({ plan, updateSession = false }: props) {
               ))}
             </ul>
 
-            <div
+            <Button
+              disabled={goTo() === null}
               className={cn(
-                "w-full rounded-lg py-3 mt-auto text-center text-sm font-medium transition-colors",
+                "w-full rounded-lg h-12 py-3 mt-auto text-center text-sm font-medium transition-colors",
                 recommendedPlan
                   ? "bg-indigo-500 text-primary group-hover:bg-indigo-600"
                   : "border border-border bg-transparent text-foreground group-hover:bg-secondary",
@@ -84,7 +109,7 @@ export function PlanCard({ plan, updateSession = false }: props) {
               )}
             >
               {getBtnText()}
-            </div>
+            </Button>
             {updateSession && (
               <Button
                 className="w-full rounded-lg py-3 mt-auto text-center text-sm font-medium transition-colors"
