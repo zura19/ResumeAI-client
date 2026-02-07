@@ -1,16 +1,13 @@
 import { ErrorComponent } from "@/components/shared/ErrorComponents";
-// import FormButton from "@/components/shared/FormButton";
 import Wrapper from "@/components/shared/Wrapper";
-// import useLogout from "@/lib/hooks/useLogout";
 import { getProfileDataService } from "@/lib/services/user/profileDataService";
 import { useUser } from "@/lib/store/userState";
 import { useQuery } from "@tanstack/react-query";
 import { ProfileSkeleton } from "./components/ProfileSkeleton";
-// import UserAvatar from "@/components/shared/UserAvatar";
-// import { Card, CardContent } from "@/components/ui/card";
-import ResumeSection from "./modules/ResumeSection";
 import UserSection from "./modules/UserSection";
-// import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { TotalsSection } from "./modules/TotalsSection";
+import ProfileTabsSection from "./modules/ProfileTabsSection";
 
 export default function Profile() {
   const { user: logged } = useUser();
@@ -18,7 +15,6 @@ export default function Profile() {
     queryKey: ["user", logged?.id],
     queryFn: async () => await getProfileDataService(),
   });
-  // const { logOut, isLoggingOut } = useLogout();
 
   if (isError)
     return (
@@ -29,16 +25,22 @@ export default function Profile() {
 
   const { user, resumes } = data?.data || {};
 
+  console.log(resumes);
+
   if (!isError)
     return (
-      <Wrapper>
-        {isLoading && <ProfileSkeleton />}
-        {!isLoading && (
-          <div className=" space-y-12">
-            <UserSection user={user} />
-            <ResumeSection resumes={resumes} />
-          </div>
-        )}
-      </Wrapper>
+      <div className=" overflow-scroll max-h-[83dvh] scrollbar-hide">
+        <Wrapper className="py-1 ">
+          {isLoading && <ProfileSkeleton />}
+          {!isLoading && (
+            <div className=" space-y-12">
+              <UserSection user={user} />
+              <Separator />
+              <TotalsSection />
+              <ProfileTabsSection resumes={resumes} />
+            </div>
+          )}
+        </Wrapper>
+      </div>
     );
 }
