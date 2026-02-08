@@ -16,49 +16,8 @@ import {
   DownloadIcon,
   ExternalLinkIcon,
   PlusIcon,
-  // EyeIcon,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-
-const fakeResumes: {
-  id: number;
-  title: string;
-  createdAt: string;
-  type: ResumeType;
-}[] = [
-  {
-    id: 1,
-    title: "Software Engineer — 2026",
-    createdAt: "Feb 3, 2026",
-    type: "modern" as const,
-    // views: 142,
-    // downloads: 38,
-  },
-  {
-    id: 2,
-    title: "Frontend Developer — Startup Focus",
-    createdAt: "Jan 21, 2026",
-    type: "executive",
-    // views: 87,
-    // downloads: 15,
-  },
-  {
-    id: 3,
-    title: "Full-Stack Lead — Enterprise",
-    createdAt: "Dec 14, 2025",
-    type: "classic",
-    // views: 12,
-    // downloads: 3,
-  },
-  {
-    id: 4,
-    title: "Product Engineer — AI/ML",
-    createdAt: "Nov 30, 2025",
-    type: "creative",
-    // views: 204,
-    // downloads: 61,
-  },
-];
 
 interface props {
   resumes?: {
@@ -89,7 +48,7 @@ const typeConfig: Record<ResumeType, { label: string; className: string }> = {
 };
 
 export function ResumeListTab({ resumes }: props) {
-  const arr = resumes && resumes?.length > 0 ? resumes : fakeResumes;
+  const arr = resumes;
   return (
     <Card className="border bg-background/50 backdrop-blur-lg">
       <CardHeader className="flex flex-row items-center justify-between">
@@ -120,17 +79,15 @@ export function ResumeListTab({ resumes }: props) {
         </Button>
       </CardHeader>
       <CardContent className="flex flex-col gap-3 max-h-120 overflow-scroll">
-        {resumes?.length === 23 && (
+        {resumes?.length === 0 && (
           <div className="p-8 bg-background/0 h-full backdrop-blur-md">
             <div className="flex flex-col items-center justify-center py-12">
               <FileTextIcon className="mb-4 h-12 w-12 text-muted-foreground" />
               <p className="text-muted-foreground">No resumes found</p>
             </div>
           </div>
-          // <p className="text-muted-foreground">No resumes found</p>
         )}
         {arr?.map((resume) => {
-          // const status = statusConfig[resume.status];
           return (
             <div
               key={resume.id}
@@ -151,7 +108,6 @@ export function ResumeListTab({ resumes }: props) {
                         "ml-auto" + " " + typeConfig[resume.type].className
                       }
                     >
-                      {/* {status.label} */}
                       {resume.type}
                     </Badge>
                   </div>
@@ -160,14 +116,6 @@ export function ResumeListTab({ resumes }: props) {
                       Last Updated At{" "}
                       {formatDate(resume.createdAt, "MM/dd/yyyy")}
                     </span>
-                    {/* <span className="flex items-center gap-1">
-                      <EyeIcon className="h-3 w-3" />
-                      {resume.views}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <DownloadIcon className="h-3 w-3" />
-                      {resume.downloads}
-                    </span> */}
                   </div>
                 </div>
               </div>

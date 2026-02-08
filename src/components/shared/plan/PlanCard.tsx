@@ -49,10 +49,10 @@ export function PlanCard({ plan, updateSession = false }: props) {
   function goTo(): string | null {
     let goto: string | null = `/plans/${plan.name}`;
 
-    if (!updateSession && user?.role === "admin") {
+    if (updateSession && user?.role === "admin") {
       goto = `/admin/plan/${plan.name}`;
     }
-    if (plan.name === user?.plan) goto = null;
+    if (!updateSession && plan.name === user?.plan) goto = null;
 
     return goto;
   }

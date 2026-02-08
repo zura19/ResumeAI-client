@@ -44,6 +44,11 @@ export default function UpdatePlan() {
   const [recommended, setRecommended] = useState(
     plan?.recommended ? "true" : "false",
   );
+  const [stripeProductId, setStripeProductId] = useState(
+    plan?.stripeProductId || "",
+  );
+
+  const [stripePriceId, setStripePriceId] = useState(plan?.stripePriceId || "");
 
   useEffect(() => {
     if (plan) {
@@ -54,6 +59,8 @@ export default function UpdatePlan() {
       setAdditionalFeatures(plan.additionalFeatures);
       setDetailedDescription(plan.detailedDescription);
       setRecommended(plan.recommended ? "true" : "false");
+      setStripeProductId(plan.stripeProductId);
+      setStripePriceId(plan.stripePriceId);
     }
     setTimeout(() => {
       setRecommended(plan?.recommended ? "true" : "false");
@@ -101,6 +108,8 @@ export default function UpdatePlan() {
       additionalFeatures,
       detailedDescription,
       recommended: recommended === "true" ? true : false,
+      stripeProductId,
+      stripePriceId,
     };
     await mutateAsync(data);
     console.log(data);
@@ -116,6 +125,24 @@ export default function UpdatePlan() {
           id="price"
           value={price}
           onChange={(e) => setPrice(Number(e.target.value))}
+        />
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="stripeProductId">Stripe Product ID</Label>
+        <Input
+          id="stripeProductId"
+          value={stripeProductId}
+          onChange={(e) => setStripeProductId(e.target.value)}
+        />
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="stripePriceId">Stripe Price ID</Label>
+        <Input
+          id="stripePriceId"
+          value={stripePriceId}
+          onChange={(e) => setStripePriceId(e.target.value)}
         />
       </div>
 
