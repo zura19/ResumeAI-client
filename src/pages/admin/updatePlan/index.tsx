@@ -47,8 +47,11 @@ export default function UpdatePlan() {
   const [stripeProductId, setStripeProductId] = useState(
     plan?.stripeProductId || "",
   );
-
   const [stripePriceId, setStripePriceId] = useState(plan?.stripePriceId || "");
+  const [aiCreditsPerMonth, setAiCreditsPerMonth] = useState(
+    plan?.aiCreditsPerMonth || 0,
+  );
+  const [totalResumes, setTotalResumes] = useState(plan?.totalResumes || 0);
 
   useEffect(() => {
     if (plan) {
@@ -61,6 +64,8 @@ export default function UpdatePlan() {
       setRecommended(plan.recommended ? "true" : "false");
       setStripeProductId(plan.stripeProductId);
       setStripePriceId(plan.stripePriceId);
+      setAiCreditsPerMonth(plan.aiCreditsPerMonth);
+      setTotalResumes(plan.totalResumes);
     }
     setTimeout(() => {
       setRecommended(plan?.recommended ? "true" : "false");
@@ -110,6 +115,8 @@ export default function UpdatePlan() {
       recommended: recommended === "true" ? true : false,
       stripeProductId,
       stripePriceId,
+      aiCreditsPerMonth,
+      totalResumes,
     };
     await mutateAsync(data);
     console.log(data);
@@ -120,7 +127,7 @@ export default function UpdatePlan() {
       <div className="flex flex-col gap-2">
         <Label htmlFor="price">Price</Label>
         <Input
-          className="w-20 h-16"
+          className=""
           type="number"
           id="price"
           value={price}
@@ -143,6 +150,24 @@ export default function UpdatePlan() {
           id="stripePriceId"
           value={stripePriceId}
           onChange={(e) => setStripePriceId(e.target.value)}
+        />
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="aiCredits">AI Credits Per Month</Label>
+        <Input
+          id="aiCredits"
+          value={aiCreditsPerMonth}
+          onChange={(e) => setAiCreditsPerMonth(+e.target.value)}
+        />
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="totalResumes">Total Resumes</Label>
+        <Input
+          id="totalResumes"
+          value={totalResumes}
+          onChange={(e) => setTotalResumes(+e.target.value)}
         />
       </div>
 
