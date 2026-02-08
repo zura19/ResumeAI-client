@@ -57,20 +57,20 @@ export function TotalsSection({ totals }: props) {
   }
 
   return (
-    <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:grid-cols-4">
       {stats.map((stat) => (
         <Card
           key={stat.label}
           className="border-border bg-background/50 backdrop-blur-lg "
         >
-          <CardContent className="flex items-center gap-3 p-4">
+          <CardContent className="flex items-center p-4 gap-5 sm:gap-3  flex-col sm:flex-row ">
             <div
-              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${stat.bg}`}
+              className={`flex size-10 shrink-0 items-center justify-center rounded-lg  ${stat.bg}`}
             >
               <stat.icon className={`h-5 w-5 ${stat.accent}`} />
             </div>
             <div className="flex flex-col">
-              <span className="text-2xl font-bold tracking-tight text-foreground">
+              <span className="text-2xl font-bold tracking-tight text-foreground text-center sm:text-start">
                 {addNumber(stat.id) ?? 12}
               </span>
               <span className="text-xs text-muted-foreground">

@@ -1,6 +1,7 @@
 export interface Payment {
   id: string;
-  stripePaymentIntentId: string;
+  stripeSubscriptionId: string;
+  invoice: string;
   amount: number;
   currency: string;
   status: PaymentStatus;

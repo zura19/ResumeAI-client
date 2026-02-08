@@ -33,7 +33,7 @@ export function SubscriptionCardTab() {
   const { data, isLoading, error } = useQuery({
     queryKey: ["subscription", inView],
     queryFn: async () => await getSubscriptionDataService(),
-    enabled: inView,
+    enabled: !!inView,
     staleTime: 1 * 60 * 60 * 1000, // 1 hour
   });
 

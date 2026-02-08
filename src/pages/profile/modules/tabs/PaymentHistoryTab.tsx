@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -127,13 +125,13 @@ export function PaymentHistoryTab() {
                         className="border-border hover:bg-secondary/30"
                       >
                         <TableCell className="font-mono text-xs text-foreground">
-                          {payment.id}
+                          {payment.invoice}
                         </TableCell>
                         <TableCell className="text-muted-foreground text-sm">
                           {formatDate(payment.createdAt, "yyyy-MM-dd")}
                         </TableCell>
                         <TableCell className="text-sm text-foreground">
-                          {/* {payment.description} */}
+                          -{/* {payment.description} */}
                         </TableCell>
                         <TableCell className="text-muted-foreground text-sm">
                           N / A
@@ -174,14 +172,14 @@ export function PaymentHistoryTab() {
                   >
                     <div className="flex items-center justify-between">
                       <span className="font-mono text-xs text-muted-foreground">
-                        {payment.id}
+                        {payment.invoice}
                       </span>
                       <Badge variant="outline" className={status.className}>
                         {status.label}
                       </Badge>
                     </div>
                     <div className="text-sm text-foreground">
-                      {/* {payment.description} */}
+                      -{/* {payment.description} */}
                     </div>
                     <div className="flex items-center justify-between text-xs text-muted-foreground">
                       <span>{payment.createdAt}</span>
