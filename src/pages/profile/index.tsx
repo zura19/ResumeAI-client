@@ -7,7 +7,7 @@ import { ProfileSkeleton } from "./components/ProfileSkeleton";
 import UserSection from "./modules/UserSection";
 import { Separator } from "@/components/ui/separator";
 import { TotalsSection } from "./modules/TotalsSection";
-import ProfileTabsSection from "./modules/ProfileTabsSection";
+import ProfileTabsSection from "./modules/tabs";
 
 export default function Profile() {
   const { user: logged } = useUser();

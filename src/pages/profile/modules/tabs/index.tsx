@@ -1,7 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ResumeListTab } from "./tabs/ResumeListTab";
-import { SubscriptionCardTab } from "./tabs/SubscriptionCardTab";
-import { PaymentHistoryTab } from "./tabs/PaymentHistoryTab";
+import { ResumeListTab } from "./resumes";
+import { SubscriptionCardTab } from "./subscriptions";
+import { PaymentHistoryTab } from "./payments";
 import type { ResumeType } from "@/lib/types/AiGeneratedResume";
 
 interface props {
@@ -37,7 +37,7 @@ export default function ProfileTabsSection({ resumes }: props) {
         <SubscriptionCardTab />
       </TabsContent>
 
-      <TabsContent value="billing" className="mt-6">
+      <TabsContent value="billing" className="mt-6 ">
         <PaymentHistoryTab />
       </TabsContent>
     </Tabs>
