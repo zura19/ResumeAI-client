@@ -17,7 +17,7 @@ export default function ProfileTabsSection({ resumes }: props) {
   const tabClass = `data-[state=active]:bg-card data-[state=active]:text-foreground text-muted-foreground text-base p-4 cursor-pointer`;
   return (
     <Tabs defaultValue="resumes">
-      <TabsList className="bg-background/50 border backdrop-blur-lg py-6 px-3">
+      <TabsList className="bg-background/50 border backdrop-blur-lg py-6 px-3 w-full sm:w-fit">
         <TabsTrigger value="resumes" className={tabClass}>
           Resumes
         </TabsTrigger>
@@ -29,15 +29,15 @@ export default function ProfileTabsSection({ resumes }: props) {
         </TabsTrigger>
       </TabsList>
 
-      <TabsContent value="resumes" className="mt-3">
+      <TabsContent value="resumes" className="mt-1">
         <ResumeListTab resumes={resumes} />
       </TabsContent>
 
-      <TabsContent value="subscription" className="mt-6">
+      <TabsContent value="subscription" className="mt-1">
         <SubscriptionCardTab />
       </TabsContent>
 
-      <TabsContent value="billing" className="mt-6 ">
+      <TabsContent value="billing" className=" mt-1">
         <PaymentHistoryTab />
       </TabsContent>
     </Tabs>

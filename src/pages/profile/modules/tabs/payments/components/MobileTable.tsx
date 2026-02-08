@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { statusConfig } from "../statusConfig";
 import type { Payment } from "@/lib/types/payment";
+import { formatCurrency } from "@/lib/utils";
 
 interface props {
   payments?: Payment[];
@@ -28,7 +29,7 @@ export default function MobileTable({ payments }: props) {
             <div className="flex items-center justify-between text-xs text-muted-foreground">
               <span>{payment.createdAt}</span>
               <span className="font-mono text-sm text-foreground">
-                {payment.amount}
+                {formatCurrency(payment.amount)}
               </span>
             </div>
             <div className="text-xs text-muted-foreground">

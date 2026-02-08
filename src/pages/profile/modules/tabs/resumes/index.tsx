@@ -16,16 +16,14 @@ interface props {
 export function ResumeListTab({ resumes }: props) {
   const arr = resumes;
   return (
-    <Card className="border bg-background/50 backdrop-blur-lg">
+    <Card className="border bg-background/50 backdrop-blur-lg min-h-100">
       <Header totalResume={resumes?.length || 0} />
 
-      <CardContent className="flex flex-col gap-3 max-h-120 overflow-scroll">
+      <CardContent className="flex flex-col gap-3">
         {resumes?.length === 0 && (
-          <div className="p-8 bg-background/0 h-full backdrop-blur-md">
-            <div className="flex flex-col items-center justify-center py-12">
-              <FileTextIcon className="mb-4 h-12 w-12 text-muted-foreground" />
-              <p className="text-muted-foreground">No resumes found</p>
-            </div>
+          <div className="flex flex-col items-center justify-center py-12">
+            <FileTextIcon className="mb-4 h-12 w-12 text-muted-foreground" />
+            <p className="text-muted-foreground">No resumes found</p>
           </div>
         )}
         {arr?.map((resume) => (

@@ -60,10 +60,9 @@ export function PaymentHistoryTab() {
           </CardHeader>
           <CardContent>
             <DesktopTable payments={payments} />
-
             <MobileTable payments={payments} />
 
-            {payments && (
+            {payments && payments.length > 5 && (
               <div className="mt-4 flex justify-center">
                 <Button
                   variant="ghost"

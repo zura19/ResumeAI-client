@@ -12,14 +12,14 @@ export default function Header({ totalResume }: props) {
     <CardHeader className="flex flex-row items-center justify-between">
       <div>
         <div className="flex items-center gap-2">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-500/10 border border-indigo-500/30 ">
-            <FileTextIcon className="h-5 w-5 text-indigo-500" />
+          <div className="flex size-11 sm:size-9 items-center justify-center rounded-lg bg-indigo-500/10 border border-indigo-500/30 ">
+            <FileTextIcon className="text-indigo-500 size-6 sm:size-5" />
           </div>
           <div>
             <CardTitle className="text-lg text-foreground">
-              My Resumes
+              <span className="hidden sm:inline">My Resumes</span>
             </CardTitle>
-            <CardDescription className="text-muted-foreground">
+            <CardDescription className="text-muted-foreground hidden sm:block">
               {totalResume} resumes created
             </CardDescription>
           </div>
