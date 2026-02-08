@@ -10,3 +10,9 @@ export interface User {
 }
 
 export type Role = "user" | "admin";
+
+export interface UserFull extends User {
+  createdAt: string;
+  updatedAt: string;
+  stripeCustomerId: string;
+}

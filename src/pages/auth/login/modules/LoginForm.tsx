@@ -27,6 +27,7 @@ export default function LoginForm() {
     const data = await loginService(vals);
 
     if (data.success) {
+      console.log(data);
       toast.success(data.message);
       setUser(data.data.user);
       navigate("/profile");

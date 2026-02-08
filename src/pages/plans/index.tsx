@@ -38,8 +38,8 @@ export default function PlansPage() {
           Plans and Pricing
         </h1>
         <p className="mx-auto max-w-2xl text-lg text-muted-foreground text-pretty">
-          Get started immediately for free. Upgrade for more AI credits,
-          templates, and advanced features.
+          Get started immediately for free. Upgrade for more Resumes, AI
+          credits, templates, and advanced features.
         </p>
       </motion.div>
 

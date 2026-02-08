@@ -2,6 +2,8 @@ export interface Plan {
   id: string;
   name: PlanName;
   priceMonthly: number;
+  totalResumes: number;
+  aiCreditsPerMonth: number;
   description: string;
   features: string[];
   recommended?: boolean;

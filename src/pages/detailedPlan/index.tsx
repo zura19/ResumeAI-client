@@ -41,13 +41,15 @@ export default function PlanDetails() {
 
   if (isError)
     return (
-      <ErrorComponent title="Something went wrong" message={error?.message} />
+      <div className="h-dvh flex items-center justify-center">
+        <ErrorComponent title="Something went wrong" message={error?.message} />
+      </div>
     );
 
   if (isLoading)
     return (
-      <Wrapper className="h-dvh flex items-center justify-center">
-        <Spinner />
+      <Wrapper className="h-dvh flex items-center justify-center bg-background/40 backdrop-blur-md max-w-full">
+        <Spinner className="size-7 text-primary animate-spin" />
       </Wrapper>
     );
 
@@ -125,7 +127,7 @@ export default function PlanDetails() {
                 )}
               >
                 {plan.priceMonthly === 0
-                  ? "Get Started Free"
+                  ? "Cancel Subscription"
                   : `Continue with ${plan.name}`}
               </FormButton>
             </div>

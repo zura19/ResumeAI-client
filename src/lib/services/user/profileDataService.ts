@@ -1,9 +1,10 @@
 import type { PromiseResponseSuccess } from "@/lib/types/requestResponseTypes";
 import { API, getCredentials } from "../helpers";
 import type { ResumeType } from "@/lib/types/AiGeneratedResume";
+import type { UserFull } from "@/lib/types/User";
 
 interface ProfileDataResponse {
-  user: { id: string; firstName: string; lastName: string; email: string };
+  user: UserFull;
   resumes: { id: string; type: ResumeType; title: string; createdAt: string }[];
 }
 

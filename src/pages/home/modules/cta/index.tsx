@@ -7,7 +7,7 @@ export function CTASection() {
     <Section
       id="cta"
       heading="Ready to Build Your Future?"
-      description="Get started immediately for free. Upgrade for more AI credits, templates, and advanced features."
+      description="Get started immediately for free. Upgrade for more Resumes, AI credits, templates, and advanced features."
       background=""
       gradient="red"
     >

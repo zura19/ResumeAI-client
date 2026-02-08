@@ -31,3 +31,21 @@ export function formatCurrency(amount: number) {
 export function uppercaseFirstLetter(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
+
+export function calculateProgress(startStr: string, endStr: string): number {
+  const start = new Date(startStr).getTime();
+  const end = new Date(endStr).getTime();
+
+  // If the end date has passed, set it to now
+  const now = Date.now();
+  const total = end - start;
+  const elapsed = now - start;
+  return Math.min(Math.max((elapsed / total) * 100, 0), 100);
+}
+
+export function calculateDaysLeft(endStr: string): number {
+  const end = new Date(endStr).getTime();
+  const now = Date.now();
+  const remaining = Math.ceil((end - now) / (1000 * 60 * 60 * 24));
+  return Math.max(remaining, 0);
+}

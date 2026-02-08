@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import type { LoginSchema } from "@/lib/schemas/loginSchema";
 
 export async function loginService(
-  body: LoginSchema
+  body: LoginSchema,
 ): PromiseResponseSuccess<{ user: User }> {
   try {
     const res = await fetch(`${API}/auth/login`, {

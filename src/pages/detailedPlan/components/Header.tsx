@@ -1,5 +1,5 @@
 import type { Plan } from "@/lib/types/plan";
-import { formatCurrency } from "@/lib/utils";
+import { formatCurrency, uppercaseFirstLetter } from "@/lib/utils";
 import { Sparkles } from "lucide-react";
 interface props {
   plan: Plan;
@@ -11,7 +11,7 @@ export default function Header({ plan }: props) {
       <div>
         <div className="mb-2 flex items-center gap-3">
           <h1 className="text-3xl font-bold text-foreground md:text-4xl">
-            {plan.name} Plan
+            {uppercaseFirstLetter(plan.name)} Plan
           </h1>
           {plan.recommended && (
             <span className="inline-flex items-center gap-1 rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground">

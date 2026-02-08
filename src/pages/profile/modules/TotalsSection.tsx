@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { FileTextIcon, EyeIcon, DownloadIcon, ZapIcon } from "lucide-react";
+import { FileTextIcon, DownloadIcon, ZapIcon, DollarSign } from "lucide-react";
 
 const stats = [
   {
@@ -10,9 +10,9 @@ const stats = [
     bg: "bg-primary/10",
   },
   {
-    label: "Total Views",
+    label: "Transitions",
     value: "445",
-    icon: EyeIcon,
+    icon: DollarSign,
     accent: "text-chart-2",
     bg: "bg-chart-2/10",
   },

@@ -1,7 +1,6 @@
 import { Check } from "lucide-react";
 import { cn, formatCurrency, uppercaseFirstLetter } from "@/lib/utils";
 import { Link } from "react-router-dom";
-// import type { Plan } from "@/constants/plans/p/lans";
 import SpotlightCard from "../SpotlightCard";
 import { CardContent } from "../../ui/card";
 import type { Plan } from "@/lib/types/plan";
@@ -33,9 +32,13 @@ export function PlanCard({ plan, updateSession = false }: props) {
     if (user)
       switch (plan.name) {
         case "free":
-          return user.plan === "free" ? "Current Plan" : "Downgrade to Free";
+          return user.plan === "free" ? "Current Plan" : "Cancel Subscription";
         case "pro":
-          return user.plan === "pro" ? "Current Plan" : "Upgrade to Pro";
+          return user.plan === "pro"
+            ? "Current Plan"
+            : user.plan === "enterprise"
+              ? "Change to Pro"
+              : "Upgrade to Pro";
         case "enterprise":
           return user.plan === "enterprise"
             ? "Current Plan"
@@ -63,7 +66,7 @@ export function PlanCard({ plan, updateSession = false }: props) {
           recommendedPlan && "shadow-[0px_0px_5px_2px_#625fff]",
         )}
       >
-        <Link to={goTo()} className="block group h-full">
+        <Link to={goTo() || "#"} className="block group h-full">
           <CardContent className="flex flex-col h-full">
             <div className="mb-4">
               <h3 className="text-lg font-semibold text-foreground">
@@ -75,7 +78,7 @@ export function PlanCard({ plan, updateSession = false }: props) {
               <span className="text-4xl font-bold text-foreground bg-indigo-">
                 {formatCurrency(plan.priceMonthly / 100)}
               </span>
-              <span className="text-muted-foreground"> /month</span>
+              <span className="text-muted-foreground">/month</span>
             </div>
 
             <p className="mb-6 text-sm text-muted-foreground">
@@ -104,7 +107,7 @@ export function PlanCard({ plan, updateSession = false }: props) {
                 "w-full rounded-lg h-12 py-3 mt-auto text-center text-sm font-medium transition-colors",
                 recommendedPlan
                   ? "bg-indigo-500 text-primary group-hover:bg-indigo-600"
-                  : "border border-border bg-transparent text-foreground group-hover:bg-secondary",
+                  : "border border-border bg-transparent text-foreground hover:bg-secondary-foreground/10 group-hover:bg-secondary",
                 updateSession && "hidden",
               )}
             >

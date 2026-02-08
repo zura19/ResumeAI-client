@@ -20,7 +20,7 @@ export default function Plans({ updateSession = false }: props) {
     queryKey: ["plans"],
     queryFn: getPlansService,
     staleTime: 3 * 60 * 60 * 1000, // 3 hour
-    enabled: inView,
+    enabled: !!inView,
   });
 
   const plans = data?.data || [];

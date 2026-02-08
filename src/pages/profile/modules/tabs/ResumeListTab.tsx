@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import type { ResumeType } from "@/lib/types/AiGeneratedResume";
+import { formatDate } from "date-fns";
 import {
   FileTextIcon,
   DownloadIcon,
@@ -155,7 +156,10 @@ export function ResumeListTab({ resumes }: props) {
                     </Badge>
                   </div>
                   <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                    <span>Updated {resume?.createdAt}</span>
+                    <span>
+                      Last Updated At{" "}
+                      {formatDate(resume.createdAt, "MM/dd/yyyy")}
+                    </span>
                     {/* <span className="flex items-center gap-1">
                       <EyeIcon className="h-3 w-3" />
                       {resume.views}
