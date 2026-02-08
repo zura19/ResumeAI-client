@@ -23,7 +23,7 @@ export default function Profile() {
       </div>
     );
 
-  const { user, resumes } = data?.data || {};
+  const { user, resumes, totals } = data?.data || {};
 
   console.log(resumes);
 
@@ -36,7 +36,7 @@ export default function Profile() {
             <div className=" space-y-12">
               <UserSection user={user} />
               <Separator />
-              <TotalsSection />
+              <TotalsSection totals={totals} />
               <ProfileTabsSection resumes={resumes} />
             </div>
           )}

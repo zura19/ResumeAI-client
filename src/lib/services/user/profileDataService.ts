@@ -6,6 +6,11 @@ import type { UserFull } from "@/lib/types/User";
 interface ProfileDataResponse {
   user: UserFull;
   resumes: { id: string; type: ResumeType; title: string; createdAt: string }[];
+  totals: {
+    totalTransactions: number;
+    totalResumes: number;
+    totalAiCredits: number;
+  };
 }
 
 export async function getProfileDataService(): PromiseResponseSuccess<ProfileDataResponse> {
