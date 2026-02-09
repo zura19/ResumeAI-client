@@ -4,22 +4,34 @@ import { AnimatedCross } from "../components/PaymentIcons";
 export default function FailedView({
   onReset,
   goHome,
+  session = "checkout",
+  error,
 }: {
-  onReset: () => void;
-  goHome: () => void;
+  onReset?: () => void;
+  goHome?: () => void;
+  session?: "checkout" | "cancel";
+  error?: string;
 }) {
+  const title = session === "checkout" ? "Payment Failed" : "Cancelling Failed";
+  const description =
+    session === "checkout"
+      ? "We were unable to process your payment. Please check your card details and try again."
+      : "We were unable to cancel your subscription. Please try again later.";
+  const fakeError =
+    session === "checkout"
+      ? "  Error code: CARD_DECLINED. Your card issuer declined the transaction. Please contact your bank or try a different payment method."
+      : "  Error code: SUBSCRIPTION_CANCEL_FAILED. We were unable to cancel your subscription. Please try again later.";
   return (
     <PaymentCard>
       <div className="flex flex-col items-center gap-6">
         <AnimatedCross />
         <div className="flex flex-col gap-2">
-          <h1 className="text-xl font-semibold text-white">Payment Failed</h1>
+          <h1 className="text-xl font-semibold text-white">{title}</h1>
           <p
             className="text-sm leading-relaxed"
             style={{ color: "rgba(255,255,255,0.5)" }}
           >
-            We were unable to process your payment. Please check your card
-            details and try again.
+            {description}
           </p>
         </div>
 
@@ -47,9 +59,7 @@ export default function FailedView({
             className="text-left leading-relaxed"
             style={{ color: "rgba(248,113,113,0.8)" }}
           >
-            Error code: CARD_DECLINED. Your card issuer declined the
-            transaction. Please contact your bank or try a different payment
-            method.
+            {error || fakeError}
           </p>
         </div>
 

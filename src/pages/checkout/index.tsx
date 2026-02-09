@@ -26,6 +26,7 @@ export default function Checkout() {
     queryKey: ["session", sessionId],
     queryFn: async () => await checkStatusService(sessionId || ""),
     enabled: !!sessionId,
+    refetchOnWindowFocus: false,
   });
 
   console.log(data);
@@ -38,7 +39,14 @@ export default function Checkout() {
 
   useEffect(() => {
     if (showSuccess) {
-      setUser(data?.data.user);
+      setUser({
+        id: data?.data.user.id,
+        firstName: data?.data.user.firstName,
+        lastName: data?.data.user.lastName,
+        email: data?.data.user.email,
+        plan: data?.data.user.plan,
+        role: data?.data.user.role,
+      });
     }
   }, [showSuccess, setUser, data?.data.user]);
 

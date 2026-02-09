@@ -1,6 +1,6 @@
 import { ArrowLeft, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { ErrorComponent } from "@/components/shared/ErrorComponents";
 import Wrapper from "@/components/shared/Wrapper";
 import Contact from "./components/Contact";
@@ -12,9 +12,13 @@ import type { PlanName } from "@/lib/types/plan";
 import { Spinner } from "@/components/ui/spinner";
 import { createCheckoutService } from "@/lib/services/checkout/createCheckout";
 import { toast } from "sonner";
+import { cancleSubscriptionService } from "@/lib/services/payment/cancelSubscription";
+import { useUser } from "@/lib/store/userState";
 
 export default function PlanDetails() {
+  const { user } = useUser();
   const params = useParams();
+  const navigate = useNavigate();
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["plan", params.id],
     queryFn: () => getPlansByNameService(params.id as PlanName),
@@ -38,6 +42,33 @@ export default function PlanDetails() {
       toast.error(err.message);
     },
   });
+
+  const { mutate: cancleSubscription, isPending: isCancling } = useMutation({
+    mutationFn: async () => await cancleSubscriptionService(),
+    onSuccess: (data) => {
+      console.log(data);
+      toast.success("Redirecting to cancel...");
+      navigate("/cancel");
+
+      // go to another webpage url:
+      // window.location.href = data.data.sessionUrl;
+      // window = data.data.sessionUrl;
+    },
+    onError: (err) => {
+      console.log(err);
+      toast.error(err.message);
+    },
+  });
+
+  function handleClick() {
+    if (plan?.name !== "free" && user?.plan !== plan?.name) {
+      createCheckout();
+    }
+
+    if (plan?.name === "free" && user?.plan !== "free") {
+      cancleSubscription();
+    }
+  }
 
   if (isError)
     return (
@@ -115,8 +146,9 @@ export default function PlanDetails() {
               </div>
 
               <FormButton
-                disabled={isCreating}
-                onClick={createCheckout}
+                type="button"
+                disabled={isCreating || plan.name === user?.plan || isCancling}
+                onClick={handleClick}
                 loading={isCreating}
                 loadingText="Creating Checkout..."
                 className={cn(

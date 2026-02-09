@@ -2,21 +2,28 @@ import { PaymentCard } from "../components/PaymentCard";
 //
 import { ProcessingSpinner } from "../components/PaymentIcons";
 
-export default function ProcessingView() {
+interface props {
+  session?: "checkout" | "cancel";
+}
+
+export default function ProcessingView({ session = "checkout" }: props) {
+  const title =
+    session === "checkout" ? "Processing Payment" : "Cancelling Subscription";
+  const description =
+    session === "checkout"
+      ? " Please wait while we confirm your transaction. This may take a moment."
+      : "Please wait while we cancel your subscription. This may take a moment.";
   return (
     <PaymentCard>
       <div className="flex flex-col items-center gap-6">
         <ProcessingSpinner />
         <div className="flex flex-col gap-2">
-          <h1 className="text-xl font-semibold text-white">
-            Processing Payment
-          </h1>
+          <h1 className="text-xl font-semibold text-white">{title}</h1>
           <p
             className="text-sm leading-relaxed"
             style={{ color: "rgba(255,255,255,0.5)" }}
           >
-            Please wait while we confirm your transaction. This may take a
-            moment.
+            {description}
           </p>
         </div>
         {/* Animated dots */}

@@ -3,13 +3,15 @@ import { Spinner } from "@/components/ui/spinner";
 import { getSubscriptionDataService } from "@/lib/services/subscription/getSubscriptionData";
 import { useQuery } from "@tanstack/react-query";
 import Actions from "./components/Actions";
-import Features from "./components/features";
+import Features from "./components/Features";
 import NextPayment from "./components/NextPayment";
 import Header from "./components/Header";
 import UsageStats from "./components/UsageStats";
 import { ErrorComponent } from "@/components/shared/ErrorComponents";
+import { useUser } from "@/lib/store/userState";
 
 export function SubscriptionCardTab() {
+  const { user } = useUser();
   const { data, isLoading, error } = useQuery({
     queryKey: ["subscription"],
     queryFn: async () => await getSubscriptionDataService(),
@@ -41,10 +43,12 @@ export function SubscriptionCardTab() {
         <>
           <Header name={plan?.name} priceMonthly={plan?.priceMonthly} />
           <CardContent className="flex flex-col gap-6">
-            <NextPayment
-              currentPeriodStart={subscription?.currentPeriodStart}
-              currentPeriodEnd={subscription?.currentPeriodEnd}
-            />
+            {user?.plan !== "free" && (
+              <NextPayment
+                currentPeriodStart={subscription?.currentPeriodStart}
+                currentPeriodEnd={subscription?.currentPeriodEnd}
+              />
+            )}
             <UsageStats
               userActions={{
                 generatedResumesThisMonth:

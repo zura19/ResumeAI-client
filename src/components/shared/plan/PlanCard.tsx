@@ -49,6 +49,8 @@ export function PlanCard({ plan, updateSession = false }: props) {
   function goTo(): string | null {
     let goto: string | null = `/plans/${plan.name}`;
 
+    // if (plan.name === "free" && user?.plan !== "free") goto = "/profile/cancel";
+
     if (updateSession && user?.role === "admin") {
       goto = `/admin/plan/${plan.name}`;
     }
