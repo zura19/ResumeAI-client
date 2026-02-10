@@ -18,7 +18,6 @@ import AdminLayout from "./layouts/admin";
 import UpdatePlan from "./pages/admin/updatePlan";
 import Checkout from "./pages/checkout";
 import Cancel from "./pages/cancel";
-import CancelView from "./pages/checkout/modules/CancelView";
 
 function App() {
   const { user } = useUser();
@@ -28,7 +27,6 @@ function App() {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
-          {/* <Route path="/admin" element={<Admin />} /> */}
         </Route>
 
         <Route element={<SecondaryLayout />}>
