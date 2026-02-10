@@ -1,20 +1,17 @@
-import GetStartedBtn from "../../components/GetStartedBtn";
+// import GetStartedBtn from "../../components/GetStartedBtn";
+import Plans from "@/components/shared/plan/Plans";
 import Section from "../../components/Section";
 
 export function CTASection() {
   return (
     <Section
       id="cta"
-      gradient="red"
       heading="Ready to Build Your Future?"
-      description="Join thousands of professionals who have landed their dream jobs with ResumeAI. Start creating your perfect resume today."
+      description="Get started immediately for free. Upgrade for more Resumes, AI credits, templates, and advanced features."
+      background=""
+      gradient="red"
     >
-      <div className="flex flex-col items-center justify-center">
-        <GetStartedBtn text="Get Started for Free" className=" rounded-md" />
-        <p className="mt-4 text-sm text-muted-foreground">
-          No credit card required • Free forever plan available
-        </p>
-      </div>
+      <Plans />
     </Section>
   );
 }

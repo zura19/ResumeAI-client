@@ -11,6 +11,13 @@ import LightRaysLayout from "./layouts/lightRays";
 import Profile from "./pages/profile";
 import GoogleCallback from "./pages/auth/google";
 import { useUser } from "./lib/store/userState";
+import Plans from "./pages/plans";
+import PlanDetails from "./pages/detailedPlan";
+import Admin from "./pages/admin";
+import AdminLayout from "./layouts/admin";
+import UpdatePlan from "./pages/admin/updatePlan";
+import Checkout from "./pages/checkout";
+import Cancel from "./pages/cancel";
 
 function App() {
   const { user } = useUser();
@@ -20,7 +27,6 @@ function App() {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<p>about</p>} />
         </Route>
 
         <Route element={<SecondaryLayout />}>
@@ -48,14 +54,51 @@ function App() {
             path="/resume/:id"
             element={user ? <Resume /> : <Navigate to="/login" />}
           />
+          <Route path="/plans" element={<Plans />} />
+          <Route
+            path="/plans/:id"
+            element={user ? <PlanDetails /> : <Navigate to="/login" />}
+          />
           <Route
             path="/profile"
             element={user ? <Profile /> : <Navigate to="/login" />}
           />
-          <Route path="*" element={<NotFound />} />
+
+          <Route
+            path="/checkout"
+            element={user ? <Checkout /> : <Navigate to="/login" />}
+          />
+
+          <Route
+            path="/cancel"
+            element={user ? <Cancel /> : <Navigate to="/login" />}
+          />
+
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+
+        <Route element={<AdminLayout />}>
+          <Route
+            path="/admin"
+            element={user?.role === "admin" ? <Admin /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/admin/plan/:name"
+            element={
+              user?.role === "admin" ? <UpdatePlan /> : <Navigate to="/" />
+            }
+          />
         </Route>
       </Routes>
     </BrowserRouter>
+  );
+}
+
+function NotFoundPage() {
+  return (
+    <div className="h-dvh flex items-center justify-center">
+      <NotFound />
+    </div>
   );
 }
 

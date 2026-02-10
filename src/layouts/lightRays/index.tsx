@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 // //   children: React.ReactNode;
 // }
 
-const showNavbarRoutes = ["/profile"];
+const showNavbarRoutes = ["/profile", "/plans"];
 
 export default function LightRaysLayout() {
   const location = useLocation();

@@ -54,6 +54,11 @@ export const navbarData: NavbarItem[] = [
     type: "link",
   },
   {
+    label: "Pricing",
+    to: "/plans",
+    type: "link",
+  },
+  {
     label: "Login",
     to: "/login",
     type: "link",

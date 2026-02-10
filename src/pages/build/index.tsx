@@ -9,6 +9,7 @@ import ChooseResumeTypeStep from "./modules/ChooseResumeTypeStep";
 import { useQuery } from "@tanstack/react-query";
 import { canGenerateService } from "@/lib/services/resume/canGenerateService";
 import BuildSeketon from "./components/BuildSeketon";
+import { ErrorComponent } from "@/components/shared/ErrorComponents";
 
 export default function BuildResume() {
   const { step } = useBuildResume();
@@ -44,8 +45,21 @@ export default function BuildResume() {
   return (
     <div className="h-full">
       {isLoading && <BuildSeketon />}
-      {isError && <p className="text-center">{error.message}</p>}
-
+      {isError && (
+        <div className="w-full flex items-center justify-center h-[85dvh]">
+          <ErrorComponent
+            message={error?.message || "Failed to create resume"}
+          />
+        </div>
+      )}
+      {!isLoading && !isError && !can?.data.canGenerate && (
+        <div className="w-full flex items-center justify-center h-[85dvh]">
+          <ErrorComponent
+            title="Upgrade your plan to continue"
+            message="You have reached the limit of generating resumes for this plan. Please upgrade your plan."
+          />
+        </div>
+      )}
       {can?.data.canGenerate && (
         <BuildResumeTemplate>
           <div className="p-9 overflow-scroll ">{returnStep()}</div>
