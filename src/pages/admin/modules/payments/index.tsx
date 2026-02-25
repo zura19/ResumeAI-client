@@ -14,7 +14,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { recentPayments } from "../../admin-data";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { paymentsService } from "@/lib/services/admin/paymentsService";
+import { formatCurrency, formatDate } from "@/lib/utils";
+import { Skeleton } from "@/components/ui/skeleton";
+import { ErrorComponent } from "@/components/shared/ErrorComponents";
+import InfiniteLoader from "@/components/shared/InfiniteLoader";
 
 function getPaymentStatusClasses(status: string) {
   switch (status) {
@@ -31,73 +36,94 @@ function getPaymentStatusClasses(status: string) {
   }
 }
 
-function formatCurrency(amount: number, currency: string) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: currency.toUpperCase(),
-  }).format(amount / 100);
-}
-
-function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-}
-
 export function RecentPaymentsTable() {
-  return (
-    <Card className="border-border bg-background/50  backdrop-blur-lg">
-      <CardHeader>
-        <CardTitle className="text-foreground">Recent Payments</CardTitle>
-        <CardDescription className="text-muted-foreground">
-          Latest payment transactions from Stripe
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow className="border-border hover:bg-transparent">
-              <TableHead className="text-muted-foreground">Invoice</TableHead>
-              <TableHead className="text-muted-foreground">Customer</TableHead>
-              <TableHead className="text-muted-foreground">Status</TableHead>
-              <TableHead className="text-right text-muted-foreground">
-                Amount
-              </TableHead>
-              <TableHead className="text-right text-muted-foreground">
-                Date
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {recentPayments.map((payment) => (
-              <TableRow key={payment.id} className="border-border">
-                <TableCell className="font-mono text-sm text-foreground">
-                  {payment.invoice}
-                </TableCell>
-                <TableCell className="text-foreground">
-                  {payment.userName}
-                </TableCell>
-                <TableCell>
-                  <Badge
-                    variant="outline"
-                    className={getPaymentStatusClasses(payment.status)}
-                  >
-                    {payment.status.toLowerCase().replace(/_/g, " ")}
-                  </Badge>
-                </TableCell>
-                <TableCell className="text-right font-mono text-sm text-foreground">
-                  {formatCurrency(payment.amount, payment.currency)}
-                </TableCell>
-                <TableCell className="text-right text-sm text-muted-foreground">
-                  {formatDate(payment.createdAt)}
-                </TableCell>
+  const {
+    data,
+    isLoading,
+    isError,
+    error,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["payments"],
+    queryFn: async ({ pageParam }: { pageParam?: string }) => {
+      const response = await paymentsService(pageParam, 10);
+      return response.data;
+    },
+    getNextPageParam: (lastPage) => {
+      if (!lastPage.hasMore) return undefined;
+      const lastPayment = lastPage.payments[lastPage.payments.length - 1];
+      return lastPayment.id;
+    },
+    initialPageParam: undefined,
+  });
+
+  const payments =
+    data?.pages.flatMap((page) => page?.payments).filter(Boolean) || [];
+
+  if (isLoading) return <Skeleton className="h-85 w-full rounded-md" />;
+  if (isError) return <ErrorComponent message={error.message} />;
+
+  if (!isLoading && !isError)
+    return (
+      <Card className="border-border bg-background/50  backdrop-blur-lg">
+        <CardHeader>
+          <CardTitle className="text-foreground">Recent Payments</CardTitle>
+          <CardDescription className="text-muted-foreground">
+            Latest payment transactions from Stripe
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow className="border-border hover:bg-transparent">
+                <TableHead className="text-muted-foreground">Invoice</TableHead>
+                <TableHead className="text-muted-foreground">
+                  Customer
+                </TableHead>
+                <TableHead className="text-muted-foreground">Status</TableHead>
+                <TableHead className="text-right text-muted-foreground">
+                  Amount
+                </TableHead>
+                <TableHead className="text-right text-muted-foreground">
+                  Date
+                </TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </CardContent>
-    </Card>
-  );
+            </TableHeader>
+            <TableBody>
+              {payments.map((payment) => (
+                <TableRow key={payment.id} className="border-border">
+                  <TableCell className="font-mono text-sm text-foreground">
+                    {payment.invoice}
+                  </TableCell>
+                  <TableCell className="text-foreground">
+                    {payment.user.firstName} {payment.user.lastName}
+                  </TableCell>
+                  <TableCell>
+                    <Badge
+                      variant="outline"
+                      className={getPaymentStatusClasses(payment.status)}
+                    >
+                      {payment.status.toLowerCase().replace(/_/g, " ")}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="text-right font-mono text-sm text-foreground">
+                    {formatCurrency(payment.amount / 100, payment.currency)}
+                  </TableCell>
+                  <TableCell className="text-right text-sm text-muted-foreground">
+                    {formatDate(payment.createdAt)}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <InfiniteLoader
+            hasNextPage={hasNextPage}
+            fetchNextPage={fetchNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+          />
+        </CardContent>
+      </Card>
+    );
 }

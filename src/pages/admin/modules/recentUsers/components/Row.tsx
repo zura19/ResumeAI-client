@@ -1,11 +1,20 @@
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import type { UserFull } from "@/lib/types/User";
-import { formatDate } from "@/lib/utils";
+import { formatDate } from "date-fns";
 
 interface props {
-  user: UserFull;
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  plan: string;
+  status: string;
+  resumes: number;
+  totalResumes: number;
+  aiCreditsThisMonth: number;
+  aiCreditsTotal: number;
+  createdAt: string;
 }
 
 function getPlanBadgeClasses(plan: string) {
@@ -32,47 +41,58 @@ function getStatusBadgeClasses(status: string) {
   }
 }
 
-export default function UserTableRow({ user }: props) {
+export default function UserTableRow(u: props) {
+  const {
+    id,
+    firstName,
+    lastName,
+    email,
+    plan,
+    status,
+    aiCreditsThisMonth,
+    aiCreditsTotal,
+    totalResumes,
+    resumes,
+    createdAt,
+  } = u;
   return (
-    <TableRow key={user.id} className="border-border">
+    <TableRow key={id} className="border-border">
       <TableCell>
         <div className="flex items-center gap-3">
           <Avatar className="h-8 w-8 border border-border">
             <AvatarFallback className="bg-secondary text-foreground text-xs">
-              {user.firstName[0]}
-              {user.lastName[0]}
+              {firstName[0]}
+              {lastName[0]}
             </AvatarFallback>
           </Avatar>
           <div>
             <div className="font-medium text-foreground">
-              {user.firstName} {user.lastName}
+              {firstName} {lastName}
             </div>
-            <div className="text-xs text-muted-foreground">{user.email}</div>
+            <div className="text-xs text-muted-foreground">{email}</div>
           </div>
         </div>
       </TableCell>
       <TableCell>
-        <Badge variant="outline" className={getPlanBadgeClasses(user.plan)}>
-          {user.plan}
+        <Badge variant="outline" className={getPlanBadgeClasses(plan)}>
+          {plan}
         </Badge>
       </TableCell>
       <TableCell>
-        <Badge
-          variant="outline"
-          className={getStatusBadgeClasses(user.subscriptionStatus)}
-        >
-          {user.subscriptionStatus.toLowerCase()}
+        <Badge variant="outline" className={getStatusBadgeClasses(status)}>
+          {status.toLowerCase()}
         </Badge>
       </TableCell>
       <TableCell className="text-right font-mono text-sm text-foreground">
-        {user.aiCreditsThisMonth}
-        <span className="text-muted-foreground">/{user.aiCreditsTotal}</span>
+        {aiCreditsThisMonth}
+        <span className="text-muted-foreground">/{aiCreditsTotal}</span>
       </TableCell>
       <TableCell className="text-right font-mono text-sm text-foreground">
-        {user.resumesThisMonth}
+        {resumes}
+        <span className="text-muted-foreground">/{totalResumes}</span>
       </TableCell>
       <TableCell className="text-right text-sm text-muted-foreground">
-        {formatDate(user.createdAt)}
+        {formatDate(createdAt, "dd MMM yyyy")}
       </TableCell>
     </TableRow>
   );

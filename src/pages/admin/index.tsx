@@ -64,14 +64,14 @@ export default function Admin() {
         </TabsContent>
 
         <TabsContent value="billing" className="mt-6">
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-            <div className="lg:col-span-2">
+          {/* <div className="grid grid-cols-1 gap-6 lg:grid-cols-3"> */}
+          {/* <div className="lg:col-span-2">
               <RevenueChart />
             </div>
             <div>
               <SubscriptionChart />
             </div>
-          </div>
+          </div> */}
           <div className="mt-6">
             <RecentPaymentsTable />
           </div>
