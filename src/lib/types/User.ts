@@ -14,6 +14,9 @@ export type Role = "user" | "admin";
 export interface UserFull extends User {
   createdAt: string;
   updatedAt: string;
+  phone: string | null;
+  address: string | null;
+  profession: string | null;
   stripeCustomerId: string | null;
   aiCreditsThisMonth: number;
   aiCreditsTotal: number;
