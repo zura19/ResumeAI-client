@@ -10,10 +10,10 @@ import {
   LogOut,
   MailIcon,
   MapPinIcon,
-  SettingsIcon,
   UserCog2,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import EditProfileModal from "../components/EditProfileModal";
 
 interface props {
   user?: UserFull;
@@ -56,14 +56,19 @@ export default function UserSection({ user }: props) {
         </div>
       </div>
       <div className="flex flex-col gap-2">
-        <Button
-          variant="outline"
-          size="sm"
-          className="w-full  gap-2 border-border text-muted-foreground hover:text-foreground hover:bg-secondary self-start bg-transparent"
-        >
-          <SettingsIcon className="h-4 w-4" />
-          Edit Profile
-        </Button>
+        {user && (
+          <EditProfileModal
+            user={{
+              firstName: user?.firstName,
+              lastName: user?.lastName,
+              email: user?.email,
+              phone: "",
+              address: "",
+              profession: "",
+            }}
+          />
+        )}
+
         {user?.role === "admin" && (
           <Button
             variant="outline"
