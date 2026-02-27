@@ -5,10 +5,20 @@ import {
   editProfileSchema,
   type EditProfile,
 } from "@/lib/schemas/editProfileSchema";
+import { updateUserService } from "@/lib/services/user/updateUserService";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
-export default function EditProfileForm({ user }: { user: EditProfile }) {
+export default function EditProfileForm({
+  user,
+  onClose,
+}: {
+  user: EditProfile;
+  onClose: () => void;
+}) {
+  const queryClient = useQueryClient();
   const form = useForm<EditProfile>({
     resolver: zodResolver(editProfileSchema),
     defaultValues: {
@@ -22,7 +32,16 @@ export default function EditProfileForm({ user }: { user: EditProfile }) {
   });
 
   async function onSubmit(data: EditProfile) {
-    console.log(data);
+    const res = await updateUserService(data);
+
+    if (res.success) {
+      toast.success(res.message);
+      form.reset();
+      onClose();
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+    } else {
+      toast.error(res.message);
+    }
   }
 
   return (
@@ -73,7 +92,13 @@ export default function EditProfileForm({ user }: { user: EditProfile }) {
           placeholder="Software Engineer"
         />
 
-        <FormButton type="submit">Save Changes</FormButton>
+        <FormButton
+          loading={form.formState.isSubmitting}
+          loadingText="Saving Changes..."
+          type="submit"
+        >
+          Save Changes
+        </FormButton>
       </form>
     </Form>
   );

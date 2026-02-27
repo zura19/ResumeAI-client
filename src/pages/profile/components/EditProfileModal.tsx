@@ -10,14 +10,20 @@ import {
 import { SettingsIcon } from "lucide-react";
 import EditProfileForm from "./EditProfileForm";
 import type { EditProfile } from "@/lib/schemas/editProfileSchema";
+import { useState } from "react";
 
 interface props {
   user: EditProfile;
 }
 
 export default function EditProfileModal({ user }: props) {
+  const [open, setOpen] = useState(false);
+
+  function handleClose() {
+    setOpen(false);
+  }
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
           variant="outline"
@@ -36,7 +42,7 @@ export default function EditProfileModal({ user }: props) {
             fields here to allow users to update their profile information.
           </DialogDescription>
         </DialogHeader>
-        <EditProfileForm user={user} />
+        <EditProfileForm user={user} onClose={handleClose} />
       </DialogContent>
     </Dialog>
   );
