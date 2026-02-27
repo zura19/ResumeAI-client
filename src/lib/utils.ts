@@ -21,10 +21,10 @@ export function formatDate(dateString: string) {
   });
 }
 
-export function formatCurrency(amount: number) {
+export function formatCurrency(amount: number, currency: string = "USD") {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
-    currency: "USD",
+    currency: currency.toUpperCase(),
   }).format(amount);
 }
 
@@ -48,4 +48,13 @@ export function calculateDaysLeft(endStr: string): number {
   const now = Date.now();
   const remaining = Math.ceil((end - now) / (1000 * 60 * 60 * 24));
   return Math.max(remaining, 0);
+}
+
+export function calculateGrowth(thisMonth: number, lastMonth: number): number {
+  if (lastMonth === 0) {
+    if (thisMonth === 0) return 0;
+    return 100; // or return Infinity depending on how you want to display it
+  }
+
+  return ((thisMonth - lastMonth) / lastMonth) * 100;
 }

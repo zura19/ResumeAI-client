@@ -15,9 +15,10 @@ import Plans from "./pages/plans";
 import PlanDetails from "./pages/detailedPlan";
 import Admin from "./pages/admin";
 import AdminLayout from "./layouts/admin";
-import UpdatePlan from "./pages/admin/updatePlan";
+import UpdatePlan from "./pages/admin/child-pages/updatePlan";
 import Checkout from "./pages/checkout";
 import Cancel from "./pages/cancel";
+import AdminPlans from "./pages/admin/child-pages/plans";
 
 function App() {
   const { user } = useUser();
@@ -81,6 +82,12 @@ function App() {
           <Route
             path="/admin"
             element={user?.role === "admin" ? <Admin /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/admin/plans"
+            element={
+              user?.role === "admin" ? <AdminPlans /> : <Navigate to="/" />
+            }
           />
           <Route
             path="/admin/plan/:name"
