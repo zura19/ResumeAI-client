@@ -2,10 +2,10 @@ import RevenueChart from "./modules/revenueChart";
 import { RecentUsersTable } from "./modules/recentUsers";
 import { StatCards } from "./modules/stats";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LayoutDashboard, Users, CreditCard, Sparkles } from "lucide-react";
+import { LayoutDashboard, Users, CreditCard } from "lucide-react";
 import { SubscriptionChart } from "./modules/subscriptions";
 import { RecentPaymentsTable } from "./modules/payments";
-import { AiCreditsChart } from "./modules/credits";
+// import { AiCreditsChart } from "./modules/credits";
 
 export default function Admin() {
   return (
@@ -35,13 +35,13 @@ export default function Admin() {
             <CreditCard className="h-4 w-4" />
             Billing
           </TabsTrigger>
-          <TabsTrigger
+          {/* <TabsTrigger
             value="ai"
             className="gap-2 data-[state=active]:bg-card data-[state=active]:text-foreground py-4"
           >
             <Sparkles className="h-4 w-4" />
             AI Credits
-          </TabsTrigger>
+          </TabsTrigger> */}
         </TabsList>
 
         <TabsContent value="overview" className="mt-6">
@@ -64,22 +64,14 @@ export default function Admin() {
         </TabsContent>
 
         <TabsContent value="billing" className="mt-6">
-          {/* <div className="grid grid-cols-1 gap-6 lg:grid-cols-3"> */}
-          {/* <div className="lg:col-span-2">
-              <RevenueChart />
-            </div>
-            <div>
-              <SubscriptionChart />
-            </div>
-          </div> */}
           <div className="mt-6">
             <RecentPaymentsTable />
           </div>
         </TabsContent>
 
-        <TabsContent value="ai" className="mt-6">
+        {/* <TabsContent value="ai" className="mt-6">
           <AiCreditsChart />
-        </TabsContent>
+        </TabsContent> */}
       </Tabs>
     </>
   );

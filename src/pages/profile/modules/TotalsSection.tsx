@@ -1,6 +1,7 @@
-import { Card, CardContent } from "@/components/ui/card";
+import SpotlightCard from "@/components/shared/SpotlightCard";
+import { CardContent } from "@/components/ui/card";
 import { formatCurrency } from "@/lib/utils";
-import { FileTextIcon, DownloadIcon, ZapIcon, DollarSign } from "lucide-react";
+import { FileTextIcon, ZapIcon, DollarSign } from "lucide-react";
 
 const stats = [
   {
@@ -17,13 +18,13 @@ const stats = [
     accent: "text-chart-2",
     bg: "bg-chart-2/10",
   },
-  {
-    id: "downloads",
-    label: "Downloads",
-    icon: DownloadIcon,
-    accent: "text-chart-3",
-    bg: "bg-chart-3/10",
-  },
+  // {
+  //   id: "downloads",
+  //   label: "Downloads",
+  //   icon: DownloadIcon,
+  //   accent: "text-chart-3",
+  //   bg: "bg-chart-3/10",
+  // },
   {
     id: "ai-credits-used",
     label: "AI Credits Used",
@@ -57,11 +58,11 @@ export function TotalsSection({ totals }: props) {
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:grid-cols-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:grid-cols-3">
       {stats.map((stat) => (
-        <Card
+        <SpotlightCard
           key={stat.label}
-          className="border-border bg-background/50 backdrop-blur-lg "
+          cardClassName="border-border bg-background/50 backdrop-blur-lg "
         >
           <CardContent className="flex items-center p-4 gap-5 sm:gap-3  flex-col sm:flex-row ">
             <div
@@ -71,14 +72,14 @@ export function TotalsSection({ totals }: props) {
             </div>
             <div className="flex flex-col">
               <span className="text-2xl font-bold tracking-tight text-foreground text-center sm:text-start">
-                {addNumber(stat.id) ?? 12}
+                {addNumber(stat.id)}
               </span>
               <span className="text-xs text-muted-foreground">
                 {stat.label}
               </span>
             </div>
           </CardContent>
-        </Card>
+        </SpotlightCard>
       ))}
     </div>
   );
