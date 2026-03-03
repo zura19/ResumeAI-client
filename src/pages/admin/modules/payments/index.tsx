@@ -62,12 +62,12 @@ export function RecentPaymentsTable() {
   const payments =
     data?.pages.flatMap((page) => page?.payments).filter(Boolean) || [];
 
-  if (isLoading) return <Skeleton className="h-85 w-full rounded-md" />;
+  if (isLoading) return <Skeleton className="h-100 w-full rounded-md" />;
   if (isError) return <ErrorComponent message={error.message} />;
 
   if (!isLoading && !isError)
     return (
-      <Card className="border-border bg-background/50  backdrop-blur-lg">
+      <Card className="border-border bg-background/50  backdrop-blur-lg max-h-125 overflow-scroll scrollbar-hide">
         <CardHeader>
           <CardTitle className="text-foreground">Recent Payments</CardTitle>
           <CardDescription className="text-muted-foreground">
@@ -75,7 +75,7 @@ export function RecentPaymentsTable() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Table>
+          <Table className="">
             <TableHeader>
               <TableRow className="border-border hover:bg-transparent">
                 <TableHead className="text-muted-foreground">Invoice</TableHead>
