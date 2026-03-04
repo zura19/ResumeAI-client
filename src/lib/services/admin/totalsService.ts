@@ -2,23 +2,17 @@ import type { PromiseResponseSuccess } from "@/lib/types/requestResponseTypes";
 import { API, getCredentials } from "../helpers";
 
 interface TotalsResponse {
-  users: {
-    total: number;
-    thisMonth: number;
-    lastMonth: number;
-  };
-  subscriptions: {
-    total: number;
-    thisMonth: number;
-    lastMonth: number;
-  };
-  monthlyRevenue: number;
-  generatedResumes: {
-    total: number;
-    thisMonth: number;
-    lastMonth: number;
-  };
+  users: totalAndMonths;
+  subscriptions: totalAndMonths;
+  totalRevenue: totalAndMonths;
+  generatedResumes: totalAndMonths;
   totalAiCreditsUsed: number;
+}
+
+interface totalAndMonths {
+  total: number;
+  thisMonth: number;
+  lastMonth: number;
 }
 
 export async function totalsService(): PromiseResponseSuccess<TotalsResponse> {
@@ -27,7 +21,8 @@ export async function totalsService(): PromiseResponseSuccess<TotalsResponse> {
       ...getCredentials,
     });
     if (!res.ok) {
-      throw new Error("Failed to fetch  totals");
+      const error = await res.json();
+      throw new Error(error.message || "Failed to fetch totals");
     }
     const data = await res.json();
     return data;
