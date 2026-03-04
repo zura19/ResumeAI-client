@@ -51,10 +51,6 @@ export function calculateDaysLeft(endStr: string): number {
 }
 
 export function calculateGrowth(thisMonth: number, lastMonth: number): number {
-  if (lastMonth === 0) {
-    if (thisMonth === 0) return 0;
-    return 100; // or return Infinity depending on how you want to display it
-  }
-
+  if (lastMonth === 0) return thisMonth === 0 ? 0 : 100;
   return ((thisMonth - lastMonth) / lastMonth) * 100;
 }

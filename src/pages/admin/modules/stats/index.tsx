@@ -37,8 +37,11 @@ export function StatCards() {
       },
       {
         title: "Total Revenue",
-        value: formatCurrency((totalsData?.monthlyRevenue as number) / 100),
-        change: null,
+        value: formatCurrency((totalsData?.totalRevenue.total as number) / 100),
+        change: calculateGrowth(
+          (totalsData?.totalRevenue.thisMonth as number) / 100,
+          (totalsData?.totalRevenue.lastMonth as number) / 100,
+        ),
         icon: DollarSign,
       },
       {
@@ -99,8 +102,8 @@ export function StatCards() {
               {item?.change !== null && (
                 <p className="mt-1 text-xs text-primary">
                   {item.change > 0
-                    ? `+${item.change}%`
-                    : `${item.change.toFixed(0)}%`}{" "}
+                    ? `+${item.change.toFixed(1)}%`
+                    : `${item.change.toFixed(1)}%`}{" "}
                   from last month
                 </p>
               )}
