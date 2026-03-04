@@ -44,7 +44,7 @@ export function RecentUsersTable() {
   const recentUsers =
     data?.pages.flatMap((page) => page?.data.users).filter(Boolean) || [];
 
-  if (isLoading) return <Skeleton className="h-80 w-full rounded-md" />;
+  if (isLoading) return <Skeleton className="h-100 w-full rounded-md" />;
   if (isError) return <ErrorComponent message={error.message} />;
 
   if (!isError && !isLoading)

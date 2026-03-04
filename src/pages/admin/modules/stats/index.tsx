@@ -29,26 +29,35 @@ export function StatCards() {
       {
         title: "Total Users",
         value: totalsData?.users.total.toLocaleString(),
-        change: `+${calculateGrowth(totalsData?.users.thisMonth as number, totalsData?.users.lastMonth as number)}%`,
+        change: calculateGrowth(
+          totalsData?.users.thisMonth as number,
+          totalsData?.users.lastMonth as number,
+        ),
         icon: Users,
       },
       {
         title: "Total Revenue",
-        value: `${formatCurrency((totalsData?.monthlyRevenue as number) / 100)}`,
-        change: `+${100}%`,
+        value: formatCurrency((totalsData?.monthlyRevenue as number) / 100),
+        change: null,
         icon: DollarSign,
       },
       {
         title: "Active Subscriptions",
         value: totalsData?.subscriptions.total.toLocaleString(),
-        change: `+${calculateGrowth(totalsData?.subscriptions.thisMonth as number, totalsData?.subscriptions.lastMonth as number)}%`,
+        change: calculateGrowth(
+          totalsData?.subscriptions.thisMonth as number,
+          totalsData?.subscriptions.lastMonth as number,
+        ),
         icon: CreditCard,
       },
 
       {
         title: "Resumes Generated",
         value: totalsData?.generatedResumes.total.toLocaleString(),
-        change: `+${calculateGrowth(totalsData?.generatedResumes.thisMonth as number, totalsData?.generatedResumes.lastMonth as number)}%`,
+        change: calculateGrowth(
+          totalsData?.generatedResumes.thisMonth as number,
+          totalsData?.generatedResumes.lastMonth as number,
+        ),
         icon: FileText,
       },
       {
@@ -87,9 +96,12 @@ export function StatCards() {
               <div className="text-2xl font-bold text-foreground">
                 {item.value}
               </div>
-              {item.change && (
+              {item?.change !== null && (
                 <p className="mt-1 text-xs text-primary">
-                  {item.change} from last month
+                  {item.change > 0
+                    ? `+${item.change}%`
+                    : `${item.change.toFixed(0)}%`}{" "}
+                  from last month
                 </p>
               )}
             </CardContent>
