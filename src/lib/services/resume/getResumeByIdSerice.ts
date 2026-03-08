@@ -6,7 +6,7 @@ export async function getResumeByIdService(id: string): PromiseResponseSuccess<{
   resume: {
     id: string;
     type: ResumeType;
-    generatedResume: string;
+    generatedResumes: { content: string }[];
     createdAt: string;
     updatedAt: string;
   };

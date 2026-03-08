@@ -21,7 +21,7 @@ export default function ResumePage() {
     queryFn: async () => {
       const d = await getResumeByIdService(id || "");
       return {
-        resume: JSON.parse(d.data.resume.generatedResume),
+        resume: JSON.parse(d.data.resume.generatedResumes.at(2)?.content || ""),
         type: d.data.resume.type,
       };
     },
