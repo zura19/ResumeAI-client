@@ -11,6 +11,9 @@ import Skills from "./modules/skills";
 import Education from "./modules/education";
 import Experience from "./modules/experience";
 import Projects from "./modules/projects";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Sparkles } from "lucide-react";
 
 interface props {
   resumeData: AiGeneratedResume;
@@ -35,7 +38,18 @@ export default function Edit({
     >
       {type === "page" && (
         <div className="flex flex-col gap-0 mb-4">
-          <h1 className="text-xl font-bold">Resume Editor</h1>
+          <div className="flex items-center justify-between mb-2">
+            <h1 className="text-xl font-bold">Resume Editor</h1>
+            <Button size="sm" asChild className="rounded-full h-6 text-xs">
+              <Link
+                to={`/resume/${id}/chat`}
+                className="text-sm text-muted-foreground flex items-center"
+              >
+                <Sparkles className="size-3 text-indigo-600" />
+                <span>Chat with AI</span>
+              </Link>
+            </Button>
+          </div>
           <p className="text-muted-foreground text-sm">
             If you are not satisfied with the generated resume, you can edit
             your resume details here.
