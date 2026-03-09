@@ -5,20 +5,32 @@ import type { Message } from "@/lib/types/chat";
 import { ArrowUp } from "lucide-react";
 import { useRef, useState } from "react";
 import { motion } from "framer-motion";
+import type { ResponseSuccess } from "@/lib/types/requestResponseTypes";
+import type { UseMutateAsyncFunction } from "@tanstack/react-query";
 
 interface props {
   isLoading: boolean;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
-  setError: React.Dispatch<React.SetStateAction<string | null>>;
-  messages: Message[];
+  // setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  // setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
+  // setError: React.Dispatch<React.SetStateAction<string | null>>;
+  // messages: Message[];
+  // chatId: string;
+  sendMessage: UseMutateAsyncFunction<
+    ResponseSuccess<Message>,
+    Error,
+    string,
+    unknown
+  >;
 }
 
 export default function MessageForm({
   isLoading,
-  setIsLoading,
-  setMessages,
-  setError,
+  // setIsLoading,
+  // setMessages,
+  // setError,
+  // // messages,
+  // chatId,
+  sendMessage,
 }: props) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [input, setInput] = useState("");
@@ -30,55 +42,67 @@ export default function MessageForm({
     e.target.style.height = `${Math.min(e.target.scrollHeight, 200)}px`;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   if (!input.trim() || isLoading) return;
+
+  //   const userMessage: Message = {
+  //     id: Date.now().toString(),
+  //     chatId: "1",
+  //     sender: "user",
+  //     content: input.trim(),
+  //   };
+
+  //   setMessages((prev) => [...prev, userMessage]);
+  //   setInput("");
+  //   setError(null);
+  //   setIsLoading(true);
+
+  //   // Reset textarea height
+  //   if (textareaRef.current) {
+  //     textareaRef.current.style.height = "auto";
+  //   }
+
+  //   try {
+  //     await new Promise((resolve, reject) => {
+  //       setTimeout(() => {
+  //         // Simulate random error for demo (20% chance)
+  //         if (Math.random() < 0.2) {
+  //           reject(new Error("Failed to generate resume. Please try again."));
+  //         } else {
+  //           resolve(null);
+  //         }
+  //       }, 2000);
+  //     });
+
+  //     const assistantMessage: Message = {
+  //       id: (Date.now() + 1).toString(),
+  //       sender: "ai",
+  //       chatId: "1",
+  //       content:
+  //         "Here's your generated resume based on your input. [Resume content would appear here]",
+  //     };
+  //     setMessages((prev) => [...prev, assistantMessage]);
+  //   } catch (err) {
+  //     setError(
+  //       err instanceof Error ? err.message : "An unexpected error occurred",
+  //     );
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!input.trim() || isLoading) return;
+    await sendMessage(input);
+  }
 
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      chatId: "1",
-      sender: "user",
-      content: input.trim(),
-    };
-
-    setMessages((prev) => [...prev, userMessage]);
-    setInput("");
-    setError(null);
-    setIsLoading(true);
-
-    // Reset textarea height
-    if (textareaRef.current) {
-      textareaRef.current.style.height = "auto";
+  async function handleEnterClick(e: React.KeyboardEvent<HTMLTextAreaElement>) {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      await sendMessage(input);
     }
-
-    try {
-      await new Promise((resolve, reject) => {
-        setTimeout(() => {
-          // Simulate random error for demo (20% chance)
-          if (Math.random() < 0.2) {
-            reject(new Error("Failed to generate resume. Please try again."));
-          } else {
-            resolve(null);
-          }
-        }, 2000);
-      });
-
-      const assistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        sender: "ai",
-        chatId: "1",
-        content:
-          "Here's your generated resume based on your input. [Resume content would appear here]",
-      };
-      setMessages((prev) => [...prev, assistantMessage]);
-    } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "An unexpected error occurred",
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  }
 
   return (
     <motion.form
@@ -97,12 +121,7 @@ export default function MessageForm({
           className="min-h-12 max-h-50 flex-1 resize-none border-0 dark:bg-transparent px-3 py-2 text-foreground placeholder:text-muted-foreground focus-visible:ring-0 focus-visible:ring-offset-0"
           rows={1}
           disabled={isLoading}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey) {
-              e.preventDefault();
-              handleSubmit(e);
-            }
-          }}
+          onKeyDown={handleEnterClick}
         />
         <Button
           type="submit"

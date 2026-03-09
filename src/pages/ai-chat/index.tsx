@@ -10,12 +10,13 @@ import { useParams } from "react-router-dom";
 import { useGetChat } from "@/lib/hooks/useChat";
 import ChatSkeleton from "./components/ChatSkeleton";
 import { ErrorComponent } from "@/components/shared/ErrorComponents";
+import { toast } from "sonner";
+import { useMutation } from "@tanstack/react-query";
+import { sendMessageService } from "@/lib/services/chat/sendMessageService";
 
 export default function AiChat() {
   const params = useParams();
   const [messages, setMessages] = useState<Message[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const {
@@ -34,22 +35,51 @@ export default function AiChat() {
     }
   }, [data]);
 
+  const {
+    mutateAsync: sendMessage,
+    isPending: isSendingMessage,
+    error: sendMessageError,
+  } = useMutation({
+    mutationFn: async (message: string) => {
+      setMessages((prev) => [
+        ...prev,
+        {
+          sender: "user",
+          content: message,
+          id: Date.now().toString(),
+          chatId: data?.data?.id as string,
+        },
+      ]);
+
+      const aiAnswer = await sendMessageService(
+        params.id as string,
+        message.trim(),
+      );
+      return aiAnswer;
+    },
+    onSuccess: (data) => {
+      toast.success("Message sent successfully");
+      setMessages((prev) => [...prev, data.data]);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, isLoading]);
+  }, [messages, isSendingMessage]);
 
   const handleRetry = () => {
-    setError(null);
     if (messages.length > 0) {
       const lastUserMessage = [...messages]
         .reverse()
         .find((m) => m.sender === "user");
       if (lastUserMessage) {
-        // setInput(lastUserMessage.content);
         setMessages((prev) => prev.filter((m) => m.id !== lastUserMessage.id));
       }
     }
@@ -78,20 +108,26 @@ export default function AiChat() {
 
           {!isChatLoading && !chatError && (
             <>
-              {messages.length === 0 && !isLoading && (
+              {messages.length === 0 && !isSendingMessage && (
                 <EmptyState onSuggestionClick={handleSuggestionClick} />
               )}
 
               {messages.map((message) => (
-                <MessageBubble key={message.id} message={message} />
+                <MessageBubble
+                  key={message.id}
+                  resumeId={params.id as string}
+                  message={message}
+                />
               ))}
 
-              {isLoading && <LoadingState />}
-              {error && (
+              {isSendingMessage && <LoadingState />}
+              {sendMessageError && (
                 <ErrorState
-                  error={error}
+                  error={sendMessageError.message || "Failed to send message"}
                   onRetry={handleRetry}
-                  onDismiss={() => setError(null)}
+                  onDismiss={() => {
+                    console.log("dismiss");
+                  }}
                 />
               )}
 
@@ -102,11 +138,13 @@ export default function AiChat() {
       </main>
 
       <MessageForm
-        isLoading={isLoading}
-        setIsLoading={setIsLoading}
-        setMessages={setMessages}
-        setError={setError}
-        messages={messages}
+        isLoading={isSendingMessage}
+        // setIsLoading={}
+        // setMessages={setMessages}
+        // setError={sendMessageError?.message}
+        // messages={messages}
+        // chatId={data?.data.id as string}
+        sendMessage={sendMessage}
       />
     </div>
   );

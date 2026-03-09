@@ -4,13 +4,28 @@ import type {
   ResumeType,
 } from "@/lib/types/AiGeneratedResume";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import Edit from "./modules/edit";
 import Logo from "@/components/shared/Logo";
 import ResumeWrapper from "./modules/resume";
 
 export default function ResumePage() {
   const { id } = useParams();
+  const [searchParams] = useSearchParams();
+  const version = searchParams.get("version");
+
+  function findResume(generatedResumes: { id: string; content: string }[]) {
+    if (!version) {
+      return JSON.parse(
+        generatedResumes.at(generatedResumes.length - 1)?.content || "",
+      );
+    }
+
+    return JSON.parse(
+      generatedResumes.find((r) => r.id === version)?.content || "",
+    );
+  }
+
   const {
     data: res,
     isLoading,
@@ -20,14 +35,15 @@ export default function ResumePage() {
     queryKey: [`resume-${id}`, id],
     queryFn: async () => {
       const d = await getResumeByIdService(id || "");
+      const generatedResumes = d.data.resume.generatedResumes;
       return {
-        resume: JSON.parse(d.data.resume.generatedResumes.at(2)?.content || ""),
+        resume: findResume(generatedResumes),
         type: d.data.resume.type,
       };
     },
   });
 
-  console.log(res);
+  console.log(res?.resume);
 
   return (
     <div>

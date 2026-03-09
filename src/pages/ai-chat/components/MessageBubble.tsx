@@ -3,7 +3,13 @@ import { cn } from "@/lib/utils";
 import { Sparkles, User } from "lucide-react";
 import { Link } from "react-router-dom";
 
-export default function MessageBubble({ message }: { message: Message }) {
+export default function MessageBubble({
+  message,
+  resumeId,
+}: {
+  message: Message;
+  resumeId: string;
+}) {
   const isUser = message.sender === "user";
 
   return (
@@ -33,7 +39,11 @@ export default function MessageBubble({ message }: { message: Message }) {
         <p className="text-sm leading-relaxed whitespace-pre-wrap">
           {message.content}
         </p>
-        {!isUser && <Link to="/contact"></Link>}
+        {!isUser && (
+          <Link to={`/resume/${resumeId}?version=${message.generatedResumeId}`}>
+            {message.generatedResumeId}
+          </Link>
+        )}
       </div>
     </div>
   );

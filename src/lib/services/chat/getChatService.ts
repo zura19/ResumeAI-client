@@ -16,7 +16,7 @@ export async function getChatService(
     const data = await res.json();
     return data;
   } catch (error) {
-    console.error("Error fetching payments:", error);
+    console.error("Error fetching Chat:", error);
     throw error;
   }
 }
