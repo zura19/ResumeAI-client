@@ -36,7 +36,8 @@ export default function MessageForm({
 
     const userMessage: Message = {
       id: Date.now().toString(),
-      role: "user",
+      chatId: "1",
+      sender: "user",
       content: input.trim(),
     };
 
@@ -64,7 +65,8 @@ export default function MessageForm({
 
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
-        role: "assistant",
+        sender: "ai",
+        chatId: "1",
         content:
           "Here's your generated resume based on your input. [Resume content would appear here]",
       };

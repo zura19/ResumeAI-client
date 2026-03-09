@@ -1,9 +1,10 @@
 import type { Message } from "@/lib/types/chat";
 import { cn } from "@/lib/utils";
 import { Sparkles, User } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function MessageBubble({ message }: { message: Message }) {
-  const isUser = message.role === "user";
+  const isUser = message.sender === "user";
 
   return (
     <div className={cn("flex gap-4", isUser && "flex-row-reverse")}>
@@ -32,6 +33,7 @@ export default function MessageBubble({ message }: { message: Message }) {
         <p className="text-sm leading-relaxed whitespace-pre-wrap">
           {message.content}
         </p>
+        {!isUser && <Link to="/contact"></Link>}
       </div>
     </div>
   );

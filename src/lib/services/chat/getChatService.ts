@@ -1,23 +1,10 @@
 import type { PromiseResponseSuccess } from "@/lib/types/requestResponseTypes";
 import { API, getCredentials } from "../helpers";
+import type { Chat } from "@/lib/types/chat";
 
-interface PaymentsResponse {
-  user: {
-    id: string;
-    firstName: string;
-    lastName: string;
-  };
-  id: string;
-  invoice: string;
-  amount: number;
-  currency: string;
-  status: string;
-  createdAt: string;
-}
-
-export async function getChat(
+export async function getChatService(
   resumeId: string,
-): PromiseResponseSuccess<{ chat: PaymentsResponse[] }> {
+): PromiseResponseSuccess<Chat> {
   try {
     const res = await fetch(`${API}/chat/${resumeId}`, {
       ...getCredentials,
