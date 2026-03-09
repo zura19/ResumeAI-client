@@ -1,6 +1,6 @@
 import type { Message } from "@/lib/types/chat";
 import { cn } from "@/lib/utils";
-import { Sparkles, User } from "lucide-react";
+import { FileText, Sparkles, User } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function MessageBubble({
@@ -40,8 +40,16 @@ export default function MessageBubble({
           {message.content}
         </p>
         {!isUser && (
-          <Link to={`/resume/${resumeId}?version=${message.generatedResumeId}`}>
-            {message.generatedResumeId}
+          <Link
+            className="flex items-center gap-2 mt-4 group transition-all duration-300"
+            to={`/resume/${resumeId}?version=${message.generatedResumeId}`}
+          >
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-primary/80 to-primary/0 group-hover:to-primary/80 group-hover:from-primary/0 text-foreground transition-all duration-300">
+              <FileText className="size-5 text-primary" />
+            </div>
+            <p className=" group-hover:text-primary transition-all duration-300">
+              View Resume
+            </p>
           </Link>
         )}
       </div>

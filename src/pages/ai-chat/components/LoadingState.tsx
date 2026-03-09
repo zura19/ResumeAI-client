@@ -5,7 +5,7 @@ import { Sparkles } from "lucide-react";
 export function LoadingState() {
   return (
     <div className="flex gap-4">
-      <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-primary/30 to-primary/10 border border-primary/20">
+      <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-primary/30 to-primary/10 border border-primary/20">
         <Sparkles className="size-5 text-primary" />
       </div>
       <div className="flex-1 rounded-2xl border border-border/50 bg-muted/30 p-5 backdrop-blur-sm">
