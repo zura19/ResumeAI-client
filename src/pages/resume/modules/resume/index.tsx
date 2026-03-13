@@ -15,9 +15,16 @@ interface props {
   resume: AiGeneratedResume;
   isLoading: boolean;
   id: string;
+  isChangingVersion: boolean;
 }
 
-export default function ResumeWrapper({ resume, type, isLoading, id }: props) {
+export default function ResumeWrapper({
+  resume,
+  type,
+  isLoading,
+  id,
+  isChangingVersion,
+}: props) {
   function renderResume() {
     if (!resume) return;
 
@@ -36,7 +43,7 @@ export default function ResumeWrapper({ resume, type, isLoading, id }: props) {
 
   return (
     <div className="relative max-h-full overflow-scroll rounded-lg">
-      {isLoading && <ResumeSkeleton />}
+      {(isLoading || isChangingVersion) && <ResumeSkeleton />}
       {!isLoading && (
         <div className="h-full w-full relative">
           <PDFViewer width={"100%"} height={"100%"}>

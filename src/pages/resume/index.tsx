@@ -8,22 +8,20 @@ import { useParams, useSearchParams } from "react-router-dom";
 import Edit from "./modules/edit";
 import Logo from "@/components/shared/Logo";
 import ResumeWrapper from "./modules/resume";
+import { useMemo, useState } from "react";
 
 export default function ResumePage() {
   const { id } = useParams();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const version = searchParams.get("version");
+  const [isChangingVersion, setIsChangingVersion] = useState(false);
 
-  function findResume(generatedResumes: { id: string; content: string }[]) {
-    if (!version) {
-      return JSON.parse(
-        generatedResumes.at(generatedResumes.length - 1)?.content || "",
-      );
-    }
-
-    return JSON.parse(
-      generatedResumes.find((r) => r.id === version)?.content || "",
-    );
+  function changeVersion(version: string) {
+    setIsChangingVersion(true);
+    setSearchParams({ version });
+    setTimeout(() => {
+      setIsChangingVersion(false);
+    }, 1000);
   }
 
   const {
@@ -37,13 +35,27 @@ export default function ResumePage() {
       const d = await getResumeByIdService(id || "");
       const generatedResumes = d.data.resume.generatedResumes;
       return {
-        resume: findResume(generatedResumes),
+        resumes: generatedResumes,
         type: d.data.resume.type,
       };
     },
   });
 
-  console.log(res?.resume);
+  const activeResume = useMemo(() => {
+    if (!res) return;
+    const generatedResumes = res?.resumes;
+    if (!version) {
+      return JSON.parse(
+        generatedResumes.at(generatedResumes.length - 1)?.content || "",
+      );
+    }
+
+    return JSON.parse(
+      generatedResumes.find((r) => r.id === version)?.content || "",
+    );
+  }, [version, res]);
+
+  console.log(res?.resumes);
 
   return (
     <div>
@@ -58,7 +70,10 @@ export default function ResumePage() {
               id={id || ""}
               disabledToOpen={isLoading || isError}
               type="page"
-              resumeData={res?.resume as AiGeneratedResume}
+              resumeData={activeResume as AiGeneratedResume}
+              defaultVersion={version || res?.resumes.at(-1)?.id || ""}
+              allVersions={res?.resumes}
+              changeVersion={changeVersion}
             />
           </div>
         )}
@@ -66,8 +81,9 @@ export default function ResumePage() {
         <ResumeWrapper
           id={id || ""}
           isLoading={isLoading}
-          resume={res?.resume as AiGeneratedResume}
+          resume={activeResume as AiGeneratedResume}
           type={res?.type as ResumeType}
+          isChangingVersion={isChangingVersion}
         />
       </div>
     </div>
