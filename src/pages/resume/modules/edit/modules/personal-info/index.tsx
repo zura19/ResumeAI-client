@@ -14,10 +14,15 @@ import SaveAlert from "../../components/SaveAlert";
 
 interface props {
   resumeData: AiGeneratedResume;
+  generatedResumeId: string;
   id: string;
 }
 
-export default function PersonalInfo({ resumeData, id }: props) {
+export default function PersonalInfo({
+  resumeData,
+  id,
+  generatedResumeId,
+}: props) {
   const form = useForm<PersonalInfo>({
     resolver: zodResolver(personalInfoSchema),
     defaultValues: {
@@ -28,7 +33,7 @@ export default function PersonalInfo({ resumeData, id }: props) {
     },
   });
 
-  const { editResume, isPending } = useEditResume(id);
+  const { editResume, isPending } = useEditResume(id, generatedResumeId);
 
   function isChanged(vals: PersonalInfo) {
     return (

@@ -64,7 +64,11 @@ export default function Edit({
             Personal Info
           </AccordionTrigger>
           <AccordionContent>
-            <PersonalInfo id={id} resumeData={resumeData} />
+            <PersonalInfo
+              id={id}
+              generatedResumeId={defaultVersion}
+              resumeData={resumeData}
+            />
           </AccordionContent>
         </AccordionItem>
 
@@ -73,7 +77,11 @@ export default function Edit({
             Summary
           </AccordionTrigger>
           <AccordionContent>
-            <Summary id={id} resumeData={resumeData} />
+            <Summary
+              id={id}
+              resumeData={resumeData}
+              generatedResumeId={defaultVersion}
+            />
           </AccordionContent>
         </AccordionItem>
 
@@ -82,7 +90,11 @@ export default function Edit({
             Experience
           </AccordionTrigger>
           <AccordionContent>
-            <Experience id={id} resumeData={resumeData} />
+            <Experience
+              id={id}
+              resumeData={resumeData}
+              generatedResumeId={defaultVersion}
+            />
           </AccordionContent>
         </AccordionItem>
 
@@ -91,7 +103,11 @@ export default function Edit({
             Education
           </AccordionTrigger>
           <AccordionContent>
-            <Education id={id} resumeData={resumeData} />
+            <Education
+              id={id}
+              resumeData={resumeData}
+              generatedResumeId={defaultVersion}
+            />
           </AccordionContent>
         </AccordionItem>
 
@@ -100,7 +116,11 @@ export default function Edit({
             Skills
           </AccordionTrigger>
           <AccordionContent>
-            <Skills id={id} resumeData={resumeData} />
+            <Skills
+              id={id}
+              resumeData={resumeData}
+              generatedResumeId={defaultVersion}
+            />
           </AccordionContent>
         </AccordionItem>
 
@@ -109,7 +129,11 @@ export default function Edit({
             Projects
           </AccordionTrigger>
           <AccordionContent>
-            <Projects id={id} resumeData={resumeData} />
+            <Projects
+              id={id}
+              resumeData={resumeData}
+              generatedResumeId={defaultVersion}
+            />
           </AccordionContent>
         </AccordionItem>
       </Accordion>

@@ -11,18 +11,23 @@ import useEditResume from "@/lib/hooks/useEditResume";
 interface props {
   resumeData: AiGeneratedResume;
   id: string;
+  generatedResumeId: string;
 }
 
-export default function Education({ resumeData, id }: props) {
+export default function Education({
+  resumeData,
+  id,
+  generatedResumeId,
+}: props) {
   const [educations, setEducations] = useState<AiGeneratedResume["education"]>(
-    resumeData.education || []
+    resumeData.education || [],
   );
 
-  const { editResume, isPending } = useEditResume(id);
+  const { editResume, isPending } = useEditResume(id, generatedResumeId);
 
   function addEducation(edu: AiGeneratedResume["education"][0]) {
     const isExistingUniversity = educations.find(
-      (e) => e.university === edu.university
+      (e) => e.university === edu.university,
     );
     const isExistingDegree = educations.find((e) => e.degree === edu.degree);
     if (isExistingUniversity || isExistingDegree)
@@ -36,7 +41,7 @@ export default function Education({ resumeData, id }: props) {
 
   function editEducation(
     edu: AiGeneratedResume["education"][0],
-    index: number
+    index: number,
   ) {
     const findByIndex = educations.at(index);
 
