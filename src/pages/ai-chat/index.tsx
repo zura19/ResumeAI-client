@@ -7,12 +7,9 @@ import { EmptyState } from "./components/EmptyState";
 import type { Message } from "@/lib/types/chat";
 import MessageBubble from "./components/MessageBubble";
 import { useParams } from "react-router-dom";
-import { useGetChat } from "@/lib/hooks/useChat";
+import { useGetChat, useSendMessage } from "@/lib/hooks/useChat";
 import ChatSkeleton from "./components/ChatSkeleton";
 import { ErrorComponent } from "@/components/shared/ErrorComponents";
-import { toast } from "sonner";
-import { useMutation } from "@tanstack/react-query";
-import { sendMessageService } from "@/lib/services/chat/sendMessageService";
 
 export default function AiChat() {
   const params = useParams();
@@ -26,7 +23,8 @@ export default function AiChat() {
     refetch,
   } = useGetChat(params.id as string);
 
-  console.log(data);
+  const { sendMessage, isSendingMessage, sendMessageError, status } =
+    useSendMessage(data?.data?.id as string, params.id as string, setMessages);
 
   useEffect(() => {
     if (data) {
@@ -35,43 +33,8 @@ export default function AiChat() {
     }
   }, [data]);
 
-  const {
-    mutateAsync: sendMessage,
-    isPending: isSendingMessage,
-    error: sendMessageError,
-  } = useMutation({
-    mutationFn: async (message: string) => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          sender: "user",
-          content: message,
-          id: Date.now().toString(),
-          chatId: data?.data?.id as string,
-        },
-      ]);
-
-      const aiAnswer = await sendMessageService(
-        params.id as string,
-        message.trim(),
-      );
-      return aiAnswer;
-    },
-    onSuccess: (data) => {
-      toast.success("Message sent successfully");
-      setMessages((prev) => [...prev, data.data]);
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
   useEffect(() => {
-    scrollToBottom();
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isSendingMessage]);
 
   const handleRetry = () => {
@@ -120,7 +83,7 @@ export default function AiChat() {
                 />
               ))}
 
-              {isSendingMessage && <LoadingState />}
+              {isSendingMessage && <LoadingState status={status} />}
               {sendMessageError && (
                 <ErrorState
                   error={sendMessageError.message || "Failed to send message"}
@@ -137,15 +100,7 @@ export default function AiChat() {
         </div>
       </main>
 
-      <MessageForm
-        isLoading={isSendingMessage}
-        // setIsLoading={}
-        // setMessages={setMessages}
-        // setError={sendMessageError?.message}
-        // messages={messages}
-        // chatId={data?.data.id as string}
-        sendMessage={sendMessage}
-      />
+      <MessageForm isLoading={isSendingMessage} sendMessage={sendMessage} />
     </div>
   );
 }

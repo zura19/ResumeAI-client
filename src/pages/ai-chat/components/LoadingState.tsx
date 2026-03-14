@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
 import { Sparkles } from "lucide-react";
 
-export function LoadingState() {
+export function LoadingState({ status }: { status: string | null }) {
   return (
     <div className="flex gap-4">
       <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-primary/30 to-primary/10 border border-primary/20">
@@ -15,7 +15,7 @@ export function LoadingState() {
           </div>
           <div>
             <p className="text-sm font-medium text-foreground">
-              Generating your resume...
+              {status || `Starting a conversation...`}
             </p>
             <p className="text-xs text-muted-foreground">
               Analyzing your experience and crafting professional content
