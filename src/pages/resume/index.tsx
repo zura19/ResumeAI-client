@@ -84,6 +84,9 @@ export default function ResumePage() {
           resume={activeResume as AiGeneratedResume}
           type={res?.type as ResumeType}
           isChangingVersion={isChangingVersion}
+          changeVersion={changeVersion}
+          allVersions={res?.resumes}
+          defaultVersion={version || res?.resumes.at(-1)?.id || ""}
         />
       </div>
     </div>

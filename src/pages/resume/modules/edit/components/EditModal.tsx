@@ -10,13 +10,24 @@ import {
 import { EditIcon } from "lucide-react";
 import Edit from "..";
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
+import SelectVersion from "./SelectVersion";
+import DeleteModal from "./DeleteModal";
 
 interface props {
   resumeData: AiGeneratedResume;
   id: string;
+  changeVersion: (version: string) => void;
+  defaultVersion: string;
+  allVersions?: { id: string; content: string }[];
 }
 
-export default function EditModal({ resumeData, id }: props) {
+export default function EditModal({
+  resumeData,
+  id,
+  changeVersion,
+  defaultVersion,
+  allVersions,
+}: props) {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -32,13 +43,30 @@ export default function EditModal({ resumeData, id }: props) {
       </DialogTrigger>
       <DialogContent className=" overflow-scroll max-h-[90vh]  sm:max-w-3xl">
         <DialogHeader>
-          <DialogTitle className="">Resume Editor</DialogTitle>
+          <div className="flex items-center justify-between mr-4">
+            <DialogTitle className="">Resume Editor</DialogTitle>
+            <DeleteModal resumeId={id} defaultVersion={defaultVersion} />
+          </div>
           <DialogDescription className="">
             If you are not satisfied with the generated resume, you can edit
             your resume details here.
           </DialogDescription>
         </DialogHeader>
-        <Edit type="modal" id={id} resumeData={resumeData} />
+
+        <SelectVersion
+          defaultVersion={defaultVersion}
+          changeVersion={changeVersion}
+          allVersions={allVersions}
+        />
+
+        <Edit
+          changeVersion={changeVersion}
+          defaultVersion={defaultVersion}
+          allVersions={allVersions}
+          type="modal"
+          id={id}
+          resumeData={resumeData}
+        />
       </DialogContent>
     </Dialog>
   );

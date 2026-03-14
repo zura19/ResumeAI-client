@@ -16,6 +16,9 @@ interface props {
   isLoading: boolean;
   id: string;
   isChangingVersion: boolean;
+  allVersions?: { id: string; content: string }[];
+  changeVersion: (version: string) => void;
+  defaultVersion: string;
 }
 
 export default function ResumeWrapper({
@@ -24,6 +27,9 @@ export default function ResumeWrapper({
   isLoading,
   id,
   isChangingVersion,
+  allVersions,
+  changeVersion,
+  defaultVersion,
 }: props) {
   function renderResume() {
     if (!resume) return;
@@ -50,7 +56,13 @@ export default function ResumeWrapper({
             {renderResume()}
           </PDFViewer>
           <div className=" fixed top-4 right-4 ">
-            <EditModal resumeData={resume} id={id} />
+            <EditModal
+              changeVersion={changeVersion}
+              defaultVersion={defaultVersion}
+              allVersions={allVersions}
+              resumeData={resume}
+              id={id}
+            />
           </div>
         </div>
       )}

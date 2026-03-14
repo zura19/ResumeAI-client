@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Sparkles } from "lucide-react";
 import SelectVersion from "./components/SelectVersion";
 import { useUser } from "@/lib/store/userState";
+import DeleteModal from "./components/DeleteModal";
 
 interface props {
   resumeData: AiGeneratedResume;
@@ -47,7 +48,10 @@ export default function Edit({
     >
       {type === "page" && (
         <div className="flex flex-col gap-0 mb-4">
-          <h1 className="text-xl font-bold">Resume Editor</h1>
+          <div className="flex items-center justify-between">
+            <h1 className="text-xl font-bold">Resume Editor</h1>
+            <DeleteModal resumeId={id} defaultVersion={defaultVersion} />
+          </div>
           <p className="text-muted-foreground text-sm">
             If you are not satisfied with the generated resume, you can edit
             your resume details here.
