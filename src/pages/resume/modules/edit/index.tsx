@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sparkles } from "lucide-react";
 import SelectVersion from "./components/SelectVersion";
+import { useUser } from "@/lib/store/userState";
 
 interface props {
   resumeData: AiGeneratedResume;
@@ -35,6 +36,7 @@ export default function Edit({
   changeVersion,
   defaultVersion,
 }: props) {
+  const { user } = useUser();
   const triggerClassName = "text-md font-medium";
 
   return (
@@ -138,19 +140,21 @@ export default function Edit({
         </AccordionItem>
       </Accordion>
 
-      <Button
-        size="sm"
-        asChild
-        className="rounded-full h-12 flex mt-auto font-semibold"
-      >
-        <Link
-          to={`/resume/${id}/chat`}
-          className=" text-muted-foreground flex items-center"
+      {(user?.plan === "pro" || user?.plan === "enterprise") && (
+        <Button
+          size="sm"
+          asChild
+          className="rounded-full h-12 flex mt-auto font-semibold"
         >
-          <Sparkles className=" text-indigo-600" />
-          <span>Chat with AI</span>
-        </Link>
-      </Button>
+          <Link
+            to={`/resume/${id}/chat`}
+            className=" text-muted-foreground flex items-center"
+          >
+            <Sparkles className=" text-indigo-600" />
+            <span>Chat with AI</span>
+          </Link>
+        </Button>
+      )}
     </div>
   );
 }

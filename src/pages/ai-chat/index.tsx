@@ -37,20 +37,17 @@ export default function AiChat() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isSendingMessage]);
 
-  const handleRetry = () => {
+  async function handleRetry() {
     if (messages.length > 0) {
       const lastUserMessage = [...messages]
         .reverse()
         .find((m) => m.sender === "user");
       if (lastUserMessage) {
-        setMessages((prev) => prev.filter((m) => m.id !== lastUserMessage.id));
+        await sendMessage(lastUserMessage.content);
+        // setMessages((prev) => prev.filter((m) => m.id !== lastUserMessage.id));
       }
     }
-  };
-
-  const handleSuggestionClick = (suggestion: string) => {
-    console.log(suggestion);
-  };
+  }
 
   if (chatError) {
     return (
@@ -72,7 +69,11 @@ export default function AiChat() {
           {!isChatLoading && !chatError && (
             <>
               {messages.length === 0 && !isSendingMessage && (
-                <EmptyState onSuggestionClick={handleSuggestionClick} />
+                <EmptyState
+                  onSuggestionClick={async (suggestion: string) => {
+                    await sendMessage(suggestion);
+                  }}
+                />
               )}
 
               {messages.map((message) => (
