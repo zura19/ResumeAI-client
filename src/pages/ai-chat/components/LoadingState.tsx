@@ -2,6 +2,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
 import { Sparkles } from "lucide-react";
 
+import ShinyText from "@/components/ShinyText";
+
 export function LoadingState({ status }: { status: string | null }) {
   return (
     <div className="flex gap-4">
@@ -13,10 +15,21 @@ export function LoadingState({ status }: { status: string | null }) {
           <div className="relative">
             <Spinner className="size-5 text-primary" />
           </div>
+
           <div>
-            <p className="text-sm font-medium text-foreground">
-              {status || `Starting a conversation...`}
-            </p>
+            <ShinyText
+              className="font-semibold"
+              text={status || `Starting a conversation...`}
+              speed={1.2}
+              delay={0}
+              color="#b5b5b5"
+              shineColor="#ffffff"
+              spread={120}
+              direction="left"
+              yoyo={false}
+              pauseOnHover={false}
+              disabled={false}
+            />
             <p className="text-xs text-muted-foreground">
               Analyzing your experience and crafting professional content
             </p>

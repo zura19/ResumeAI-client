@@ -11,12 +11,10 @@ import Skills from "./modules/skills";
 import Education from "./modules/education";
 import Experience from "./modules/experience";
 import Projects from "./modules/projects";
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Sparkles } from "lucide-react";
 import SelectVersion from "./components/SelectVersion";
 import { useUser } from "@/lib/store/userState";
 import DeleteModal from "./components/DeleteModal";
+import ChatWithAiButton from "./components/ChatWithAiButton";
 
 interface props {
   resumeData: AiGeneratedResume;
@@ -144,21 +142,9 @@ export default function Edit({
         </AccordionItem>
       </Accordion>
 
-      {(user?.plan === "pro" || user?.plan === "enterprise") && (
-        <Button
-          size="sm"
-          asChild
-          className="rounded-full h-12 flex mt-auto font-semibold"
-        >
-          <Link
-            to={`/resume/${id}/chat`}
-            className=" text-muted-foreground flex items-center"
-          >
-            <Sparkles className=" text-indigo-600" />
-            <span>Chat with AI</span>
-          </Link>
-        </Button>
-      )}
+      {(user?.plan === "free" ||
+        user?.plan === "pro" ||
+        user?.plan === "enterprise") && <ChatWithAiButton resumeId={id} />}
     </div>
   );
 }

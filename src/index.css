@@ -46,6 +46,7 @@
   --font-roboto-flex: var(--roboto-flex);
   --font-roboto-mono: var(--roboto-mono);
   --font-merriweather: var(--merriweather);
+  --animate-sparkle: var(--animate-sparkle);
 }
 
 :root {
@@ -85,6 +86,8 @@
   --roboto-flex: "Roboto Flex", sans-serif;
   --roboto-mono: "Roboto Mono", monospace;
   --merriweather: "Merriweather", serif;
+
+  --animate-sparkle: sparkle 3s ease-in-out infinite;
 }
 
 .dark {
@@ -144,5 +147,17 @@
 
   &::-webkit-scrollbar {
     display: none;
+  }
+}
+
+@keyframes sparkle {
+  0%,
+  100% {
+    opacity: 0;
+    transform: translateY(0) scale(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-6px) scale(1);
   }
 }
