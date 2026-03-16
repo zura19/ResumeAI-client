@@ -50,7 +50,7 @@ export default function ResumeWrapper({
   return (
     <div className="relative max-h-full overflow-scroll rounded-lg">
       {(isLoading || isChangingVersion) && <ResumeSkeleton />}
-      {!isLoading && (
+      {!isLoading && !isChangingVersion && (
         <div className="h-full w-full relative">
           <PDFViewer width={"100%"} height={"100%"}>
             {renderResume()}

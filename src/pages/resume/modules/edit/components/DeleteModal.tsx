@@ -22,6 +22,7 @@ interface props {
 
 export default function DeleteModal({ resumeId, defaultVersion }: props) {
   const navigate = useNavigate();
+
   const queryClient = useQueryClient();
   const { mutate: deleteAll, isPending: isDeletingAll } = useMutation({
     mutationFn: async () => await deleteAllVersionsService(resumeId),
@@ -40,9 +41,9 @@ export default function DeleteModal({ resumeId, defaultVersion }: props) {
     onSuccess: (data) => {
       toast.success(data.message);
       queryClient.invalidateQueries({
-        queryKey: ["resume", resumeId],
+        queryKey: [`resume-${resumeId}`],
       });
-      navigate(`/resume/${resumeId}`);
+      navigate(`/resume/${resumeId}`, { replace: true });
     },
     onError: (err) => {
       toast.error(err.message);

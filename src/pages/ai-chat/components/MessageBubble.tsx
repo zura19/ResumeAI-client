@@ -39,18 +39,28 @@ export default function MessageBubble({
         <p className="text-sm leading-relaxed whitespace-pre-wrap">
           {message.content}
         </p>
-        {!isUser && (
+        {!isUser && message.generatedResumeId && (
           <Link
-            className="flex items-center gap-2 mt-4 group transition-all duration-300"
+            className="flex items-center justify-center bg-indigo-200/10 rounded-2xl py-2 gap-2 mt-4 group transition-all duration-300"
             to={`/resume/${resumeId}?version=${message.generatedResumeId}`}
           >
-            <div className="flex size-8 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-primary/80 to-primary/0 group-hover:to-primary/80 group-hover:from-primary/0 text-foreground transition-all duration-300">
-              <FileText className="size-5 text-primary" />
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-indigo-300/60 to-primary/0 group-hover:to-indigo-300/80 group-hover:from-primary/0 text-foreground transition-all duration-300">
+              <FileText className="size-5 text-indigo-200" />
             </div>
-            <p className=" group-hover:text-primary transition-all duration-300">
+            <p className=" text-indigo-200 transition-all duration-300">
               View Resume
             </p>
           </Link>
+        )}
+
+        {!isUser && !message.generatedResumeId && (
+          <div className="flex items-center justify-center p-2 bg-red-300/15 gap-2 mt-4 rounded-2xl group transition-all duration-300 ">
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-red-300/60 to-primary/0 group-hover:to-red-300/80 group-hover:from-primary/0 text-foreground transition-all duration-300">
+              <FileText className="size-5 text-red-200" />
+            </div>
+            {/* <FileText className="size-5 text-red-400" /> */}
+            <p className="text-red-400">Resume has been deleted</p>
+          </div>
         )}
       </div>
     </div>
