@@ -30,7 +30,7 @@ export default function ResumePage() {
     isError,
     error,
   } = useQuery({
-    queryKey: [`resume-${id}`, id],
+    queryKey: [`resume`, id],
     queryFn: async () => {
       const d = await getResumeByIdService(id || "");
       const generatedResumes = d.data.resume.generatedResumes;
@@ -43,19 +43,17 @@ export default function ResumePage() {
 
   const activeResume = useMemo(() => {
     if (!res) return;
-    const generatedResumes = res?.resumes;
+
+    const generatedResumes = res.resumes;
+
     if (!version) {
-      return JSON.parse(
-        generatedResumes.at(generatedResumes.length - 1)?.content || "",
-      );
+      const latest = generatedResumes.at(-1);
+      return latest ? JSON.parse(latest.content) : undefined;
     }
 
-    return JSON.parse(
-      generatedResumes.find((r) => r.id === version)?.content || "",
-    );
+    const selected = generatedResumes.find((r) => r.id === version);
+    return selected ? JSON.parse(selected.content) : undefined;
   }, [version, res]);
-
-  console.log(res?.resumes);
 
   return (
     <div>

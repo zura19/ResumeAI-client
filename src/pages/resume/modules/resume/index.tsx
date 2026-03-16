@@ -52,7 +52,7 @@ export default function ResumeWrapper({
       {(isLoading || isChangingVersion) && <ResumeSkeleton />}
       {!isLoading && !isChangingVersion && (
         <div className="h-full w-full relative">
-          <PDFViewer width={"100%"} height={"100%"}>
+          <PDFViewer key={defaultVersion} width={"100%"} height={"100%"}>
             {renderResume()}
           </PDFViewer>
           <div className=" fixed top-4 right-4 ">

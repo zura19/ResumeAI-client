@@ -41,7 +41,7 @@ export default function MessageBubble({
         </p>
         {!isUser && message.generatedResumeId && (
           <Link
-            className="flex items-center justify-center bg-indigo-200/10 rounded-2xl py-2 gap-2 mt-4 group transition-all duration-300"
+            className="flex items-center justify-center bg-indigo-200/10 rounded-2xl p-2 gap-2 mt-4 group transition-all duration-300"
             to={`/resume/${resumeId}?version=${message.generatedResumeId}`}
           >
             <div className="flex size-8 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-indigo-300/60 to-primary/0 group-hover:to-indigo-300/80 group-hover:from-primary/0 text-foreground transition-all duration-300">
@@ -58,7 +58,6 @@ export default function MessageBubble({
             <div className="flex size-8 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-red-300/60 to-primary/0 group-hover:to-red-300/80 group-hover:from-primary/0 text-foreground transition-all duration-300">
               <FileText className="size-5 text-red-200" />
             </div>
-            {/* <FileText className="size-5 text-red-400" /> */}
             <p className="text-red-400">Resume has been deleted</p>
           </div>
         )}

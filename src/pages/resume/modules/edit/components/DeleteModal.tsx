@@ -12,6 +12,7 @@ import { deleteAllVersionsService } from "@/lib/services/resume/deleteAllVersion
 import { deleteOneVersionsService } from "@/lib/services/resume/deleteOneVersionService";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { EllipsisVertical } from "lucide-react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -21,6 +22,7 @@ interface props {
 }
 
 export default function DeleteModal({ resumeId, defaultVersion }: props) {
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
   const queryClient = useQueryClient();
@@ -41,8 +43,9 @@ export default function DeleteModal({ resumeId, defaultVersion }: props) {
     onSuccess: (data) => {
       toast.success(data.message);
       queryClient.invalidateQueries({
-        queryKey: [`resume-${resumeId}`],
+        queryKey: [`resume`, resumeId],
       });
+      setOpen(false);
       navigate(`/resume/${resumeId}`, { replace: true });
     },
     onError: (err) => {
@@ -52,7 +55,7 @@ export default function DeleteModal({ resumeId, defaultVersion }: props) {
 
   console.log(resumeId, defaultVersion);
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
           variant={"outline"}
