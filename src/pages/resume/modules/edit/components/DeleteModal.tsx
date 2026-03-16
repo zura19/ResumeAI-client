@@ -19,9 +19,14 @@ import { toast } from "sonner";
 interface props {
   resumeId: string;
   defaultVersion: string;
+  totalVersions?: number;
 }
 
-export default function DeleteModal({ resumeId, defaultVersion }: props) {
+export default function DeleteModal({
+  resumeId,
+  defaultVersion,
+  totalVersions,
+}: props) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -73,20 +78,24 @@ export default function DeleteModal({ resumeId, defaultVersion }: props) {
         </DialogHeader>
 
         <div className=" flex flex-col gap-4">
-          <Button
-            onClick={() => deleteOne()}
-            disabled={isDeletingOne}
-            className="h-10"
-            variant="outline"
-          >
-            Delete Only Current Version{" "}
-          </Button>
+          {totalVersions && totalVersions > 1 && (
+            <>
+              <Button
+                onClick={() => deleteOne()}
+                disabled={isDeletingOne}
+                className="h-10"
+                variant="outline"
+              >
+                Delete Only Current Version{" "}
+              </Button>
 
-          <div className="grid items-center gap-4 grid-cols-[1fr_auto_1fr]">
-            <Separator />
-            <p>Or</p>
-            <Separator />
-          </div>
+              <div className="grid items-center gap-4 grid-cols-[1fr_auto_1fr]">
+                <Separator />
+                <p>Or</p>
+                <Separator />
+              </div>
+            </>
+          )}
 
           <Button
             onClick={() => deleteAll()}

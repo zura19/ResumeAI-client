@@ -12,6 +12,7 @@ import Edit from "..";
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 import SelectVersion from "./SelectVersion";
 import DeleteModal from "./DeleteModal";
+import { useUser } from "@/lib/store/userState";
 
 interface props {
   resumeData: AiGeneratedResume;
@@ -28,12 +29,14 @@ export default function EditModal({
   defaultVersion,
   allVersions,
 }: props) {
+  const { user } = useUser();
+  const isProOrEnterprise = user?.plan === "pro" || user?.plan === "enterprise";
+
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button
           size={"sm"}
-          // size={"icon-sm"}
           className=" rounded-full text-xs sm:text-md  lg:hidden"
           variant={"secondary"}
         >
@@ -53,12 +56,13 @@ export default function EditModal({
           </DialogDescription>
         </DialogHeader>
 
-        <SelectVersion
-          defaultVersion={defaultVersion}
-          changeVersion={changeVersion}
-          allVersions={allVersions}
-        />
-
+        {isProOrEnterprise && (
+          <SelectVersion
+            defaultVersion={defaultVersion}
+            changeVersion={changeVersion}
+            allVersions={allVersions}
+          />
+        )}
         <Edit
           changeVersion={changeVersion}
           defaultVersion={defaultVersion}

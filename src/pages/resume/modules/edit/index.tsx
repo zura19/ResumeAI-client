@@ -37,6 +37,7 @@ export default function Edit({
 }: props) {
   const { user } = useUser();
   const triggerClassName = "text-md font-medium";
+  const isProOrEnterprise = user?.plan === "pro" || user?.plan === "enterprise";
 
   return (
     <div
@@ -48,18 +49,24 @@ export default function Edit({
         <div className="flex flex-col gap-0 mb-4">
           <div className="flex items-center justify-between">
             <h1 className="text-xl font-bold">Resume Editor</h1>
-            <DeleteModal resumeId={id} defaultVersion={defaultVersion} />
+
+            <DeleteModal
+              totalVersions={allVersions?.length}
+              resumeId={id}
+              defaultVersion={defaultVersion}
+            />
           </div>
           <p className="text-muted-foreground text-sm">
             If you are not satisfied with the generated resume, you can edit
             your resume details here.
           </p>
-
-          <SelectVersion
-            defaultVersion={defaultVersion}
-            changeVersion={changeVersion}
-            allVersions={allVersions}
-          />
+          {isProOrEnterprise && (
+            <SelectVersion
+              defaultVersion={defaultVersion}
+              changeVersion={changeVersion}
+              allVersions={allVersions}
+            />
+          )}
         </div>
       )}
       <Accordion type="single" collapsible>
@@ -142,9 +149,7 @@ export default function Edit({
         </AccordionItem>
       </Accordion>
 
-      {(user?.plan === "free" ||
-        user?.plan === "pro" ||
-        user?.plan === "enterprise") && <ChatWithAiButton resumeId={id} />}
+      {isProOrEnterprise && <ChatWithAiButton resumeId={id} />}
     </div>
   );
 }
