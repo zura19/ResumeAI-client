@@ -12,21 +12,22 @@ import SaveAlert from "../../components/SaveAlert";
 interface props {
   resumeData: AiGeneratedResume;
   id: string;
+  generatedResumeId: string;
 }
 
-export default function Skills({ resumeData, id }: props) {
+export default function Skills({ resumeData, id, generatedResumeId }: props) {
   const [skillsData, setSkillsData] = useState(
     resumeData.skills || {
       soft: [],
       languages: [],
       technical: [],
-    }
+    },
   );
   const [softSkill, setSoftSkill] = useState("");
   const [language, setLanguage] = useState("");
   const [technical, setTechnical] = useState("");
 
-  const { editResume, isPending } = useEditResume(id);
+  const { editResume, isPending } = useEditResume(id, generatedResumeId);
 
   function handleAdd(type: skillType) {
     if (type === "soft") {

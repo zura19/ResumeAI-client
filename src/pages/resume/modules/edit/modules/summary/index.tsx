@@ -10,14 +10,15 @@ import SaveAlert from "../../components/SaveAlert";
 
 interface props {
   resumeData: AiGeneratedResume;
+  generatedResumeId: string;
   id: string;
 }
 
-export default function Summary({ resumeData, id }: props) {
+export default function Summary({ resumeData, id, generatedResumeId }: props) {
   const [summary, setSummary] = useState(resumeData.summary || "");
   const isChanged = summary !== resumeData.summary;
   const { editResume, isPending, isUpdatingSummary, updateSummary } =
-    useEditResume(id);
+    useEditResume(id, generatedResumeId);
 
   async function handleSave(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();

@@ -6,14 +6,14 @@ import {
 } from "../services/resume/updateResumeService";
 import { toast } from "sonner";
 
-export default function useEditResume(id: string) {
+export default function useEditResume(id: string, generatedResumeId: string) {
   const queryClient = useQueryClient();
 
   const { mutateAsync: editResume, isPending } = useMutation({
     mutationFn: async (data: AiGeneratedResume) => {
       // const sent = {...data,}
 
-      const re = await updateResumeService(id, data);
+      const re = await updateResumeService(id, generatedResumeId, data);
       return re.data;
     },
     onSuccess: () => {

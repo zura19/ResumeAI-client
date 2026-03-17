@@ -12,14 +12,15 @@ import ProjectsModal from "./components/ProjectModal";
 interface props {
   resumeData: AiGeneratedResume;
   id: string;
+  generatedResumeId: string;
 }
 
-export default function Projects({ resumeData, id }: props) {
+export default function Projects({ resumeData, id, generatedResumeId }: props) {
   const [projects, setProjects] = useState<AiGeneratedResume["projects"]>(
-    resumeData.projects || []
+    resumeData.projects || [],
   );
 
-  const { editResume, isPending } = useEditResume(id);
+  const { editResume, isPending } = useEditResume(id, generatedResumeId);
 
   function addProject(proj: AiGeneratedResume["projects"][0]) {
     const isExistingProject = projects.find((e) => e.title === proj.title);

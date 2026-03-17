@@ -11,21 +11,26 @@ import ExperienceCard from "./components/ExperienceCard";
 interface props {
   resumeData: AiGeneratedResume;
   id: string;
+  generatedResumeId: string;
 }
 
-export default function Experience({ resumeData, id }: props) {
+export default function Experience({
+  resumeData,
+  id,
+  generatedResumeId,
+}: props) {
   const [experiences, setExperiences] = useState<
     AiGeneratedResume["experience"]
   >(resumeData.experience || []);
 
-  const { editResume, isPending } = useEditResume(id);
+  const { editResume, isPending } = useEditResume(id, generatedResumeId);
 
   function addExperience(exp: AiGeneratedResume["experience"][0]) {
     const isExistingUniversity = experiences.find(
-      (e) => e.company === exp.company
+      (e) => e.company === exp.company,
     );
     const isExistingDegree = experiences.find(
-      (e) => e.position === exp.position
+      (e) => e.position === exp.position,
     );
     if (isExistingUniversity || isExistingDegree)
       return toast.error("Education already exists.");
@@ -38,7 +43,7 @@ export default function Experience({ resumeData, id }: props) {
 
   function editExperience(
     exp: AiGeneratedResume["experience"][0],
-    index: number
+    index: number,
   ) {
     const findByIndex = experiences.at(index);
 

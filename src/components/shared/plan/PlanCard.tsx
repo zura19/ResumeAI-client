@@ -106,9 +106,9 @@ export function PlanCard({ plan, updateSession = false }: props) {
             <Button
               disabled={goTo() === null}
               className={cn(
-                "w-full rounded-lg h-12 py-3 mt-auto text-center text-sm font-medium transition-colors",
+                "w-full rounded-lg h-12 py-3 mt-auto text-center text-sm font-medium transition-all duration-300",
                 recommendedPlan
-                  ? "bg-indigo-500 text-primary group-hover:bg-indigo-600"
+                  ? "bg-indigo-500 text-primary shadow-[0px_0px_0px_0px_#625fff] group-hover:shadow-[0px_0px_20px_4px_#625fff73] group-hover:bg-indigo-600 hover:shadow-[0px_0px_20px_4px_#625fff73] hover:bg-indigo-600"
                   : "border border-border bg-transparent text-foreground hover:bg-secondary-foreground/10 group-hover:bg-secondary",
                 updateSession && "hidden",
               )}

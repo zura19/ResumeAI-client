@@ -19,6 +19,7 @@ import UpdatePlan from "./pages/admin/child-pages/updatePlan";
 import Checkout from "./pages/checkout";
 import Cancel from "./pages/cancel";
 import AdminPlans from "./pages/admin/child-pages/plans";
+import AiChat from "./pages/ai-chat";
 
 function App() {
   const { user } = useUser();
@@ -54,6 +55,10 @@ function App() {
           <Route
             path="/resume/:id"
             element={user ? <Resume /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/resume/:id/chat"
+            element={user ? <AiChat /> : <Navigate to="/login" />}
           />
           <Route path="/plans" element={<Plans />} />
           <Route

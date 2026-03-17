@@ -9,10 +9,11 @@ import {
 
 export async function updateResumeService(
   resumeId: string,
-  data: Partial<AiGeneratedResume>
+  generatedResumeId: string,
+  data: Partial<AiGeneratedResume>,
 ): PromiseResponseSuccess<AiGeneratedResume> {
   try {
-    const res = await fetch(`${API}/resume/${resumeId}`, {
+    const res = await fetch(`${API}/resume/${resumeId}/${generatedResumeId}`, {
       ...putHeaders,
       body: JSON.stringify(data),
     });
@@ -32,7 +33,7 @@ export async function updateResumeService(
 
 export async function updateSummaryService(
   resumeId: string,
-  data: Partial<AiGeneratedResume>
+  data: Partial<AiGeneratedResume>,
 ): PromiseResponseSuccess<{ summary: string }> {
   try {
     const res = await fetch(`${API}/resume/summary/${resumeId}`, {
