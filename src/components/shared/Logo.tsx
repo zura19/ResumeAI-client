@@ -1,13 +1,13 @@
-import { Sparkles } from "lucide-react";
-import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface props {
   className?: string;
+  onlyLogo?: boolean;
 }
 
-export default function Logo({ className }: props) {
+export default function Logo({ className, onlyLogo = false }: props) {
   const location = useLocation();
 
   function handleScroll() {
@@ -19,28 +19,44 @@ export default function Logo({ className }: props) {
     <Link
       to="/"
       onClick={handleScroll}
-      className={cn("flex items-center gap-1", className)}
+      className={cn("flex items-center gap-2", className)}
     >
-      <motion.div
-        initial={{ rotate: 0 }}
-        animate={{ rotate: [0, 10, -5, 10, -5, 0] }}
-        transition={{
-          duration: 1,
-          ease: "easeInOut",
-          rotate: { repeat: Infinity, repeatDelay: 4 },
-        }}
-        // animate={{ rotate: [-6, 6, -6] }}
-        // transition={{
-        //   duration: 1,
-        //   rotate: { repeat: Infinity, duration: 4, ease: "linear" },
-        // }}
-      >
-        <Sparkles
-          className="text-indigo-500 transition-all duration-300 size-5 sm:size-6 md:size-7 animate-pulse"
-          strokeWidth={2}
-        />
-      </motion.div>
-      <p className="font-bold text-lg sm:text-xl md:text-2xl">ResumeAI</p>
+      {onlyLogo && (
+        <>
+          <div className="relative size-8 overflow-hidden">
+            <div className="relative z-10 size-8 overflow-hidden">
+              <img src="/logo.png" className="object-contain" alt="logo" />
+            </div>
+          </div>
+        </>
+      )}
+
+      {!onlyLogo && (
+        <>
+          <div className="relative size-8 overflow-hidden">
+            <div className="relative rounded-lg z-10 size-8 overflow-hidden">
+              <motion.span
+                className="pointer-events-none absolute  -left-1/2 top-[-20%] h-[140%] w-1/3 rotate-12 bg-white/35 blur-[6px]"
+                animate={{ x: ["-100%", "520%"] }}
+                transition={{
+                  duration: 2.8,
+                  repeat: Number.POSITIVE_INFINITY,
+                  repeatDelay: 4,
+                  ease: "easeInOut",
+                }}
+              />
+              <img src="/logo-bg.png" className="object-contain" alt="logo" />
+            </div>
+          </div>
+
+          <div className="relative overflow-hidden">
+            <p className="relative flex items-center gap-0.5 text-lg font-bold tracking-wide sm:text-xl md:text-2xl">
+              <span className="text-slate-900 dark:text-white">Resume</span>
+              <span className="text-indigo-500">AI</span>
+            </p>
+          </div>
+        </>
+      )}
     </Link>
   );
 }

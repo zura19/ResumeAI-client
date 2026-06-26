@@ -81,7 +81,7 @@ export default function Navbar() {
             >
               {item.label}
             </li>
-          )
+          ),
         )}
 
         {user && <UserAvatar goto="/profile" />}
