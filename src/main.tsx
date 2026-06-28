@@ -4,11 +4,17 @@ import "./index.css";
 import App from "./App.tsx";
 import ReactQueryProvider from "./components/providers/ReactQueryProvider.tsx";
 import { Toaster } from "@/components/ui/sonner";
+import AuthProvider from "./components/providers/AuthProvider.tsx";
+import { BrowserRouter } from "react-router-dom";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ReactQueryProvider>
-      <App />
+      <BrowserRouter>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+      </BrowserRouter>
 
       <Toaster />
     </ReactQueryProvider>
