@@ -8,13 +8,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
-import { deleteAllVersionsService } from "@/lib/services/resume/deleteAllVersionsService";
-import { deleteOneVersionsService } from "@/lib/services/resume/deleteOneVersionService";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { EllipsisVertical } from "lucide-react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "sonner";
+import useDeleteResumeAction from "../../../hooks/actions/useDeleteResumeAction";
 
 interface props {
   resumeId: string;
@@ -27,38 +22,12 @@ export default function DeleteModal({
   defaultVersion,
   totalVersions,
 }: props) {
-  const [open, setOpen] = useState(false);
-  const navigate = useNavigate();
+  const { open, setOpen, deleteAll, deleteOne, isDeletingAll, isDeletingOne } =
+    useDeleteResumeAction({
+      resumeId,
+      defaultVersion,
+    });
 
-  const queryClient = useQueryClient();
-  const { mutate: deleteAll, isPending: isDeletingAll } = useMutation({
-    mutationFn: async () => await deleteAllVersionsService(resumeId),
-    onSuccess: (data) => {
-      toast.success(data.message);
-      navigate("/profile");
-    },
-    onError: (err) => {
-      toast.error(err.message);
-    },
-  });
-
-  const { mutate: deleteOne, isPending: isDeletingOne } = useMutation({
-    mutationFn: async () =>
-      await deleteOneVersionsService(resumeId, defaultVersion),
-    onSuccess: (data) => {
-      toast.success(data.message);
-      queryClient.invalidateQueries({
-        queryKey: [`resume`, resumeId],
-      });
-      setOpen(false);
-      navigate(`/resume/${resumeId}`, { replace: true });
-    },
-    onError: (err) => {
-      toast.error(err.message);
-    },
-  });
-
-  console.log(resumeId, defaultVersion);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>

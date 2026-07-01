@@ -5,7 +5,7 @@ import type {
 import Edit from "./modules/edit";
 import Logo from "@/components/shared/Logo";
 import ResumeWrapper from "./modules/resume";
-import useResumeData from "@/lib/hooks/resume/useResumeData";
+import useResumeData from "./hooks/useResumeData";
 
 export default function ResumePage() {
   const {
