@@ -9,33 +9,30 @@ interface props {
 
 export default function Skills({ data, colors }: props) {
   const styles = StyleSheet.create({
-    container: {
-      marginBottom: 12,
-    },
     title: {
-      fontSize: 13,
+      fontSize: 12,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
-      marginBottom: 7,
+      marginBottom: 8,
       textTransform: "uppercase",
       letterSpacing: 1,
     },
     category: {
-      marginBottom: 7,
+      marginBottom: 6,
     },
     categoryTitle: {
       fontSize: 10,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
-      marginBottom: 5,
+      marginBottom: 4,
     },
     skillsContainer: {
       display: "flex",
       flexDirection: "row",
       flexWrap: "wrap",
-      gap: 5,
+      gap: 3,
     },
     skillBadge: {
       backgroundColor: colors.background,
@@ -48,7 +45,7 @@ export default function Skills({ data, colors }: props) {
   });
 
   return (
-    <View style={styles.container}>
+    <View>
       <Text style={styles.title}>SKILLS</Text>
 
       <View style={styles.category}>

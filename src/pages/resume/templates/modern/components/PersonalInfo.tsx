@@ -9,16 +9,15 @@ interface props {
 
 export default function PersonalInfo({ data, colors }: props) {
   const styles = StyleSheet.create({
-    container: {
-      marginBottom: 12,
-      paddingBottom: 12,
+    header: {
+      paddingBottom: 8,
       borderBottom: `1px solid ${colors.border}`,
     },
     name: {
       fontSize: 26,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
-      marginBottom: 6,
+      marginBottom: 4,
       color: colors.text,
     },
     contactLine: {
@@ -38,7 +37,7 @@ export default function PersonalInfo({ data, colors }: props) {
   });
 
   return (
-    <View style={styles.container}>
+    <View style={styles.header}>
       <Text style={styles.name}>{data.fullName}</Text>
       <View style={styles.contactLine}>
         <Text style={styles.contactItem}>{data.email}</Text>

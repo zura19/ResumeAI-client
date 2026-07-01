@@ -41,6 +41,9 @@ export default function ResumeModern({ resumeData }: props) {
       backgroundColor: colors.background,
       fontFamily: "Helvetica",
       padding: 22,
+      display: "flex",
+      flexDirection: "column",
+      gap: 12,
     },
   });
   return (
@@ -48,10 +51,10 @@ export default function ResumeModern({ resumeData }: props) {
       <Page size="A4" style={styles.page}>
         <PersonalInfo colors={colors} data={resumeData.personalInfo} />
         <Summary colors={colors} text={resumeData.summary} />
-        <Experience colors={colors} data={resumeData.experience} />
-        <Education colors={colors} data={resumeData.education} />
         <Skills colors={colors} data={resumeData.skills} />
+        <Experience colors={colors} data={resumeData.experience} />
         <Projects colors={colors} data={resumeData.projects} />
+        <Education colors={colors} data={resumeData.education} />
       </Page>
     </Document>
   );
