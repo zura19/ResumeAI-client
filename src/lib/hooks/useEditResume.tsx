@@ -19,7 +19,7 @@ export default function useEditResume(id: string, generatedResumeId: string) {
     onSuccess: () => {
       toast.success("Resume updated successfully");
       queryClient.invalidateQueries({
-        queryKey: [`resume-${id}`, id],
+        queryKey: [`resume`, id],
       });
     },
     onError: (error) => {

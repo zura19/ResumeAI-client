@@ -1,16 +1,9 @@
 import { Form } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
 import FormInput from "@/components/shared/FormInput";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  personalInfoSchema,
-  type PersonalInfo,
-} from "@/lib/schemas/personalInfoSchema";
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
-import { toast } from "sonner";
 import FormButton from "@/components/shared/FormButton";
-import useEditResume from "@/lib/hooks/useEditResume";
 import SaveAlert from "../../components/SaveAlert";
+import useEditPersonalDataAction from "@/pages/resume/hooks/actions/useEditPersonalDataAction";
 
 interface props {
   resumeData: AiGeneratedResume;
@@ -23,38 +16,11 @@ export default function PersonalInfo({
   id,
   generatedResumeId,
 }: props) {
-  const form = useForm<PersonalInfo>({
-    resolver: zodResolver(personalInfoSchema),
-    defaultValues: {
-      fullName: resumeData.personalInfo.fullName || "",
-      email: resumeData.personalInfo.email || "",
-      phone: resumeData.personalInfo.phone || "",
-      address: resumeData.personalInfo.address || "",
-    },
+  const { form, onSubmit, isPending } = useEditPersonalDataAction({
+    resumeData,
+    id,
+    generatedResumeId,
   });
-
-  const { editResume, isPending } = useEditResume(id, generatedResumeId);
-
-  function isChanged(vals: PersonalInfo) {
-    return (
-      vals.fullName !== resumeData.personalInfo.fullName ||
-      vals.email !== resumeData.personalInfo.email ||
-      vals.phone !== resumeData.personalInfo.phone ||
-      vals.address !== resumeData.personalInfo.address
-    );
-  }
-
-  async function onSubmit(vals: PersonalInfo) {
-    if (!isChanged(vals))
-      return toast.error("No changes made to personal info.");
-
-    const datToSent = {
-      ...resumeData,
-      personalInfo: vals,
-    };
-
-    await editResume(datToSent);
-  }
 
   return (
     <Form {...form}>

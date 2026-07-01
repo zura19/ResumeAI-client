@@ -149,7 +149,11 @@ export default function Edit({
         </AccordionItem>
       </Accordion>
 
-      {isProOrEnterprise && <ChatWithAiButton resumeId={id} />}
+      {isProOrEnterprise && (
+        <div className=" mt-auto pt-6">
+          <ChatWithAiButton resumeId={id} />
+        </div>
+      )}
     </div>
   );
 }

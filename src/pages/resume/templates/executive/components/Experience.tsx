@@ -9,52 +9,49 @@ interface props {
 
 export default function Experience({ data, colors }: props) {
   const styles = StyleSheet.create({
-    container: {
-      // marginBottom: 32,
-    },
     title: {
-      fontSize: 16,
+      fontSize: 12,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
-      marginBottom: 24,
+      marginBottom: 8,
       textTransform: "uppercase",
       letterSpacing: 1,
       borderBottom: `2px solid ${colors.border}`,
-      paddingBottom: 8,
+      paddingBottom: 4,
     },
     experienceItem: {
-      marginBottom: 32,
-      paddingLeft: 24,
+      marginBottom: 4,
+      paddingLeft: 6,
       borderLeft: `2px solid ${colors.border}`,
     },
     position: {
-      fontSize: 14,
+      fontSize: 11,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
-      marginBottom: 4,
+      marginBottom: 2,
     },
     companyLine: {
-      fontSize: 10,
+      fontSize: 9,
       color: colors.textSecondary,
-      marginTop: 4,
-      marginBottom: 4,
+      marginTop: 2,
+      marginBottom: 2,
     },
     company: {
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
     },
     dates: {
-      fontSize: 9,
+      fontSize: 8,
       color: colors.textLight,
-      marginBottom: 12,
+      marginBottom: 4,
     },
     responsibility: {
-      fontSize: 10,
+      fontSize: 9,
       color: colors.textTertiary,
-      marginBottom: 8,
-      paddingLeft: 16,
+      marginBottom: 2,
+      paddingLeft: 5,
       display: "flex",
       flexDirection: "row",
     },
@@ -62,12 +59,12 @@ export default function Experience({ data, colors }: props) {
       color: colors.accent,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
-      marginRight: 8,
+      marginRight: 5,
     },
   });
 
   return (
-    <View style={styles.container}>
+    <View>
       <Text style={styles.title}>PROFESSIONAL EXPERIENCE</Text>
       {data.map((exp, index) => (
         <View key={index} style={styles.experienceItem}>

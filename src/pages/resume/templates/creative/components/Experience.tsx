@@ -1,5 +1,4 @@
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
-import type { Experience } from "@/lib/types/buildResumeTypes";
 import type { ICreativeColors } from "..";
 import { StyleSheet } from "@react-pdf/renderer";
 import { Text, View } from "@react-pdf/renderer";
@@ -11,53 +10,50 @@ interface props {
 
 export function Experience({ data, colors }: props) {
   const styles = StyleSheet.create({
-    container: {
-      marginBottom: 24,
-    },
     title: {
-      fontSize: 18,
+      fontSize: 12,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
-      marginBottom: 16,
-      borderBottom: `4px solid ${colors.primary}`,
+      marginBottom: 8,
+      borderBottom: `1.5px solid ${colors.primary}`,
       paddingBottom: 4,
     },
     experienceItem: {
-      marginBottom: 20,
-      paddingLeft: 20,
+      marginBottom: 6,
+      paddingLeft: 6,
       borderLeft: `2px solid ${colors.accent}`,
       position: "relative",
     },
     position: {
-      fontSize: 14,
+      fontSize: 11,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
-      marginBottom: 4,
+      marginBottom: 2,
     },
     company: {
-      fontSize: 11,
+      fontSize: 9,
       color: colors.primary,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
     },
     dates: {
-      fontSize: 10,
+      fontSize: 8,
       color: colors.secondaryText,
-      marginTop: 2,
-      marginBottom: 8,
+      marginTop: 1,
+      marginBottom: 3,
     },
     responsibility: {
-      fontSize: 10,
+      fontSize: 9,
       color: colors.secondaryText,
-      marginBottom: 4,
+      marginBottom: 2,
       paddingLeft: 0,
     },
   });
 
   return (
-    <View style={styles.container}>
+    <View>
       <Text style={styles.title}>Experience</Text>
       {data.map((exp, index) => (
         <View key={index} style={styles.experienceItem}>

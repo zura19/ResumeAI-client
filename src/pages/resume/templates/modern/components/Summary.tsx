@@ -7,27 +7,24 @@ interface props {
 }
 export default function Summary({ text, colors }: props) {
   const styles = StyleSheet.create({
-    container: {
-      marginBottom: 32,
-    },
     title: {
-      fontSize: 16,
+      fontSize: 12,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
-      marginBottom: 16,
+      marginBottom: 8,
       textTransform: "uppercase",
       letterSpacing: 1,
     },
     text: {
-      fontSize: 11,
+      fontSize: 9,
       color: colors.text,
-      lineHeight: 1.6,
+      lineHeight: 1.25,
     },
   });
 
   return (
-    <View style={styles.container}>
+    <View>
       <Text style={styles.title}>PROFESSIONAL SUMMARY</Text>
       <Text style={styles.text}>{text}</Text>
     </View>

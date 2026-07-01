@@ -9,24 +9,23 @@ interface props {
 
 export default function PersonalInfo({ data, colors }: props) {
   const styles = StyleSheet.create({
-    container: {
-      marginBottom: 32,
-      paddingBottom: 32,
-      borderBottom: `2px solid ${colors.border}`,
+    header: {
+      paddingBottom: 8,
+      borderBottom: `1px solid ${colors.border}`,
     },
     name: {
-      fontSize: 32,
+      fontSize: 26,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
-      marginBottom: 12,
+      marginBottom: 4,
       color: colors.text,
     },
     contactLine: {
       display: "flex",
       flexDirection: "row",
       flexWrap: "wrap",
-      gap: 16,
-      fontSize: 10,
+      gap: 7,
+      fontSize: 9,
       color: colors.textSecondary,
     },
     contactItem: {
@@ -38,7 +37,7 @@ export default function PersonalInfo({ data, colors }: props) {
   });
 
   return (
-    <View style={styles.container}>
+    <View style={styles.header}>
       <Text style={styles.name}>{data.fullName}</Text>
       <View style={styles.contactLine}>
         <Text style={styles.contactItem}>{data.email}</Text>

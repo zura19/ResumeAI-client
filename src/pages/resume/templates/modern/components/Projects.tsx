@@ -9,74 +9,71 @@ interface props {
 
 export default function Projects({ data, colors }: props) {
   const styles = StyleSheet.create({
-    container: {
-      marginBottom: 32,
-    },
     title: {
-      fontSize: 16,
-      fontWeight: "bold",
-      fontFamily: "Helvetica-Bold",
-      color: colors.text,
-      marginBottom: 16,
-      textTransform: "uppercase",
-      letterSpacing: 1,
-    },
-    projectItem: {
-      marginBottom: 24,
-      paddingLeft: 16,
-      borderLeft: `4px solid ${colors.primary}`,
-    },
-    projectTitle: {
       fontSize: 12,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
-      marginBottom: 12,
+      marginBottom: 8,
+      textTransform: "uppercase",
+      letterSpacing: 1,
+    },
+    projectItem: {
+      marginBottom: 6,
+      paddingLeft: 6,
+      borderLeft: `2px solid ${colors.primary}`,
+    },
+    projectTitle: {
+      fontSize: 10,
+      fontWeight: "bold",
+      fontFamily: "Helvetica-Bold",
+      color: colors.text,
+      marginBottom: 2,
     },
     techSection: {
-      marginBottom: 12,
+      marginBottom: 4,
     },
     techLabel: {
-      fontSize: 9,
+      fontSize: 8,
       color: colors.textTertiary,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
-      marginBottom: 4,
+      marginBottom: 2,
     },
     techContainer: {
       display: "flex",
       flexDirection: "row",
       flexWrap: "wrap",
-      gap: 8,
+      gap: 3,
     },
     techBadge: {
       backgroundColor: colors.primaryLight,
       color: colors.primary,
-      borderRadius: 3,
-      padding: "3px 8px",
-      fontSize: 8,
+      borderRadius: 2,
+      padding: "3px 6px",
+      fontSize: 7,
       //   border: `1px solid b`,
     },
     feature: {
-      fontSize: 10,
+      fontSize: 9,
       color: colors.text,
-      marginBottom: 6,
+      marginBottom: 2,
       display: "flex",
       flexDirection: "row",
-      lineHeight: 1.5,
+      lineHeight: 1.25,
     },
     bullet: {
       color: colors.primary,
-      marginRight: 8,
+      marginRight: 5,
       marginTop: 2,
     },
   });
 
   return (
-    <View style={styles.container}>
+    <View>
       <Text style={styles.title}>PROJECTS</Text>
       {data.map((project, index) => (
-        <View key={index} style={styles.projectItem}>
+        <View wrap={false} key={index} style={styles.projectItem}>
           <Text style={styles.projectTitle}>{project.title}</Text>
 
           <View style={styles.techSection}>

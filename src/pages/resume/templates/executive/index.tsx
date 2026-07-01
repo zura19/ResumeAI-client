@@ -42,29 +42,52 @@ interface props {
 }
 
 export default function ResumeExecutive({ resumeData }: props) {
+  const hasPersonalInfo = Object.values(resumeData.personalInfo).some((value) =>
+    value.trim()
+  );
+  const hasSummary = resumeData.summary.trim().length > 0;
+  const hasSkills =
+    resumeData.skills.soft.length > 0 ||
+    resumeData.skills.technical.length > 0 ||
+    resumeData.skills.languages.length > 0;
+  const hasExperience = resumeData.experience.length > 0;
+  const hasProjects = resumeData.projects.length > 0;
+  const hasEducation = resumeData.education.length > 0;
+
   const styles = StyleSheet.create({
     page: {
+      padding: 16,
       backgroundColor: colors.white,
       fontFamily: "Helvetica",
+      display: "flex",
+      flexDirection: "column",
+      gap: 6,
     },
-    viewer: {
-      width: "100%",
-      height: "100vh",
+    content: {
+      // padding: 16,
+      display: "flex",
+      flexDirection: "column",
+      gap: 12,
     },
   });
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        <PersonalInfo colors={colors} data={resumeData.personalInfo} />
-        <View style={{ padding: 40 }}>
-          <Summary colors={colors} text={resumeData.summary} />
-          <Experience colors={colors} data={resumeData.experience} />
-          <Projects colors={colors} data={resumeData.projects} />
-          {/* <View style={{ marginTop: "24px" }}> */}
-          {/* </View> */}
-          <Education colors={colors} data={resumeData.education} />
-
-          <Skills colors={colors} data={resumeData.skills} />
+        {hasPersonalInfo && (
+          <PersonalInfo colors={colors} data={resumeData.personalInfo} />
+        )}
+        <View style={styles.content}>
+          {hasSummary && <Summary colors={colors} text={resumeData.summary} />}
+          {hasSkills && <Skills colors={colors} data={resumeData.skills} />}
+          {hasExperience && (
+            <Experience colors={colors} data={resumeData.experience} />
+          )}
+          {hasProjects && (
+            <Projects colors={colors} data={resumeData.projects} />
+          )}
+          {hasEducation && (
+            <Education colors={colors} data={resumeData.education} />
+          )}
         </View>
       </Page>
     </Document>

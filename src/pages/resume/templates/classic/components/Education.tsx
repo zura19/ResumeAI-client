@@ -9,45 +9,41 @@ interface props {
 
 export default function Education({ data, colors }: props) {
   const styles = StyleSheet.create({
-    container: {
-      marginBottom: 32,
-    },
     title: {
-      fontSize: 14,
-      fontWeight: "bold",
+      fontSize: 12,
       fontFamily: "Times-Bold",
-      color: colors.black,
-      paddingBottom: 8,
-      marginBottom: 16,
-      borderBottom: `2px solid ${colors.black}`,
+      color: colors.text,
+      paddingBottom: 4,
+      marginBottom: 4,
+      borderBottom: `1px solid ${colors.rule}`,
     },
     educationItem: {
-      marginBottom: 16,
+      marginBottom: 4,
     },
     header: {
       display: "flex",
       flexDirection: "row",
       justifyContent: "space-between",
       alignItems: "center",
-      marginBottom: 8,
+      marginBottom: 2,
     },
     university: {
-      fontSize: 12,
+      fontSize: 10,
       fontFamily: "Times-Bold",
-      color: colors.black,
+      color: colors.text,
     },
     dates: {
-      fontSize: 10,
-      color: colors.black,
+      fontSize: 9,
+      color: colors.text,
     },
     degree: {
-      fontSize: 10,
-      color: colors.black,
+      fontSize: 9,
+      color: colors.text,
     },
   });
 
   return (
-    <View wrap={false} style={styles.container}>
+    <View wrap={false}>
       <Text style={styles.title}>Education</Text>
       {data.map((edu, index) => (
         <View key={index} style={styles.educationItem}>

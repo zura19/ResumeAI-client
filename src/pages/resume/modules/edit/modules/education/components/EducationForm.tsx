@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
-import { useState } from "react";
+import useEducationForm from "@/pages/resume/hooks/actions/education/useEducationForm";
 
 interface props {
   session: "edit" | "create";
@@ -13,10 +13,6 @@ interface props {
   edu?: AiGeneratedResume["education"][0];
 }
 
-const convertStrToTime = (str: string) => new Date(str.replaceAll("/", "-"));
-const timeToStr = (time: Date) =>
-  time.toISOString().split("T")[0].replaceAll("-", "/");
-
 export default function EducationForm({
   session,
   handleClose,
@@ -24,59 +20,28 @@ export default function EducationForm({
   editEducation,
   edu,
 }: props) {
-  const [university, setUniversity] = useState(edu?.university || "");
-  const [degree, setDegree] = useState(edu?.degree || "");
-  const [field, setField] = useState(edu?.fieldOfStudy || "");
-  const [startDate, setStartDate] = useState(
-    edu?.startDate
-      ? convertStrToTime(edu.startDate)
-      : new Date(new Date().getTime() - 2 * 365 * 24 * 60 * 60 * 1000)
-  );
-  const [endDate, setEndDate] = useState(
-    edu?.endDate ? convertStrToTime(edu.endDate) : new Date()
-  );
-  const [stillStudying, setStillStudying] = useState(
-    edu?.endDate === "Present" ? true : false
-  );
-
-  function dissabled() {
-    if (!university || !degree || !field || !startDate) return true;
-    if (endDate.getTime() < startDate.getTime()) return true;
-
-    // if (session === "edit") {
-    //   if (
-    //     edu?.university === university &&
-    //     edu?.degree === degree &&
-    //     edu?.field === field &&
-    //     edu?.startDate === timeToStr(startDate)
-    //   )
-    //     return true;
-    // }
-
-    return false;
-  }
-
-  function handleSubmit() {
-    if (session === "create" && addEducation) {
-      addEducation({
-        university,
-        degree,
-        fieldOfStudy: field,
-        startDate: timeToStr(startDate),
-        endDate: stillStudying ? "Present" : timeToStr(endDate),
-      });
-    } else if (session === "edit" && editEducation) {
-      editEducation({
-        university,
-        degree,
-        fieldOfStudy: field,
-        startDate: timeToStr(startDate),
-        endDate: stillStudying ? "Present" : timeToStr(endDate),
-      });
-    }
-
-    handleClose();
-  }
+  const {
+    university,
+    setUniversity,
+    degree,
+    setDegree,
+    field,
+    setField,
+    startDate,
+    setStartDate,
+    endDate,
+    setEndDate,
+    stillStudying,
+    setStillStudying,
+    isDisabled,
+    handleSubmit,
+  } = useEducationForm({
+    session,
+    handleClose,
+    addEducation,
+    editEducation,
+    edu,
+  });
 
   return (
     <div className="space-y-6">
@@ -167,7 +132,7 @@ export default function EducationForm({
           )}
         </div>
       </div>
-      <Button onClick={handleSubmit} disabled={dissabled()} className="w-full">
+      <Button onClick={handleSubmit} disabled={isDisabled()} className="w-full">
         {session === "edit" ? "Save" : "Add Education"}
       </Button>
     </div>

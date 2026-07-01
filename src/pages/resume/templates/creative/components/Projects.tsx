@@ -9,58 +9,55 @@ interface props {
 
 export default function Projects({ data, colors }: props) {
   const styles = StyleSheet.create({
-    container: {
-      marginBottom: 24,
-    },
     title: {
-      fontSize: 18,
-      fontWeight: "bold",
-      fontFamily: "Helvetica-Bold",
-      color: colors.text,
-      marginBottom: 16,
-      borderBottom: `4px solid ${colors.primary}`,
-      paddingBottom: 4,
-    },
-    projectItem: {
-      marginBottom: 16,
-      padding: 12,
-      border: `1px solid ${colors.accent}`,
-      borderRadius: 8,
-    },
-    projectTitle: {
-      fontSize: 13,
+      fontSize: 12,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
       marginBottom: 8,
+      borderBottom: `1.5px solid ${colors.primary}`,
+      paddingBottom: 4,
+    },
+    projectItem: {
+      marginBottom: 6,
+      padding: 5,
+      border: `1px solid ${colors.accent}`,
+      borderRadius: 3,
+    },
+    projectTitle: {
+      fontSize: 10,
+      fontWeight: "bold",
+      fontFamily: "Helvetica-Bold",
+      color: colors.text,
+      marginBottom: 2,
     },
     feature: {
-      fontSize: 10,
+      fontSize: 9,
       color: colors.secondaryText,
-      marginBottom: 4,
+      marginBottom: 2,
       paddingLeft: 0,
     },
     techContainer: {
       display: "flex",
       flexDirection: "row",
       flexWrap: "wrap",
-      gap: 6,
-      marginTop: 8,
+      gap: 3,
+      marginTop: 3,
     },
     techBadge: {
       backgroundColor: "#06b5d44f",
       color: colors.secondaryText,
-      borderRadius: 12,
-      padding: "4px 10px",
-      fontSize: 9,
+      borderRadius: 4,
+      padding: "2px 5px",
+      fontSize: 8,
     },
   });
 
   return (
-    <View style={styles.container}>
+    <View>
       <Text style={styles.title}>Projects</Text>
       {data.map((project, index) => (
-        <View key={index} style={styles.projectItem}>
+        <View wrap={false} key={index} style={styles.projectItem}>
           <Text style={styles.projectTitle}>{project.title}</Text>
           {project.features.map((feature, i) => (
             <Text key={i} style={styles.feature}>

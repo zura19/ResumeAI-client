@@ -8,22 +8,17 @@ interface props {
 
 export default function Summary({ text }: props) {
   const styles = StyleSheet.create({
-    container: {
-      marginBottom: 32,
-    },
     text: {
-      fontSize: 11,
-      lineHeight: 1.8,
-      color: "#333",
-      //   fontFamily: "Times-Bold",
+      fontSize: 9,
+      lineHeight: 1.25,
+      fontFamily: "Times-Roman",
       textAlign: "justify",
       fontWeight: "",
-      //   fontWeight: "Regular",
     },
   });
 
   return (
-    <View wrap={false} style={styles.container}>
+    <View>
       <Text style={styles.text}>{text}</Text>
     </View>
   );

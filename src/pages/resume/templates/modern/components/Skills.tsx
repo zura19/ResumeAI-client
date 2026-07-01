@@ -9,46 +9,43 @@ interface props {
 
 export default function Skills({ data, colors }: props) {
   const styles = StyleSheet.create({
-    container: {
-      marginBottom: 32,
-    },
     title: {
-      fontSize: 16,
-      fontWeight: "bold",
-      fontFamily: "Helvetica-Bold",
-      color: colors.text,
-      marginBottom: 16,
-      textTransform: "uppercase",
-      letterSpacing: 1,
-    },
-    category: {
-      marginBottom: 16,
-    },
-    categoryTitle: {
       fontSize: 12,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
       marginBottom: 8,
+      textTransform: "uppercase",
+      letterSpacing: 1,
+    },
+    category: {
+      marginBottom: 6,
+    },
+    categoryTitle: {
+      fontSize: 10,
+      fontWeight: "bold",
+      fontFamily: "Helvetica-Bold",
+      color: colors.text,
+      marginBottom: 4,
     },
     skillsContainer: {
       display: "flex",
       flexDirection: "row",
       flexWrap: "wrap",
-      gap: 8,
+      gap: 3,
     },
     skillBadge: {
       backgroundColor: colors.background,
       color: colors.text,
-      borderRadius: 3,
-      padding: "4px 12px",
-      fontSize: 9,
+      borderRadius: 2,
+      padding: "3px 6px",
+      fontSize: 8,
       border: `1px solid ${colors.border}`,
     },
   });
 
   return (
-    <View style={styles.container}>
+    <View>
       <Text style={styles.title}>SKILLS</Text>
 
       <View style={styles.category}>

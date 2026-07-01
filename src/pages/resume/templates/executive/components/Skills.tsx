@@ -9,24 +9,21 @@ interface props {
 
 export default function Skills({ data, colors }: props) {
   const styles = StyleSheet.create({
-    container: {
-      marginBottom: 32,
-    },
     title: {
-      fontSize: 16,
+      fontSize: 12,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
-      marginBottom: 24,
+      marginBottom: 8,
       textTransform: "uppercase",
       letterSpacing: 1,
       borderBottom: `2px solid ${colors.border}`,
-      paddingBottom: 8,
+      paddingBottom: 4,
     },
     skillsGrid: {
       display: "flex",
       flexDirection: "row",
-      gap: 32,
+      gap: 6,
     },
     skillCategory: {
       flex: 1,
@@ -35,17 +32,17 @@ export default function Skills({ data, colors }: props) {
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      gap: 12,
-      marginBottom: 16,
-      paddingBottom: 12,
-      borderBottom: `2px solid ${colors.accent}`,
+      gap: 4,
+      marginBottom: 4,
+      paddingBottom: 4,
+      borderBottom: `1px solid ${colors.accent}`,
     },
     categoryIcon: {
-      fontSize: 16,
+      fontSize: 12,
       color: colors.accent,
     },
     categoryTitle: {
-      fontSize: 12,
+      fontSize: 10,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
@@ -54,25 +51,26 @@ export default function Skills({ data, colors }: props) {
       display: "flex",
       flexDirection: "row",
       alignItems: "flex-start",
-      gap: 8,
-      marginBottom: 8,
+      gap: 3,
+      marginBottom: 2,
     },
     skillBullet: {
       color: colors.accent,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
-      fontSize: 12,
+      fontSize: 9,
+      marginRight: 4,
       marginTop: 2,
     },
     skillText: {
-      fontSize: 10,
+      fontSize: 9,
       color: colors.textTertiary,
       flex: 1,
     },
   });
 
   return (
-    <View style={styles.container}>
+    <View>
       <Text style={styles.title}>CORE COMPETENCIES</Text>
       <View style={styles.skillsGrid}>
         <View style={styles.skillCategory}>

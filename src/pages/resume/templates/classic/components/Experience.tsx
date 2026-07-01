@@ -9,20 +9,16 @@ interface props {
 
 export default function Experience({ data, colors }: props) {
   const styles = StyleSheet.create({
-    container: {
-      marginBottom: 32,
-    },
     title: {
-      fontSize: 14,
-      fontWeight: "bold",
+      fontSize: 12,
       fontFamily: "Times-Bold",
-      color: colors.black,
-      paddingBottom: 8,
-      marginBottom: 16,
-      borderBottom: `2px solid ${colors.black}`,
+      color: colors.text,
+      paddingBottom: 4,
+      marginBottom: 4,
+      borderBottom: `1px solid ${colors.rule}`,
     },
     experienceItem: {
-      marginBottom: 20,
+      marginBottom: 4,
     },
     header: {
       display: "flex",
@@ -32,42 +28,42 @@ export default function Experience({ data, colors }: props) {
       marginBottom: 4,
     },
     company: {
-      fontSize: 12,
+      fontSize: 10,
       fontFamily: "Times-Bold",
-      color: colors.black,
+      color: colors.text,
     },
     dates: {
-      fontSize: 10,
-      color: colors.black,
+      fontSize: 9,
+      color: colors.text,
     },
     position: {
-      fontSize: 11,
+      fontSize: 9,
       fontFamily: "Times-Italic",
-      color: colors.gray,
-      marginBottom: 12,
+      color: colors.text,
+      marginBottom: 4,
     },
     responsibility: {
-      fontSize: 10,
-      color: colors.black,
-      marginBottom: 6,
+      fontSize: 9,
+      color: colors.text,
+      marginBottom: 2,
       display: "flex",
       flexDirection: "row",
       alignItems: "flex-start",
-      lineHeight: 1.5,
+      lineHeight: 1.25,
     },
     bullet: {
-      width: 6,
-      height: 6,
-      borderRadius: 3,
-      backgroundColor: colors.black,
-      marginRight: 8,
-      marginTop: 4,
+      width: 4,
+      height: 4,
+      borderRadius: 2,
+      backgroundColor: colors.text,
+      marginRight: 3,
+      marginTop: 2,
     },
   });
 
   return (
-    <View wrap={false} style={styles.container}>
-      <Text style={styles.title}>Experience</Text>
+    <View>
+      <Text style={styles.title}>Work Experience</Text>
       {data.map((exp, index) => (
         <View key={index} style={styles.experienceItem}>
           <View style={styles.header}>

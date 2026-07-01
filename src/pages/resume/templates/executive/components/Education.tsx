@@ -9,69 +9,66 @@ interface props {
 
 export default function Education({ data, colors }: props) {
   const styles = StyleSheet.create({
-    container: {
-      marginBottom: 32,
-    },
     title: {
-      fontSize: 16,
+      fontSize: 12,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
-      marginBottom: 24,
+      marginBottom: 8,
       textTransform: "uppercase",
       letterSpacing: 1,
       borderBottom: `2px solid ${colors.border}`,
-      paddingBottom: 8,
+      paddingBottom: 4,
     },
     educationItem: {
-      marginBottom: 24,
+      marginBottom: 4,
       display: "flex",
       flexDirection: "row",
-      gap: 16,
+      gap: 5,
     },
     iconCircle: {
-      width: 48,
-      height: 48,
+      width: 18,
+      height: 18,
       backgroundColor: colors.accent,
-      borderRadius: 24,
+      borderRadius: 9,
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
     },
     icon: {
-      fontSize: 20,
+      fontSize: 12,
       color: colors.white,
     },
     content: {
       flex: 1,
     },
     degree: {
-      fontSize: 12,
+      fontSize: 10,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
-      marginBottom: 4,
+      marginBottom: 2,
     },
     field: {
-      fontSize: 11,
+      fontSize: 9,
       color: colors.textSecondary,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
-      marginBottom: 4,
+      marginBottom: 2,
     },
     university: {
-      fontSize: 10,
+      fontSize: 9,
       color: colors.textTertiary,
-      marginBottom: 4,
+      marginBottom: 2,
     },
     dates: {
-      fontSize: 9,
+      fontSize: 8,
       color: colors.textLight,
     },
   });
 
   return (
-    <View style={styles.container}>
+    <View wrap={false}>
       <Text style={styles.title}>EDUCATION</Text>
       {data.map((edu, index) => (
         <View key={index} style={styles.educationItem}>

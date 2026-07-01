@@ -9,17 +9,14 @@ interface props {
 
 export default function PersonalInfo({ data, colors }: props) {
   const styles = StyleSheet.create({
-    container: {
-      marginBottom: 32,
-    },
     name: {
-      fontSize: 28,
+      fontSize: 24,
       fontWeight: "bold",
       fontFamily: "Times-Bold",
       textAlign: "center",
       letterSpacing: 3,
-      color: colors.black,
-      marginBottom: 12,
+      color: colors.text,
+      marginBottom: 2,
     },
     contactContainer: {
       display: "flex",
@@ -28,19 +25,19 @@ export default function PersonalInfo({ data, colors }: props) {
       alignItems: "center",
       maxWidth: "70%",
       marginHorizontal: "auto",
-      fontSize: 10,
+      gap: 6,
+      fontSize: 9,
     },
     contactItem: {
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      gap: 12,
-      color: colors.black,
+      color: colors.text,
     },
   });
 
   return (
-    <View wrap={false} style={styles.container}>
+    <View wrap={false}>
       <Text style={styles.name}>{data.fullName}</Text>
       <View style={styles.contactContainer}>
         <Text style={styles.contactItem}>{data.address}</Text>

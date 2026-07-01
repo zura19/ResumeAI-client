@@ -14,29 +14,26 @@ interface props {
 
 export default function Summary({ colors, text }: props) {
   const styles = StyleSheet.create({
-    container: {
-      marginBottom: 24,
-    },
     title: {
-      fontSize: 18,
+      fontSize: 12,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
       marginBottom: 8,
-      borderBottom: `4px solid ${colors.primary}`,
+      borderBottom: `1.5px solid ${colors.primary}`,
       paddingBottom: 4,
       //   display: "inline-block",
     },
     text: {
-      fontSize: 11,
+      fontSize: 9,
       color: colors.secondaryText,
-      lineHeight: 1.6,
-      marginTop: 8,
+      lineHeight: 1.25,
+      marginTop: 0,
     },
   });
 
   return (
-    <View style={styles.container}>
+    <View>
       <Text style={styles.title}>About Me</Text>
       <Text style={styles.text}>{text}</Text>
     </View>
