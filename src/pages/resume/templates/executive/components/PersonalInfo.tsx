@@ -12,6 +12,8 @@ export default function PersonalInfo({ data, colors }: props) {
     container: {
       backgroundColor: colors.primary,
       padding: 18,
+      marginTop: -16,
+      marginHorizontal: -16,
       color: colors.white,
       borderBottom: `2px solid ${colors.accent}`,
     },

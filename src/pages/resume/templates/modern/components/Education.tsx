@@ -58,7 +58,7 @@ export default function Education({ data, colors }: props) {
   });
 
   return (
-    <View>
+    <View wrap={false}>
       <Text style={styles.title}>EDUCATION</Text>
       {data.map((edu, index) => (
         <View key={index} style={styles.educationItem}>

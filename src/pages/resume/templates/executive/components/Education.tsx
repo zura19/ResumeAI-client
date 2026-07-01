@@ -68,10 +68,10 @@ export default function Education({ data, colors }: props) {
   });
 
   return (
-    <View>
+    <View wrap={false}>
       <Text style={styles.title}>EDUCATION</Text>
       {data.map((edu, index) => (
-        <View wrap={false} key={index} style={styles.educationItem}>
+        <View key={index} style={styles.educationItem}>
           <View style={styles.iconCircle}>
             {/* <Text style={styles.icon}>🎓</Text> */}
           </View>

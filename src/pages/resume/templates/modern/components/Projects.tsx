@@ -73,7 +73,7 @@ export default function Projects({ data, colors }: props) {
     <View>
       <Text style={styles.title}>PROJECTS</Text>
       {data.map((project, index) => (
-        <View key={index} style={styles.projectItem}>
+        <View wrap={false} key={index} style={styles.projectItem}>
           <Text style={styles.projectTitle}>{project.title}</Text>
 
           <View style={styles.techSection}>

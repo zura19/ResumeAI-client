@@ -13,6 +13,8 @@ export default function PersonalInfo({ data, colors }: props) {
       // background: `linear-gradient(to right, ${colors.primary}, ${colors.accent})`,
       backgroundColor: colors.accent,
       padding: 16,
+      marginTop: -16,
+      marginHorizontal: -16,
       color: colors.background,
     },
     name: {

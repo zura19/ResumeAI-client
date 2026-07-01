@@ -77,7 +77,7 @@ export default function Projects({ data, colors }: props) {
     <View>
       <Text style={styles.title}>KEY INITIATIVES & PROJECTS</Text>
       {data.map((project, index) => (
-        <View key={index} style={styles.projectItem}>
+        <View wrap={false} key={index} style={styles.projectItem}>
           <View style={styles.projectHeader}>
             {/* <Text style={{ fontSize: 16 }}>🏆</Text> */}
             <Text style={styles.projectTitle}>{project.title}</Text>

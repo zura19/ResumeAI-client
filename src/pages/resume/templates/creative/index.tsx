@@ -30,6 +30,7 @@ export default function ResumeCreative({ resumeData }: props) {
 
   const styles = StyleSheet.create({
     page: {
+      padding: 16,
       backgroundColor: colors.background,
       fontFamily: "Helvetica",
       display: "flex",
@@ -37,7 +38,7 @@ export default function ResumeCreative({ resumeData }: props) {
       gap: 6,
     },
     content: {
-      padding: 16,
+      // padding: 16,
       display: "flex",
       flexDirection: "column",
       gap: 8,

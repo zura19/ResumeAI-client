@@ -44,7 +44,7 @@ interface props {
 export default function ResumeExecutive({ resumeData }: props) {
   const styles = StyleSheet.create({
     page: {
-      // padding: 18,
+      padding: 16,
       backgroundColor: colors.white,
       fontFamily: "Helvetica",
       display: "flex",
@@ -52,7 +52,7 @@ export default function ResumeExecutive({ resumeData }: props) {
       gap: 6,
     },
     content: {
-      padding: 16,
+      // padding: 16,
       display: "flex",
       flexDirection: "column",
       gap: 12,
