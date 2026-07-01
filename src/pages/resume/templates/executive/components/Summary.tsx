@@ -8,8 +8,7 @@ interface props {
 
 export default function Summary({ text, colors }: props) {
   const styles = StyleSheet.create({
-    container: {
-      marginBottom: 12,
+    section: {
       paddingLeft: 10,
       borderLeft: `2px solid ${colors.accent}`,
     },
@@ -18,7 +17,7 @@ export default function Summary({ text, colors }: props) {
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
-      marginBottom: 7,
+      marginBottom: 4,
       textTransform: "uppercase",
       letterSpacing: 1,
     },
@@ -30,7 +29,7 @@ export default function Summary({ text, colors }: props) {
   });
 
   return (
-    <View style={styles.container}>
+    <View style={styles.section}>
       <Text style={styles.title}>EXECUTIVE SUMMARY</Text>
       <Text style={styles.text}>{text}</Text>
     </View>

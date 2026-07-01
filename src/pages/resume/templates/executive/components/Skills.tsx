@@ -9,11 +9,8 @@ interface props {
 
 export default function Skills({ data, colors }: props) {
   const styles = StyleSheet.create({
-    container: {
-      marginBottom: 12,
-    },
     title: {
-      fontSize: 13,
+      fontSize: 12,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
@@ -21,12 +18,12 @@ export default function Skills({ data, colors }: props) {
       textTransform: "uppercase",
       letterSpacing: 1,
       borderBottom: `2px solid ${colors.border}`,
-      paddingBottom: 5,
+      paddingBottom: 4,
     },
     skillsGrid: {
       display: "flex",
       flexDirection: "row",
-      gap: 10,
+      gap: 6,
     },
     skillCategory: {
       flex: 1,
@@ -35,9 +32,9 @@ export default function Skills({ data, colors }: props) {
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      gap: 6,
-      marginBottom: 7,
-      paddingBottom: 6,
+      gap: 4,
+      marginBottom: 4,
+      paddingBottom: 4,
       borderBottom: `1px solid ${colors.accent}`,
     },
     categoryIcon: {
@@ -54,14 +51,15 @@ export default function Skills({ data, colors }: props) {
       display: "flex",
       flexDirection: "row",
       alignItems: "flex-start",
-      gap: 5,
-      marginBottom: 5,
+      gap: 3,
+      marginBottom: 2,
     },
     skillBullet: {
       color: colors.accent,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       fontSize: 9,
+      marginRight: 4,
       marginTop: 2,
     },
     skillText: {
@@ -72,7 +70,7 @@ export default function Skills({ data, colors }: props) {
   });
 
   return (
-    <View style={styles.container}>
+    <View>
       <Text style={styles.title}>CORE COMPETENCIES</Text>
       <View style={styles.skillsGrid}>
         <View style={styles.skillCategory}>

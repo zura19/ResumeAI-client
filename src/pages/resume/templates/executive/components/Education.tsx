@@ -9,11 +9,8 @@ interface props {
 
 export default function Education({ data, colors }: props) {
   const styles = StyleSheet.create({
-    container: {
-      marginBottom: 12,
-    },
     title: {
-      fontSize: 13,
+      fontSize: 12,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
@@ -21,13 +18,13 @@ export default function Education({ data, colors }: props) {
       textTransform: "uppercase",
       letterSpacing: 1,
       borderBottom: `2px solid ${colors.border}`,
-      paddingBottom: 5,
+      paddingBottom: 4,
     },
     educationItem: {
-      marginBottom: 9,
+      marginBottom: 4,
       display: "flex",
       flexDirection: "row",
-      gap: 7,
+      gap: 5,
     },
     iconCircle: {
       width: 18,
@@ -50,19 +47,19 @@ export default function Education({ data, colors }: props) {
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
-      marginBottom: 4,
+      marginBottom: 2,
     },
     field: {
       fontSize: 9,
       color: colors.textSecondary,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
-      marginBottom: 4,
+      marginBottom: 2,
     },
     university: {
       fontSize: 9,
       color: colors.textTertiary,
-      marginBottom: 4,
+      marginBottom: 2,
     },
     dates: {
       fontSize: 8,
@@ -71,10 +68,10 @@ export default function Education({ data, colors }: props) {
   });
 
   return (
-    <View style={styles.container}>
+    <View>
       <Text style={styles.title}>EDUCATION</Text>
       {data.map((edu, index) => (
-        <View key={index} style={styles.educationItem}>
+        <View wrap={false} key={index} style={styles.educationItem}>
           <View style={styles.iconCircle}>
             {/* <Text style={styles.icon}>🎓</Text> */}
           </View>

@@ -33,8 +33,6 @@ export default function ResumeWrapper({
 }: props) {
   function renderResume() {
     if (!resume) return;
-
-    // const fakeType = "creative";
     switch (type) {
       case "classic":
         return <ResumeClassic resumeData={resume} />;

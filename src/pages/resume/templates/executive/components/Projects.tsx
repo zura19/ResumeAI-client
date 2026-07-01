@@ -9,12 +9,8 @@ interface props {
 
 export default function Projects({ data, colors }: props) {
   const styles = StyleSheet.create({
-    container: {
-      marginTop: 11,
-      marginBottom: 12,
-    },
     title: {
-      fontSize: 13,
+      fontSize: 12,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
@@ -22,11 +18,11 @@ export default function Projects({ data, colors }: props) {
       textTransform: "uppercase",
       letterSpacing: 1,
       borderBottom: `2px solid ${colors.border}`,
-      paddingBottom: 5,
+      paddingBottom: 4,
     },
     projectItem: {
-      marginBottom: 9,
-      padding: 9,
+      marginBottom: 4,
+      padding: 5,
       backgroundColor: colors.backgroundLight,
       border: `1px solid ${colors.border}`,
       borderRadius: 4,
@@ -34,7 +30,7 @@ export default function Projects({ data, colors }: props) {
     projectHeader: {
       display: "flex",
       flexDirection: "row",
-      gap: 6,
+      gap: 4,
       // marginBottom: 12,
     },
     projectTitle: {
@@ -44,8 +40,8 @@ export default function Projects({ data, colors }: props) {
       color: colors.text,
     },
     section: {
-      marginTop: 7,
-      paddingTop: 7,
+      marginTop: 4,
+      paddingTop: 4,
       borderTop: `1px solid ${colors.borderAccent}`,
     },
     sectionLabel: {
@@ -53,20 +49,20 @@ export default function Projects({ data, colors }: props) {
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.textSecondary,
-      marginBottom: 5,
+      marginBottom: 2,
     },
     feature: {
       fontSize: 9,
       color: colors.textSecondary,
-      marginBottom: 4,
-      paddingLeft: 8,
+      marginBottom: 2,
+      paddingLeft: 5,
     },
     techContainer: {
       display: "flex",
       flexDirection: "row",
       flexWrap: "wrap",
-      gap: 5,
-      marginTop: 5,
+      gap: 3,
+      marginTop: 3,
     },
     techBadge: {
       backgroundColor: colors.primary,
@@ -78,7 +74,7 @@ export default function Projects({ data, colors }: props) {
   });
 
   return (
-    <View style={styles.container}>
+    <View>
       <Text style={styles.title}>KEY INITIATIVES & PROJECTS</Text>
       {data.map((project, index) => (
         <View key={index} style={styles.projectItem}>
@@ -99,7 +95,7 @@ export default function Projects({ data, colors }: props) {
           <View
             style={[
               styles.section,
-              { borderTop: "none", marginTop: 6, paddingTop: 0 },
+              { borderTop: "none", marginTop: 4, paddingTop: 0 },
             ]}
           >
             <Text style={styles.sectionLabel}>Technologies:</Text>

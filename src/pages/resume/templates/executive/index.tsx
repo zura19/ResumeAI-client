@@ -44,23 +44,30 @@ interface props {
 export default function ResumeExecutive({ resumeData }: props) {
   const styles = StyleSheet.create({
     page: {
+      // padding: 18,
       backgroundColor: colors.white,
       fontFamily: "Helvetica",
+      display: "flex",
+      flexDirection: "column",
+      gap: 6,
+    },
+    content: {
+      padding: 16,
+      display: "flex",
+      flexDirection: "column",
+      gap: 12,
     },
   });
   return (
     <Document>
       <Page size="A4" style={styles.page}>
         <PersonalInfo colors={colors} data={resumeData.personalInfo} />
-        <View style={{ padding: 18 }}>
+        <View style={styles.content}>
           <Summary colors={colors} text={resumeData.summary} />
+          <Skills colors={colors} data={resumeData.skills} />
           <Experience colors={colors} data={resumeData.experience} />
           <Projects colors={colors} data={resumeData.projects} />
-          {/* <View style={{ marginTop: "24px" }}> */}
-          {/* </View> */}
           <Education colors={colors} data={resumeData.education} />
-
-          <Skills colors={colors} data={resumeData.skills} />
         </View>
       </Page>
     </Document>
