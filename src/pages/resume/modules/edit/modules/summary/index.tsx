@@ -1,12 +1,11 @@
 import FormButton from "@/components/shared/FormButton";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import useEditResume from "@/lib/hooks/useEditResume";
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 import { SparklesIcon } from "lucide-react";
-import { useState } from "react";
 import { motion } from "framer-motion";
 import SaveAlert from "../../components/SaveAlert";
+import useEditSummaryAction from "@/pages/resume/hooks/actions/useEditSummaryAction";
 
 interface props {
   resumeData: AiGeneratedResume;
@@ -15,24 +14,19 @@ interface props {
 }
 
 export default function Summary({ resumeData, id, generatedResumeId }: props) {
-  const [summary, setSummary] = useState(resumeData.summary || "");
-  const isChanged = summary !== resumeData.summary;
-  const { editResume, isPending, isUpdatingSummary, updateSummary } =
-    useEditResume(id, generatedResumeId);
-
-  async function handleSave(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    if (!summary) return;
-    const dataToSend = { ...resumeData, summary };
-    await editResume(dataToSend);
-  }
-
-  async function handleGenerateWithAI() {
-    console.log(resumeData);
-    const res = await updateSummary({ ...resumeData });
-    console.log(res);
-    setSummary(res.summary);
-  }
+  const {
+    summary,
+    setSummary,
+    isChanged,
+    isPending,
+    isUpdatingSummary,
+    handleSave,
+    handleGenerateWithAI,
+  } = useEditSummaryAction({
+    resumeData,
+    id,
+    generatedResumeId,
+  });
 
   return (
     <form onSubmit={handleSave} className=" space-y-4">
