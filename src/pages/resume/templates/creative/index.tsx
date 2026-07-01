@@ -32,6 +32,15 @@ export default function ResumeCreative({ resumeData }: props) {
     page: {
       backgroundColor: colors.background,
       fontFamily: "Helvetica",
+      display: "flex",
+      flexDirection: "column",
+      gap: 6,
+    },
+    content: {
+      padding: 16,
+      display: "flex",
+      flexDirection: "column",
+      gap: 8,
     },
   });
 
@@ -39,15 +48,12 @@ export default function ResumeCreative({ resumeData }: props) {
     <Document>
       <Page size="A4" style={styles.page}>
         <PersonalInfo colors={colors} data={resumeData.personalInfo} />
-        <View style={{ padding: 16 }}>
+        <View style={styles.content}>
           <Summary colors={colors} text={resumeData.summary} />
+          <Skills colors={colors} data={resumeData.skills} />
           <Experience colors={colors} data={resumeData.experience} />
           <Projects colors={colors} data={resumeData.projects} />
-          <View style={{ marginTop: 6 }}>
-            <Education colors={colors} data={resumeData.education} />
-          </View>
-
-          <Skills colors={colors} data={resumeData.skills} />
+          <Education colors={colors} data={resumeData.education} />
         </View>
       </Page>
     </Document>

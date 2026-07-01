@@ -25,7 +25,7 @@ export default function Projects({ data, colors }: props) {
       fontSize: 10,
       fontFamily: "Times-Bold",
       color: colors.black,
-      marginBottom: 2,
+      marginBottom: 1,
     },
     technologies: {
       fontSize: 9,

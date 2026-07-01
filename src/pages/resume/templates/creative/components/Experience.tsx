@@ -1,5 +1,4 @@
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
-import type { Experience } from "@/lib/types/buildResumeTypes";
 import type { ICreativeColors } from "..";
 import { StyleSheet } from "@react-pdf/renderer";
 import { Text, View } from "@react-pdf/renderer";
@@ -11,21 +10,18 @@ interface props {
 
 export function Experience({ data, colors }: props) {
   const styles = StyleSheet.create({
-    container: {
-      marginBottom: 10,
-    },
     title: {
-      fontSize: 15,
+      fontSize: 12,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
-      marginBottom: 7,
-      borderBottom: `2px solid ${colors.primary}`,
+      marginBottom: 8,
+      borderBottom: `1.5px solid ${colors.primary}`,
       paddingBottom: 4,
     },
     experienceItem: {
-      marginBottom: 9,
-      paddingLeft: 9,
+      marginBottom: 6,
+      paddingLeft: 6,
       borderLeft: `2px solid ${colors.accent}`,
       position: "relative",
     },
@@ -34,7 +30,7 @@ export function Experience({ data, colors }: props) {
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
-      marginBottom: 4,
+      marginBottom: 2,
     },
     company: {
       fontSize: 9,
@@ -45,19 +41,19 @@ export function Experience({ data, colors }: props) {
     dates: {
       fontSize: 8,
       color: colors.secondaryText,
-      marginTop: 2,
-      marginBottom: 5,
+      marginTop: 1,
+      marginBottom: 3,
     },
     responsibility: {
       fontSize: 9,
       color: colors.secondaryText,
-      marginBottom: 4,
+      marginBottom: 2,
       paddingLeft: 0,
     },
   });
 
   return (
-    <View style={styles.container}>
+    <View>
       <Text style={styles.title}>Experience</Text>
       {data.map((exp, index) => (
         <View key={index} style={styles.experienceItem}>

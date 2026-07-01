@@ -9,22 +9,19 @@ interface props {
 
 export default function Skills({ data, colors }: props) {
   const styles = StyleSheet.create({
-    container: {
-      marginBottom: 10,
-    },
     title: {
-      fontSize: 15,
+      fontSize: 12,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
-      marginBottom: 7,
-      borderBottom: `2px solid ${colors.primary}`,
+      marginBottom: 8,
+      borderBottom: `1.5px solid ${colors.primary}`,
       paddingBottom: 4,
     },
     skillsGrid: {
       display: "flex",
       flexDirection: "row",
-      gap: 7,
+      gap: 6,
     },
     skillCategory: {
       flex: 1,
@@ -34,17 +31,17 @@ export default function Skills({ data, colors }: props) {
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
-      marginBottom: 5,
+      marginBottom: 4,
     },
     skillsContainer: {
       display: "flex",
       flexDirection: "row",
       flexWrap: "wrap",
-      gap: 4,
+      gap: 3,
     },
     skillBadge: {
-      borderRadius: 4,
-      padding: "3px 6px",
+      borderRadius: 3,
+      padding: "2px 5px",
       fontSize: 8,
     },
     softSkill: {
@@ -62,7 +59,7 @@ export default function Skills({ data, colors }: props) {
   });
 
   return (
-    <View style={styles.container}>
+    <View>
       <Text style={styles.title}>Skills</Text>
       <View style={styles.skillsGrid}>
         <View style={styles.skillCategory}>

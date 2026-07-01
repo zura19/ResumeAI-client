@@ -10,7 +10,7 @@ interface props {
 export default function PersonalInfo({ data, colors }: props) {
   const styles = StyleSheet.create({
     container: {
-      //   background: `linear-gradient(to right, ${colors.primary}, ${colors.accent})`,
+      // background: `linear-gradient(to right, ${colors.primary}, ${colors.accent})`,
       backgroundColor: colors.accent,
       padding: 16,
       color: colors.background,
@@ -18,7 +18,7 @@ export default function PersonalInfo({ data, colors }: props) {
     name: {
       fontSize: 24,
       fontWeight: "bold",
-      marginBottom: 9,
+      marginBottom: 6,
       fontFamily: "Helvetica-Bold",
     },
     contactGrid: {

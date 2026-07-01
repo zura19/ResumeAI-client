@@ -9,55 +9,52 @@ interface props {
 
 export default function Projects({ data, colors }: props) {
   const styles = StyleSheet.create({
-    container: {
-      marginBottom: 10,
-    },
     title: {
-      fontSize: 15,
+      fontSize: 12,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
-      marginBottom: 7,
-      borderBottom: `2px solid ${colors.primary}`,
+      marginBottom: 8,
+      borderBottom: `1.5px solid ${colors.primary}`,
       paddingBottom: 4,
     },
     projectItem: {
-      marginBottom: 7,
-      padding: 6,
+      marginBottom: 6,
+      padding: 5,
       border: `1px solid ${colors.accent}`,
-      borderRadius: 4,
+      borderRadius: 3,
     },
     projectTitle: {
       fontSize: 10,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
-      marginBottom: 5,
+      marginBottom: 2,
     },
     feature: {
       fontSize: 9,
       color: colors.secondaryText,
-      marginBottom: 4,
+      marginBottom: 2,
       paddingLeft: 0,
     },
     techContainer: {
       display: "flex",
       flexDirection: "row",
       flexWrap: "wrap",
-      gap: 4,
-      marginTop: 5,
+      gap: 3,
+      marginTop: 3,
     },
     techBadge: {
       backgroundColor: "#06b5d44f",
       color: colors.secondaryText,
-      borderRadius: 6,
-      padding: "3px 6px",
+      borderRadius: 4,
+      padding: "2px 5px",
       fontSize: 8,
     },
   });
 
   return (
-    <View style={styles.container}>
+    <View>
       <Text style={styles.title}>Projects</Text>
       {data.map((project, index) => (
         <View key={index} style={styles.projectItem}>
