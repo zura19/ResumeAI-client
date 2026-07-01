@@ -12,11 +12,11 @@ export default function Skills({ data, colors }: props) {
     title: {
       fontSize: 12,
       fontWeight: "bold",
-      fontFamily: "Times-Bold",
-      color: colors.black,
+      // fontFamily: "ClassicSerif",
+      color: colors.text,
       paddingBottom: 4,
       marginBottom: 4,
-      borderBottom: `2px solid ${colors.black}`,
+      borderBottom: `1px solid ${colors.rule}`,
     },
     skillRow: {
       display: "flex",
@@ -26,15 +26,16 @@ export default function Skills({ data, colors }: props) {
     },
     label: {
       fontSize: 9,
-      fontFamily: "Times-Bold",
-      color: colors.black,
+      // fontFamily: "ClassicSerif",
+      fontWeight: "bold",
+      color: colors.text,
       width: 78,
       flexShrink: 0,
     },
     skillList: {
       fontSize: 9,
-      fontFamily: "Times-Italic",
-      color: colors.black,
+      // fontFamily: "ClassicSerif",
+      color: colors.text,
       flex: 1,
       lineHeight: 1.25,
     },
@@ -42,7 +43,7 @@ export default function Skills({ data, colors }: props) {
 
   return (
     <View>
-      <Text style={styles.title}>Skills</Text>
+      <Text style={styles.title}>Technical Skills</Text>
 
       <View style={styles.skillRow}>
         <Text style={styles.label}>Soft Skills:</Text>

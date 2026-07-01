@@ -12,10 +12,10 @@ export default function Experience({ data, colors }: props) {
     title: {
       fontSize: 12,
       fontFamily: "Times-Bold",
-      color: colors.black,
+      color: colors.text,
       paddingBottom: 4,
       marginBottom: 4,
-      borderBottom: `1.5px solid ${colors.black}`,
+      borderBottom: `1px solid ${colors.rule}`,
     },
     experienceItem: {
       marginBottom: 4,
@@ -30,21 +30,21 @@ export default function Experience({ data, colors }: props) {
     company: {
       fontSize: 10,
       fontFamily: "Times-Bold",
-      color: colors.black,
+      color: colors.text,
     },
     dates: {
       fontSize: 9,
-      color: colors.black,
+      color: colors.text,
     },
     position: {
       fontSize: 9,
       fontFamily: "Times-Italic",
-      color: colors.black,
+      color: colors.text,
       marginBottom: 4,
     },
     responsibility: {
       fontSize: 9,
-      color: colors.black,
+      color: colors.text,
       marginBottom: 2,
       display: "flex",
       flexDirection: "row",
@@ -55,7 +55,7 @@ export default function Experience({ data, colors }: props) {
       width: 4,
       height: 4,
       borderRadius: 2,
-      backgroundColor: colors.black,
+      backgroundColor: colors.text,
       marginRight: 3,
       marginTop: 2,
     },
@@ -63,7 +63,7 @@ export default function Experience({ data, colors }: props) {
 
   return (
     <View>
-      <Text style={styles.title}>Experience</Text>
+      <Text style={styles.title}>Work Experience</Text>
       {data.map((exp, index) => (
         <View key={index} style={styles.experienceItem}>
           <View style={styles.header}>

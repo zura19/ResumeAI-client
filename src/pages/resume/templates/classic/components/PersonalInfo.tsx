@@ -15,7 +15,7 @@ export default function PersonalInfo({ data, colors }: props) {
       fontFamily: "Times-Bold",
       textAlign: "center",
       letterSpacing: 3,
-      color: colors.black,
+      color: colors.text,
       marginBottom: 2,
     },
     contactContainer: {
@@ -32,7 +32,7 @@ export default function PersonalInfo({ data, colors }: props) {
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      color: colors.black,
+      color: colors.text,
     },
   });
 

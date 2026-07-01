@@ -33,7 +33,8 @@ export default function ResumeWrapper({
 }: props) {
   function renderResume() {
     if (!resume) return;
-    switch (type) {
+    const tempType = "classic" as ResumeType;
+    switch (tempType) {
       case "classic":
         return <ResumeClassic resumeData={resume} />;
       case "modern":

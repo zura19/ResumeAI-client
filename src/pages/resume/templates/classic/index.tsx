@@ -11,11 +11,15 @@ import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 export interface ClassicColors {
   black: string;
   white: string;
+  text: string;
+  rule: string;
 }
 
 const colors: ClassicColors = {
   black: "#000000",
   white: "#ffffff",
+  text: "#000000",
+  rule: "#000000",
 };
 
 const styles = StyleSheet.create({

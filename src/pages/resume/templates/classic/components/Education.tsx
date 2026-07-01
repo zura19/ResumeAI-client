@@ -12,10 +12,10 @@ export default function Education({ data, colors }: props) {
     title: {
       fontSize: 12,
       fontFamily: "Times-Bold",
-      color: colors.black,
+      color: colors.text,
       paddingBottom: 4,
       marginBottom: 4,
-      borderBottom: `2px solid ${colors.black}`,
+      borderBottom: `1px solid ${colors.rule}`,
     },
     educationItem: {
       marginBottom: 4,
@@ -30,15 +30,15 @@ export default function Education({ data, colors }: props) {
     university: {
       fontSize: 10,
       fontFamily: "Times-Bold",
-      color: colors.black,
+      color: colors.text,
     },
     dates: {
       fontSize: 9,
-      color: colors.black,
+      color: colors.text,
     },
     degree: {
       fontSize: 9,
-      color: colors.black,
+      color: colors.text,
     },
   });
 

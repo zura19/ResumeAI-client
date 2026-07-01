@@ -11,11 +11,9 @@ export default function Summary({ text }: props) {
     text: {
       fontSize: 9,
       lineHeight: 1.25,
-      // color: "#333",
-      // fontFamily: "Times-Bold",
+      fontFamily: "Times-Roman",
       textAlign: "justify",
       fontWeight: "",
-      //   fontWeight: "Regular",
     },
   });
 
