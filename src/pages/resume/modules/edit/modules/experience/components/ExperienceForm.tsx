@@ -3,8 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
-import { useState } from "react";
 import ResponsebilitiesField from "./ResponsebilitiesField";
+import useExperienceForm from "@/pages/resume/hooks/actions/experience/useExperienceForm";
 
 interface props {
   session: "edit" | "create";
@@ -14,9 +14,6 @@ interface props {
   exp?: AiGeneratedResume["experience"][0];
 }
 
-const convertStrToTime = (str: string) => new Date(str.replaceAll("/", "-"));
-const timeToStr = (time: Date) => time.toLocaleDateString();
-
 export default function ExperienceForm({
   exp,
   session,
@@ -24,53 +21,28 @@ export default function ExperienceForm({
   addExperience,
   editExperience,
 }: props) {
-  const [company, setCompany] = useState(exp?.company || "");
-  const [position, setPosition] = useState(exp?.position || "");
-  const [responsibilities, setResponsibilities] = useState(
-    exp?.responsibilities || []
-  );
-
-  const [startDate, setStartDate] = useState(
-    exp?.startDate
-      ? convertStrToTime(exp.startDate)
-      : new Date(new Date().getTime() - 2 * 365 * 24 * 60 * 60 * 1000)
-  );
-  const [endDate, setEndDate] = useState(
-    exp?.endDate ? convertStrToTime(exp.endDate) : new Date()
-  );
-  const [stillWorking, setStillWorking] = useState(
-    exp?.endDate === "Present" ? true : false
-  );
-
-  function dissabled() {
-    if (!company || !position || !responsibilities.length || !startDate)
-      return true;
-    if (endDate.getTime() < startDate.getTime()) return true;
-
-    return false;
-  }
-
-  function handleSubmit() {
-    if (session === "create" && addExperience) {
-      addExperience({
-        company,
-        position,
-        responsibilities,
-        startDate: timeToStr(startDate),
-        endDate: stillWorking ? "Present" : timeToStr(endDate),
-      });
-    } else if (session === "edit" && editExperience) {
-      editExperience({
-        company,
-        position,
-        responsibilities,
-        startDate: timeToStr(startDate),
-        endDate: stillWorking ? "Present" : timeToStr(endDate),
-      });
-    }
-
-    handleClose();
-  }
+  const {
+    company,
+    setCompany,
+    position,
+    setPosition,
+    responsibilities,
+    setResponsibilities,
+    startDate,
+    setStartDate,
+    endDate,
+    setEndDate,
+    stillWorking,
+    setStillWorking,
+    isDisabled,
+    handleSubmit,
+  } = useExperienceForm({
+    exp,
+    session,
+    handleClose,
+    addExperience,
+    editExperience,
+  });
 
   return (
     <div className="overflow-scroll h-[490px]  flex flex-col  gap-7 px-1">
@@ -155,7 +127,7 @@ export default function ExperienceForm({
           )}
         </div>
       </div>
-      <Button onClick={handleSubmit} disabled={dissabled()} className="w-full">
+      <Button onClick={handleSubmit} disabled={isDisabled()} className="w-full">
         {session === "edit" ? "Save" : "Add Experience"}
       </Button>
     </div>
