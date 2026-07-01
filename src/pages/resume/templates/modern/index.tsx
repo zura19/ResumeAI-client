@@ -36,6 +36,18 @@ interface props {
 }
 
 export default function ResumeModern({ resumeData }: props) {
+  const hasPersonalInfo = Object.values(resumeData.personalInfo).some((value) =>
+    value.trim()
+  );
+  const hasSummary = resumeData.summary.trim().length > 0;
+  const hasSkills =
+    resumeData.skills.soft.length > 0 ||
+    resumeData.skills.technical.length > 0 ||
+    resumeData.skills.languages.length > 0;
+  const hasExperience = resumeData.experience.length > 0;
+  const hasProjects = resumeData.projects.length > 0;
+  const hasEducation = resumeData.education.length > 0;
+
   const styles = StyleSheet.create({
     page: {
       backgroundColor: colors.background,
@@ -49,12 +61,18 @@ export default function ResumeModern({ resumeData }: props) {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        <PersonalInfo colors={colors} data={resumeData.personalInfo} />
-        <Summary colors={colors} text={resumeData.summary} />
-        <Skills colors={colors} data={resumeData.skills} />
-        <Experience colors={colors} data={resumeData.experience} />
-        <Projects colors={colors} data={resumeData.projects} />
-        <Education colors={colors} data={resumeData.education} />
+        {hasPersonalInfo && (
+          <PersonalInfo colors={colors} data={resumeData.personalInfo} />
+        )}
+        {hasSummary && <Summary colors={colors} text={resumeData.summary} />}
+        {hasSkills && <Skills colors={colors} data={resumeData.skills} />}
+        {hasExperience && (
+          <Experience colors={colors} data={resumeData.experience} />
+        )}
+        {hasProjects && <Projects colors={colors} data={resumeData.projects} />}
+        {hasEducation && (
+          <Education colors={colors} data={resumeData.education} />
+        )}
       </Page>
     </Document>
   );
