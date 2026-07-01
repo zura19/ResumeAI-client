@@ -1,11 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { generateFeatureService } from "@/lib/services/ai/generateFeatureService";
-import { useMutation } from "@tanstack/react-query";
 import { Loader, Plus, Sparkles, X } from "lucide-react";
-import { useState } from "react";
-import { toast } from "sonner";
+import useGenerateFeature from "@/pages/resume/hooks/actions/projects/useGenerateFeature";
 
 interface props {
   title: string;
@@ -19,15 +16,18 @@ export default function FeaturesField({
   title,
   technologies,
 }: props) {
-  const [feat, setFeat] = useState<string>("");
-
-  const { mutateAsync: generate, isPending: isGenerating } = useMutation({
-    mutationFn: async () =>
-      await generateFeatureService({ title, technologies, features }),
-    onSuccess: (data) => {
-      setFeat(data.data.feature);
-    },
-    onError: (error) => toast.error(error.message || "Failed to generate"),
+  const {
+    feature,
+    setFeature,
+    generateFeature,
+    isGenerating,
+    addFeature,
+    removeFeature,
+  } = useGenerateFeature({
+    title,
+    technologies,
+    features,
+    setFeatures,
   });
 
   return (
@@ -37,19 +37,16 @@ export default function FeaturesField({
       </Label>
       <Input
         className="resize-none"
-        value={feat}
-        onChange={(e) => setFeat(e.target.value)}
+        value={feature}
+        onChange={(e) => setFeature(e.target.value)}
         name="features"
         id="features"
         placeholder="Describe your feature here..."
       />
-      {feat ? (
+      {feature ? (
         <Button
           disabled={features.length >= 5}
-          onClick={() => {
-            setFeatures((prev) => [...prev, feat]);
-            setFeat("");
-          }}
+          onClick={addFeature}
           size={"icon-sm"}
           className="absolute top-0  right-2 translate-y-[115%] size-6 rounded-full"
         >
@@ -57,7 +54,7 @@ export default function FeaturesField({
         </Button>
       ) : (
         <Button
-          onClick={() => generate()}
+          onClick={() => generateFeature()}
           disabled={features.length >= 5 || isGenerating || !title}
           variant={"default"}
           className="absolute top-0 text-xs right-2 translate-y-[115%] h-6 rounded-full"
@@ -85,9 +82,7 @@ export default function FeaturesField({
                 size={"icon-sm"}
                 variant={"destructive"}
                 className="size-5 rounded-full"
-                onClick={() =>
-                  setFeatures(features.filter((_, index) => index !== i))
-                }
+                onClick={() => removeFeature(i)}
               >
                 <X className="size-3" />
               </Button>

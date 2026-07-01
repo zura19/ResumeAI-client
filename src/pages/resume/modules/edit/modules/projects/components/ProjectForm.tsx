@@ -2,9 +2,9 @@ import FormButton from "@/components/shared/FormButton";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
-import { useState } from "react";
 import FeaturesField from "./FeaturesField";
 import TechnologiesField from "./TechnologiesField";
+import useProjectForm from "@/pages/resume/hooks/actions/projects/useProjectForm";
 
 interface props {
   session: "edit" | "create";
@@ -21,35 +21,22 @@ export default function ProjectForm({
   editProject,
   proj,
 }: props) {
-  const [title, setTitle] = useState<string>(proj?.title || "");
-  const [features, setFeatures] = useState<string[]>(proj?.features || []);
-  const [technologies, setTechnologies] = useState<string[]>(
-    proj?.technologies || []
-  );
-
-  function dissabled() {
-    if (!title || !features.length || !technologies.length) return true;
-
-    return false;
-  }
-
-  function handleSubmit() {
-    if (session === "create" && addProject) {
-      addProject({
-        title,
-        features,
-        technologies,
-      });
-    } else if (session === "edit" && editProject) {
-      editProject({
-        title,
-        features,
-        technologies,
-      });
-    }
-
-    handleClose();
-  }
+  const {
+    title,
+    setTitle,
+    features,
+    setFeatures,
+    technologies,
+    setTechnologies,
+    isDisabled,
+    handleSubmit,
+  } = useProjectForm({
+    session,
+    handleClose,
+    addProject,
+    editProject,
+    proj,
+  });
 
   return (
     <div className="space-y-6">
@@ -60,9 +47,9 @@ export default function ProjectForm({
         <Input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          name="university"
-          id="university"
-          placeholder="University Name"
+          name="title"
+          id="title"
+          placeholder="Project Title"
         />
       </div>
 
@@ -80,7 +67,7 @@ export default function ProjectForm({
 
       <FormButton
         onClick={handleSubmit}
-        disabled={dissabled()}
+        disabled={isDisabled()}
         className="w-full"
       >
         {session === "edit" ? "Save Project" : "Add Project"}
