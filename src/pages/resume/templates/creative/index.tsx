@@ -33,21 +33,17 @@ export default function ResumeCreative({ resumeData }: props) {
       backgroundColor: colors.background,
       fontFamily: "Helvetica",
     },
-    viewer: {
-      width: "100%",
-      height: "100vh",
-    },
   });
 
   return (
     <Document>
       <Page size="A4" style={styles.page}>
         <PersonalInfo colors={colors} data={resumeData.personalInfo} />
-        <View style={{ padding: 32 }}>
+        <View style={{ padding: 16 }}>
           <Summary colors={colors} text={resumeData.summary} />
           <Experience colors={colors} data={resumeData.experience} />
           <Projects colors={colors} data={resumeData.projects} />
-          <View style={{ marginTop: "24px" }}>
+          <View style={{ marginTop: 6 }}>
             <Education colors={colors} data={resumeData.education} />
           </View>
 

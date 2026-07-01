@@ -11,28 +11,28 @@ export default function PersonalInfo({ data, colors }: props) {
   const styles = StyleSheet.create({
     container: {
       backgroundColor: colors.primary,
-      padding: 40,
+      padding: 18,
       color: colors.white,
-      borderBottom: `4px solid ${colors.accent}`,
+      borderBottom: `2px solid ${colors.accent}`,
     },
     name: {
-      fontSize: 32,
+      fontSize: 26,
       fontWeight: "bold",
-      marginBottom: 32,
+      marginBottom: 11,
       fontFamily: "Helvetica-Bold",
     },
     contactGrid: {
       display: "flex",
       flexDirection: "row",
       flexWrap: "wrap",
-      gap: 24,
-      fontSize: 10,
+      gap: 9,
+      fontSize: 9,
     },
     contactItem: {
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      gap: 8,
+      gap: 5,
     },
     icon: {
       color: colors.accentLight,

@@ -34,7 +34,8 @@ export default function ResumeWrapper({
   function renderResume() {
     if (!resume) return;
 
-    switch (type) {
+    const fakeType = "classic";
+    switch (fakeType) {
       case "classic":
         return <ResumeClassic resumeData={resume} />;
       case "modern":

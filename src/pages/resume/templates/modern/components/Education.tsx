@@ -10,51 +10,51 @@ interface props {
 export default function Education({ data, colors }: props) {
   const styles = StyleSheet.create({
     container: {
-      marginBottom: 32,
+      marginBottom: 12,
     },
     title: {
-      fontSize: 16,
+      fontSize: 13,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
-      marginBottom: 16,
+      marginBottom: 7,
       textTransform: "uppercase",
       letterSpacing: 1,
     },
     educationItem: {
-      marginBottom: 24,
-      paddingLeft: 16,
-      borderLeft: `4px solid ${colors.primary}`,
+      marginBottom: 9,
+      paddingLeft: 8,
+      borderLeft: `2px solid ${colors.primary}`,
     },
     header: {
       display: "flex",
       flexDirection: "row",
       justifyContent: "space-between",
-      marginBottom: 8,
+      marginBottom: 4,
     },
     leftHeader: {
       flex: 1,
     },
     degree: {
-      fontSize: 12,
+      fontSize: 10,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
       marginBottom: 4,
     },
     university: {
-      fontSize: 11,
+      fontSize: 9,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
       marginBottom: 4,
     },
     field: {
-      fontSize: 10,
+      fontSize: 9,
       color: colors.textTertiary,
     },
     dates: {
-      fontSize: 10,
+      fontSize: 9,
       color: colors.textTertiary,
       whiteSpace: "nowrap",
     },

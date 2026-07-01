@@ -10,32 +10,32 @@ interface props {
 export default function Projects({ data, colors }: props) {
   const styles = StyleSheet.create({
     container: {
-      marginBottom: 24,
+      marginBottom: 10,
     },
     title: {
-      fontSize: 18,
+      fontSize: 15,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
-      marginBottom: 16,
-      borderBottom: `4px solid ${colors.primary}`,
+      marginBottom: 7,
+      borderBottom: `2px solid ${colors.primary}`,
       paddingBottom: 4,
     },
     projectItem: {
-      marginBottom: 16,
-      padding: 12,
+      marginBottom: 7,
+      padding: 6,
       border: `1px solid ${colors.accent}`,
-      borderRadius: 8,
+      borderRadius: 4,
     },
     projectTitle: {
-      fontSize: 13,
+      fontSize: 10,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
-      marginBottom: 8,
+      marginBottom: 5,
     },
     feature: {
-      fontSize: 10,
+      fontSize: 9,
       color: colors.secondaryText,
       marginBottom: 4,
       paddingLeft: 0,
@@ -44,15 +44,15 @@ export default function Projects({ data, colors }: props) {
       display: "flex",
       flexDirection: "row",
       flexWrap: "wrap",
-      gap: 6,
-      marginTop: 8,
+      gap: 4,
+      marginTop: 5,
     },
     techBadge: {
       backgroundColor: "#06b5d44f",
       color: colors.secondaryText,
-      borderRadius: 12,
-      padding: "4px 10px",
-      fontSize: 9,
+      borderRadius: 6,
+      padding: "3px 6px",
+      fontSize: 8,
     },
   });
 

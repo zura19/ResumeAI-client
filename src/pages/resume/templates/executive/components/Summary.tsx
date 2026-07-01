@@ -9,23 +9,23 @@ interface props {
 export default function Summary({ text, colors }: props) {
   const styles = StyleSheet.create({
     container: {
-      marginBottom: 32,
-      paddingLeft: 24,
-      borderLeft: `4px solid ${colors.accent}`,
+      marginBottom: 12,
+      paddingLeft: 10,
+      borderLeft: `2px solid ${colors.accent}`,
     },
     title: {
-      fontSize: 16,
+      fontSize: 13,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
-      marginBottom: 16,
+      marginBottom: 7,
       textTransform: "uppercase",
       letterSpacing: 1,
     },
     text: {
-      fontSize: 12,
+      fontSize: 9,
       color: colors.textTertiary,
-      lineHeight: 1.6,
+      lineHeight: 1.25,
     },
   });
 

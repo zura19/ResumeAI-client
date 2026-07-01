@@ -9,20 +9,16 @@ interface props {
 
 export default function Experience({ data, colors }: props) {
   const styles = StyleSheet.create({
-    container: {
-      marginBottom: 32,
-    },
     title: {
-      fontSize: 14,
-      fontWeight: "bold",
+      fontSize: 12,
       fontFamily: "Times-Bold",
       color: colors.black,
-      paddingBottom: 8,
-      marginBottom: 16,
-      borderBottom: `2px solid ${colors.black}`,
+      paddingBottom: 4,
+      marginBottom: 4,
+      borderBottom: `1.5px solid ${colors.black}`,
     },
     experienceItem: {
-      marginBottom: 20,
+      marginBottom: 4,
     },
     header: {
       display: "flex",
@@ -32,41 +28,41 @@ export default function Experience({ data, colors }: props) {
       marginBottom: 4,
     },
     company: {
-      fontSize: 12,
+      fontSize: 10,
       fontFamily: "Times-Bold",
       color: colors.black,
     },
     dates: {
-      fontSize: 10,
+      fontSize: 9,
       color: colors.black,
     },
     position: {
-      fontSize: 11,
+      fontSize: 9,
       fontFamily: "Times-Italic",
-      color: colors.gray,
-      marginBottom: 12,
+      color: colors.black,
+      marginBottom: 4,
     },
     responsibility: {
-      fontSize: 10,
+      fontSize: 9,
       color: colors.black,
-      marginBottom: 6,
+      marginBottom: 2,
       display: "flex",
       flexDirection: "row",
       alignItems: "flex-start",
-      lineHeight: 1.5,
+      lineHeight: 1.25,
     },
     bullet: {
-      width: 6,
-      height: 6,
-      borderRadius: 3,
+      width: 4,
+      height: 4,
+      borderRadius: 2,
       backgroundColor: colors.black,
-      marginRight: 8,
-      marginTop: 4,
+      marginRight: 3,
+      marginTop: 2,
     },
   });
 
   return (
-    <View wrap={false} style={styles.container}>
+    <View>
       <Text style={styles.title}>Experience</Text>
       {data.map((exp, index) => (
         <View key={index} style={styles.experienceItem}>

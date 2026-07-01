@@ -11,20 +11,23 @@ import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 export interface ClassicColors {
   black: string;
   white: string;
-  gray: string;
+  // gray: string;
 }
 
 const colors: ClassicColors = {
   black: "#000000",
   white: "#ffffff",
-  gray: "#6b6b6b",
+  // gray: "#6b6b6b",
 };
 
 const styles = StyleSheet.create({
   page: {
     backgroundColor: colors.white,
     fontFamily: "Times-Roman",
-    padding: 48,
+    padding: 22,
+    display: "flex",
+    flexDirection: "column",
+    gap: 6,
   },
 });
 

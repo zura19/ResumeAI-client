@@ -12,27 +12,27 @@ export default function PersonalInfo({ data, colors }: props) {
     container: {
       //   background: `linear-gradient(to right, ${colors.primary}, ${colors.accent})`,
       backgroundColor: colors.accent,
-      padding: 32,
+      padding: 16,
       color: colors.background,
     },
     name: {
-      fontSize: 28,
+      fontSize: 24,
       fontWeight: "bold",
-      marginBottom: 24,
+      marginBottom: 9,
       fontFamily: "Helvetica-Bold",
     },
     contactGrid: {
       display: "flex",
       flexDirection: "row",
       justifyContent: "space-between",
-      fontSize: 10,
-      gap: 12,
+      fontSize: 9,
+      gap: 6,
     },
     contactItem: {
       //   display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      gap: 6,
+      gap: 5,
       flex: 1,
     },
     label: {

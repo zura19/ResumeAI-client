@@ -9,39 +9,39 @@ interface props {
 export default function Education({ data, colors }: props) {
   const styles = StyleSheet.create({
     container: {
-      marginBottom: 24,
+      marginBottom: 10,
     },
     title: {
-      fontSize: 18,
+      fontSize: 15,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
-      marginBottom: 16,
-      borderBottom: `4px solid ${colors.primary}`,
+      marginBottom: 7,
+      borderBottom: `2px solid ${colors.primary}`,
       paddingBottom: 4,
     },
     educationItem: {
-      marginBottom: 12,
-      padding: 16,
+      marginBottom: 6,
+      padding: 7,
       backgroundColor: "#06b5d418",
-      borderRadius: 8,
+      borderRadius: 4,
     },
     degree: {
-      fontSize: 12,
+      fontSize: 10,
       fontWeight: "",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
       marginBottom: 4,
     },
     university: {
-      fontSize: 11,
+      fontSize: 9,
       fontWeight: "semiBold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
       marginBottom: 4,
     },
     dates: {
-      fontSize: 10,
+      fontSize: 8,
       color: colors.secondaryText,
     },
   });

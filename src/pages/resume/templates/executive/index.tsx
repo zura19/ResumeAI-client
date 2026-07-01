@@ -47,16 +47,12 @@ export default function ResumeExecutive({ resumeData }: props) {
       backgroundColor: colors.white,
       fontFamily: "Helvetica",
     },
-    viewer: {
-      width: "100%",
-      height: "100vh",
-    },
   });
   return (
     <Document>
       <Page size="A4" style={styles.page}>
         <PersonalInfo colors={colors} data={resumeData.personalInfo} />
-        <View style={{ padding: 40 }}>
+        <View style={{ padding: 18 }}>
           <Summary colors={colors} text={resumeData.summary} />
           <Experience colors={colors} data={resumeData.experience} />
           <Projects colors={colors} data={resumeData.projects} />

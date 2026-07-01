@@ -10,39 +10,39 @@ interface props {
 export default function Skills({ data, colors }: props) {
   const styles = StyleSheet.create({
     container: {
-      marginBottom: 32,
+      marginBottom: 12,
     },
     title: {
-      fontSize: 16,
+      fontSize: 13,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
-      marginBottom: 16,
+      marginBottom: 7,
       textTransform: "uppercase",
       letterSpacing: 1,
     },
     category: {
-      marginBottom: 16,
+      marginBottom: 7,
     },
     categoryTitle: {
-      fontSize: 12,
+      fontSize: 10,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
-      marginBottom: 8,
+      marginBottom: 5,
     },
     skillsContainer: {
       display: "flex",
       flexDirection: "row",
       flexWrap: "wrap",
-      gap: 8,
+      gap: 5,
     },
     skillBadge: {
       backgroundColor: colors.background,
       color: colors.text,
-      borderRadius: 3,
-      padding: "4px 12px",
-      fontSize: 9,
+      borderRadius: 2,
+      padding: "3px 6px",
+      fontSize: 8,
       border: `1px solid ${colors.border}`,
     },
   });

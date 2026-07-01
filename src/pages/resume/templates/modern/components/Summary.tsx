@@ -8,21 +8,21 @@ interface props {
 export default function Summary({ text, colors }: props) {
   const styles = StyleSheet.create({
     container: {
-      marginBottom: 32,
+      marginBottom: 12,
     },
     title: {
-      fontSize: 16,
+      fontSize: 13,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
-      marginBottom: 16,
+      marginBottom: 7,
       textTransform: "uppercase",
       letterSpacing: 1,
     },
     text: {
-      fontSize: 11,
+      fontSize: 9,
       color: colors.text,
-      lineHeight: 1.6,
+      lineHeight: 1.25,
     },
   });
 

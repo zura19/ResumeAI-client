@@ -40,11 +40,7 @@ export default function ResumeModern({ resumeData }: props) {
     page: {
       backgroundColor: colors.background,
       fontFamily: "Helvetica",
-      padding: 48,
-    },
-    viewer: {
-      width: "100%",
-      height: "100vh",
+      padding: 22,
     },
   });
   return (

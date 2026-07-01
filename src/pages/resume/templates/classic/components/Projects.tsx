@@ -9,54 +9,51 @@ interface props {
 
 export default function Projects({ data, colors }: props) {
   const styles = StyleSheet.create({
-    container: {
-      marginBottom: 32,
-    },
     title: {
-      fontSize: 14,
+      fontSize: 12,
       fontWeight: "bold",
       fontFamily: "Times-Bold",
       color: colors.black,
-      paddingBottom: 8,
-      marginBottom: 16,
-      borderBottom: `2px solid ${colors.black}`,
+      paddingBottom: 4,
+      marginBottom: 4,
+      borderBottom: `1.5px solid ${colors.black}`,
     },
     projectItem: {
-      marginBottom: 20,
+      marginBottom: 4,
     },
     projectTitle: {
-      fontSize: 12,
+      fontSize: 10,
       fontFamily: "Times-Bold",
+      color: colors.black,
+      marginBottom: 2,
+    },
+    technologies: {
+      fontSize: 9,
+      fontFamily: "Times-Italic",
       color: colors.black,
       marginBottom: 4,
     },
-    technologies: {
-      fontSize: 10,
-      fontFamily: "Times-Italic",
-      color: colors.gray,
-      marginBottom: 12,
-    },
     feature: {
-      fontSize: 10,
+      fontSize: 9,
       color: colors.black,
-      marginBottom: 6,
+      marginBottom: 2,
       display: "flex",
       flexDirection: "row",
       alignItems: "flex-start",
-      lineHeight: 1.5,
+      lineHeight: 1.25,
     },
     bullet: {
-      width: 6,
-      height: 6,
-      borderRadius: 3,
+      width: 4,
+      height: 4,
+      borderRadius: 2,
       backgroundColor: colors.black,
-      marginRight: 8,
-      marginTop: 4,
+      marginRight: 3,
+      marginTop: 2,
     },
   });
 
   return (
-    <View wrap={false} style={styles.container}>
+    <View>
       <Text style={styles.title}>Projects</Text>
       {data.map((project, index) => (
         <View key={index} style={styles.projectItem}>

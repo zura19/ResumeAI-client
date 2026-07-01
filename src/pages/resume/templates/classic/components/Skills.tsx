@@ -9,42 +9,39 @@ interface props {
 
 export default function Skills({ data, colors }: props) {
   const styles = StyleSheet.create({
-    container: {
-      marginBottom: 32,
-    },
     title: {
-      fontSize: 14,
+      fontSize: 12,
       fontWeight: "bold",
       fontFamily: "Times-Bold",
       color: colors.black,
-      paddingBottom: 8,
-      marginBottom: 16,
+      paddingBottom: 4,
+      marginBottom: 4,
       borderBottom: `2px solid ${colors.black}`,
     },
     skillRow: {
       display: "flex",
       flexDirection: "row",
-      marginBottom: 8,
-      gap: 8,
+      marginBottom: 2,
+      gap: 2,
     },
     label: {
-      fontSize: 10,
+      fontSize: 9,
       fontFamily: "Times-Bold",
       color: colors.black,
-      width: 90,
+      width: 78,
       flexShrink: 0,
     },
     skillList: {
-      fontSize: 10,
+      fontSize: 9,
       fontFamily: "Times-Italic",
       color: colors.black,
       flex: 1,
-      lineHeight: 1.5,
+      lineHeight: 1.25,
     },
   });
 
   return (
-    <View wrap={false} style={styles.container}>
+    <View>
       <Text style={styles.title}>Skills</Text>
 
       <View style={styles.skillRow}>
