@@ -15,7 +15,7 @@ export default function ChatWithAiButton({ resumeId }: props) {
     <Link
       to={`/resume/${resumeId}/chat`}
       // onClick={onClick}
-      className="relative inline-flex items-center justify-center mt-auto gap-2.5 px-5 py-3.5 pl-4 rounded-full border-none cursor-pointer font-semibold text-base text-white overflow-hidden
+      className="relative w-full inline-flex items-center justify-center mt-auto gap-2.5 px-5 py-3.5 rounded-full border-none cursor-pointer font-semibold text-base text-white overflow-hidden
         bg-linear-to-br from-[#615fff] to-[#D46FF8] 
         shadow-[0_8px_30px_rgba(107,79,248,0.5),0_0_60px_rgba(184,79,232,0.3)]
         hover:shadow-[0_12px_40px_rgba(107,79,248,0.6),0_0_80px_rgba(184,79,232,0.4)]
