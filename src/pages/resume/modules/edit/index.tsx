@@ -52,7 +52,7 @@ export default function Edit({
     >
       {type === "page" && (
         <div className="flex flex-col gap-0 mb-4">
-          <div className="flex items-center justify-between">
+          <div className="flex  justify-between">
             <ResumeTitle isLoading={isLoading} id={id} title={title} />
 
             <DeleteModal

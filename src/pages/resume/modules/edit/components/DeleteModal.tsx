@@ -34,7 +34,7 @@ export default function DeleteModal({
         <Button
           variant={"outline"}
           size="icon-sm"
-          className="rounded-full flex mt-auto font-semibold"
+          className="rounded-full flex  font-semibold"
         >
           <EllipsisVertical className="" />
         </Button>

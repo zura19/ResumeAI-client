@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import useChangeResumeTitleAction from "@/pages/resume/hooks/actions/useChangeResumeTitleAction";
 import { Skeleton } from "@/components/ui/skeleton";
+import { shortString } from "@/lib/utils";
 
 interface props {
   id: string;
@@ -40,13 +41,13 @@ export default function ResumeTitle({ id, title, isLoading }: props) {
             value={draftTitle}
             onChange={(e) => setDraftTitle(e.target.value)}
             onKeyDown={handleKeyDown}
-            className="h-9 max-w-80 pr-18"
+            className="h-9  sm:w-75  pr-7"
             placeholder="Untitled Resume"
           />
           <Button
             type="button"
             size="icon-sm"
-            className="absolute top-1/2 right-1 -translate-y-1/2 rounded-full  size-5"
+            className="absolute top-1/2  right-1 -translate-y-1/2 rounded-full  size-5"
             disabled={!canSave() || isPending}
             onClick={() => handleSaveTitle()}
           >
@@ -54,7 +55,9 @@ export default function ResumeTitle({ id, title, isLoading }: props) {
           </Button>
         </div>
       ) : (
-        <h1 className="text-xl font-bold">{draftTitle || "Untitled Resume"}</h1>
+        <h1 className="text-xl font-bold">
+          {shortString(title || "Untitled Resume", 20)}
+        </h1>
       )}
       {isEditing ? (
         <Button
