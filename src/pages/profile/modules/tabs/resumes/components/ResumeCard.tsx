@@ -5,6 +5,7 @@ import { shortString } from "@/lib/utils";
 import { formatDate } from "date-fns";
 import { DownloadIcon, ExternalLinkIcon, FileTextIcon } from "lucide-react";
 import { Link } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
 interface props {
   resume?: {
@@ -35,6 +36,13 @@ const typeConfig: Record<ResumeType, { label: string; className: string }> = {
   },
 };
 
+const gradients: Record<ResumeType, string> = {
+  executive: "from-emerald-500/20 to-teal-600/20",
+  creative: "from-cyan-500/50 to-pink-500/50",
+  classic: "from-gray-400/20 to-gray-600/20",
+  modern: "from-blue-500/30 to-blue-600/20",
+};
+
 export default function ResumeCard({ resume }: props) {
   return (
     <div
@@ -42,7 +50,12 @@ export default function ResumeCard({ resume }: props) {
       className="group flex flex-col gap-3 rounded-lg border border-border bg-secondary/30 p-4 transition-colors hover:bg-secondary/60 sm:flex-row sm:items-center sm:justify-between"
     >
       <div className="flex items-start gap-3">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+        <div
+          className={cn(
+            "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg backdrop-blur-lg bg-linear-to-br ",
+            gradients[resume?.type as ResumeType],
+          )}
+        >
           <FileTextIcon className="h-5 w-5 text-primary" />
         </div>
         <div className="flex flex-col gap-1">
@@ -64,7 +77,7 @@ export default function ResumeCard({ resume }: props) {
           <div className="flex items-center gap-3 text-xs text-muted-foreground">
             <span>
               Last Updated At{" "}
-              {resume && formatDate(resume.updatedAt, "MM/dd/yyyy")}
+              {resume && formatDate(resume.updatedAt, "MMM dd, yyyy, hh:mm a")}
             </span>
           </div>
         </div>
