@@ -55,6 +55,7 @@ export default function ResumePage() {
           isLoading={isLoading || isRefetching}
           resume={activeResume as AiGeneratedResume}
           type={type as ResumeType}
+          title={title || null}
           isChangingVersion={isChangingVersion}
           changeVersion={changeVersion}
           allVersions={resumes}

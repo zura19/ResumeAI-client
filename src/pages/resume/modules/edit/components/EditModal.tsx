@@ -13,18 +13,23 @@ import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 import SelectVersion from "./SelectVersion";
 import DeleteModal from "./DeleteModal";
 import { useUser } from "@/lib/store/userState";
+import ResumeTitle from "./ResumeTitle";
 
 interface props {
+  isLoading: boolean;
   resumeData: AiGeneratedResume;
   id: string;
+  title: string | null;
   changeVersion: (version: string) => void;
   defaultVersion: string;
   allVersions?: { id: string; content: string }[];
 }
 
 export default function EditModal({
+  isLoading,
   resumeData,
   id,
+  title,
   changeVersion,
   defaultVersion,
   allVersions,
@@ -46,8 +51,9 @@ export default function EditModal({
       </DialogTrigger>
       <DialogContent className=" overflow-scroll max-h-[90vh]  sm:max-w-3xl">
         <DialogHeader>
+          <DialogTitle className="sr-only">Resume Editor</DialogTitle>
           <div className="flex items-center justify-between mr-4">
-            <DialogTitle className="">Resume Editor</DialogTitle>
+            <ResumeTitle isLoading={isLoading} id={id} title={title} />
             <DeleteModal resumeId={id} defaultVersion={defaultVersion} />
           </div>
           <DialogDescription className="">
@@ -64,11 +70,13 @@ export default function EditModal({
           />
         )}
         <Edit
+          isLoading={isLoading}
           changeVersion={changeVersion}
           defaultVersion={defaultVersion}
           allVersions={allVersions}
           type="modal"
           id={id}
+          title={title}
           resumeData={resumeData}
         />
       </DialogContent>
