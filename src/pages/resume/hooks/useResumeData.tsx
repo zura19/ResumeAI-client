@@ -1,7 +1,7 @@
 import { getResumeByIdService } from "@/lib/services/resume/getResumeByIdSerice";
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 import { useQuery } from "@tanstack/react-query";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 
 export default function useResumeData() {
@@ -40,21 +40,37 @@ export default function useResumeData() {
     refetchOnWindowFocus: false,
   });
 
+  const selectedVersion = useMemo(() => {
+    if (!res?.resumes.length) return "";
+
+    const versionExists = res.resumes.some((resume) => resume.id === version);
+
+    if (version && versionExists) {
+      return version;
+    }
+
+    return res.resumes.at(-1)?.id || "";
+  }, [res, version]);
+
+  useEffect(() => {
+    if (!selectedVersion || version === selectedVersion) {
+      return;
+    }
+
+    setSearchParams({ version: selectedVersion }, { replace: true });
+  }, [selectedVersion, setSearchParams, version]);
+
   const activeResume = useMemo(() => {
     if (!res) return;
 
-    if (!version) {
-      const latestResume = res.resumes.at(-1);
-      return latestResume
-        ? (JSON.parse(latestResume.content) as AiGeneratedResume)
-        : undefined;
-    }
+    const selectedResume = res.resumes.find(
+      (resume) => resume.id === selectedVersion,
+    );
 
-    const selectedResume = res.resumes.find((resume) => resume.id === version);
     return selectedResume
       ? (JSON.parse(selectedResume.content) as AiGeneratedResume)
       : undefined;
-  }, [res, version]);
+  }, [res, selectedVersion]);
 
   return {
     id: id || "",
@@ -69,6 +85,6 @@ export default function useResumeData() {
     isError,
     error,
     isRefetching,
-    defaultVersion: version || res?.resumes.at(-1)?.id || "",
+    defaultVersion: selectedVersion,
   };
 }
