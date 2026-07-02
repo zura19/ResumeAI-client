@@ -10,6 +10,7 @@ interface props {
     title: string;
     type: ResumeType;
     createdAt: string;
+    updatedAt: string;
   }[];
 }
 

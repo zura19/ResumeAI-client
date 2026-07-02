@@ -5,7 +5,13 @@ import type { UserFull } from "@/lib/types/User";
 
 interface ProfileDataResponse {
   user: UserFull;
-  resumes: { id: string; type: ResumeType; title: string; createdAt: string }[];
+  resumes: {
+    id: string;
+    type: ResumeType;
+    title: string;
+    createdAt: string;
+    updatedAt: string;
+  }[];
   totals: {
     totalTransactions: number;
     totalResumes: number;

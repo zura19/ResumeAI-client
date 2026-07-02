@@ -1,9 +1,20 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { ResumeType } from "@/lib/types/AiGeneratedResume";
+import { shortString } from "@/lib/utils";
 import { formatDate } from "date-fns";
 import { DownloadIcon, ExternalLinkIcon, FileTextIcon } from "lucide-react";
 import { Link } from "react-router-dom";
+
+interface props {
+  resume?: {
+    id: string;
+    title: string;
+    type: ResumeType;
+    createdAt: string;
+    updatedAt: string;
+  };
+}
 
 const typeConfig: Record<ResumeType, { label: string; className: string }> = {
   classic: {
@@ -24,15 +35,6 @@ const typeConfig: Record<ResumeType, { label: string; className: string }> = {
   },
 };
 
-interface props {
-  resume?: {
-    id: string;
-    title: string;
-    type: ResumeType;
-    createdAt: string;
-  };
-}
-
 export default function ResumeCard({ resume }: props) {
   return (
     <div
@@ -46,7 +48,7 @@ export default function ResumeCard({ resume }: props) {
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-2">
             <span className="font-medium text-foreground text-sm">
-              {resume?.title}
+              {shortString(resume?.title || "Untitled Resume", 20)}
             </span>
             <Badge
               variant="outline"
@@ -62,7 +64,7 @@ export default function ResumeCard({ resume }: props) {
           <div className="flex items-center gap-3 text-xs text-muted-foreground">
             <span>
               Last Updated At{" "}
-              {resume && formatDate(resume.createdAt, "MM/dd/yyyy")}
+              {resume && formatDate(resume.updatedAt, "MM/dd/yyyy")}
             </span>
           </div>
         </div>
@@ -82,6 +84,7 @@ export default function ResumeCard({ resume }: props) {
         <Button
           variant="ghost"
           size="sm"
+          disabled={true}
           className="h-8 gap-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-secondary"
         >
           <DownloadIcon className="h-3.5 w-3.5" />
