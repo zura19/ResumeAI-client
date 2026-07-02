@@ -1,5 +1,6 @@
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 import type { ExecutiveColors } from "..";
+import { visibleSkillsCategories } from "../../utils";
 import { Text, View, StyleSheet } from "@react-pdf/renderer";
 
 interface props {
@@ -8,6 +9,16 @@ interface props {
 }
 
 export default function Skills({ data, colors }: props) {
+  const visibleCategories = visibleSkillsCategories(
+    data.soft,
+    data.technical,
+    data.languages,
+  ).map((category) => ({
+    ...category,
+    title:
+      category.title === "Technical Skills" ? "Technical" : category.title,
+  }));
+
   const styles = StyleSheet.create({
     title: {
       fontSize: 12,
@@ -37,10 +48,6 @@ export default function Skills({ data, colors }: props) {
       paddingBottom: 4,
       borderBottom: `1px solid ${colors.accent}`,
     },
-    categoryIcon: {
-      fontSize: 12,
-      color: colors.accent,
-    },
     categoryTitle: {
       fontSize: 10,
       fontWeight: "bold",
@@ -69,48 +76,27 @@ export default function Skills({ data, colors }: props) {
     },
   });
 
+  if (visibleCategories.length === 0) {
+    return null;
+  }
+
   return (
     <View>
       <Text style={styles.title}>CORE COMPETENCIES</Text>
       <View style={styles.skillsGrid}>
-        <View style={styles.skillCategory}>
-          <View style={styles.categoryHeader}>
-            {/* <Text style={styles.categoryIcon}>👥</Text> */}
-            <Text style={styles.categoryTitle}>Soft Skills</Text>
-          </View>
-          {data.soft.map((skill, i) => (
-            <View key={i} style={styles.skillItem}>
-              <Text style={styles.skillBullet}>▪</Text>
-              <Text style={styles.skillText}>{skill}</Text>
+        {visibleCategories.map((category) => (
+          <View key={category.title} style={styles.skillCategory}>
+            <View style={styles.categoryHeader}>
+              <Text style={styles.categoryTitle}>{category.title}</Text>
             </View>
-          ))}
-        </View>
-
-        <View style={styles.skillCategory}>
-          <View style={styles.categoryHeader}>
-            {/* <Text style={styles.categoryIcon}>💻</Text> */}
-            <Text style={styles.categoryTitle}>Technical</Text>
+            {category.values.map((skill, i) => (
+              <View key={i} style={styles.skillItem}>
+                <Text style={styles.skillBullet}>-</Text>
+                <Text style={styles.skillText}>{skill}</Text>
+              </View>
+            ))}
           </View>
-          {data.technical.map((skill, i) => (
-            <View key={i} style={styles.skillItem}>
-              <Text style={styles.skillBullet}>▪</Text>
-              <Text style={styles.skillText}>{skill}</Text>
-            </View>
-          ))}
-        </View>
-
-        <View style={styles.skillCategory}>
-          <View style={styles.categoryHeader}>
-            {/* <Text style={styles.categoryIcon}>📈</Text> */}
-            <Text style={styles.categoryTitle}>Languages</Text>
-          </View>
-          {data.languages.map((skill, i) => (
-            <View key={i} style={styles.skillItem}>
-              <Text style={styles.skillBullet}>▪</Text>
-              <Text style={styles.skillText}>{skill}</Text>
-            </View>
-          ))}
-        </View>
+        ))}
       </View>
     </View>
   );

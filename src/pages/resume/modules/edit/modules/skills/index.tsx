@@ -22,6 +22,7 @@ export default function Skills({ resumeData, id, generatedResumeId }: props) {
     setLanguage,
     technical,
     setTechnical,
+    disableAdd,
     isPending,
     allowSave,
     handleAdd,
@@ -43,7 +44,7 @@ export default function Skills({ resumeData, id, generatedResumeId }: props) {
             Soft Skills
           </Label>
           <Input
-            disabled={skillsData.soft.length >= 6}
+            disabled={disableAdd("soft")}
             value={softSkill}
             onChange={(e) =>
               e.target.value.length <= 20 && setSoftSkill(e.target.value)
@@ -55,6 +56,7 @@ export default function Skills({ resumeData, id, generatedResumeId }: props) {
           />
           <AddBtn
             hide={softSkill.length === 0}
+            disabled={disableAdd("soft")}
             onClick={() => handleAdd("soft")}
           />
         </div>
@@ -70,7 +72,7 @@ export default function Skills({ resumeData, id, generatedResumeId }: props) {
             Languages
           </Label>
           <Input
-            disabled={skillsData.languages.length >= 6}
+            disabled={disableAdd("languages")}
             value={language}
             onChange={(e) =>
               e.target.value.length <= 20 && setLanguage(e.target.value)
@@ -82,6 +84,7 @@ export default function Skills({ resumeData, id, generatedResumeId }: props) {
           />
           <AddBtn
             hide={language.length === 0}
+            disabled={disableAdd("languages")}
             onClick={() => handleAdd("languages")}
           />
         </div>
@@ -97,7 +100,7 @@ export default function Skills({ resumeData, id, generatedResumeId }: props) {
             Technical Skills
           </Label>
           <Input
-            disabled={skillsData.technical.length >= 6}
+            disabled={disableAdd("technical")}
             value={technical}
             onChange={(e) =>
               e.target.value.length <= 20 && setTechnical(e.target.value)
@@ -109,6 +112,7 @@ export default function Skills({ resumeData, id, generatedResumeId }: props) {
           />
           <AddBtn
             hide={technical.length === 0}
+            disabled={disableAdd("technical")}
             onClick={() => handleAdd("technical")}
           />
         </div>

@@ -10,7 +10,7 @@ interface props {
   deleteEducation: (edu: AiGeneratedResume["education"][0]) => void;
   editEducation: (
     edu: AiGeneratedResume["education"][0],
-    index: number
+    index: number,
   ) => void;
   index: number;
 }
@@ -41,7 +41,7 @@ export default function EducationCard({
     >
       <div className="flex items-center justify-between">
         <h3 className="font-semibold text-lg">
-          {edu.degree} in {edu.fieldOfStudy}
+          {edu.degree ? `${edu.degree} in ` : ""} {edu.fieldOfStudy}
         </h3>
         <div className="flex items-center gap-2">
           <EducationModal edu={edu} session="edit" editEducation={edit} />

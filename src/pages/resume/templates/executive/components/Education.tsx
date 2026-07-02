@@ -1,5 +1,6 @@
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 import type { ExecutiveColors } from "..";
+import { formatEducationLine, formatTemplateDateRange } from "../../utils";
 import { Text, View, StyleSheet } from "@react-pdf/renderer";
 
 interface props {
@@ -49,13 +50,6 @@ export default function Education({ data, colors }: props) {
       color: colors.text,
       marginBottom: 2,
     },
-    field: {
-      fontSize: 9,
-      color: colors.textSecondary,
-      fontWeight: "bold",
-      fontFamily: "Helvetica-Bold",
-      marginBottom: 2,
-    },
     university: {
       fontSize: 9,
       color: colors.textTertiary,
@@ -70,21 +64,29 @@ export default function Education({ data, colors }: props) {
   return (
     <View wrap={false}>
       <Text style={styles.title}>EDUCATION</Text>
-      {data.map((edu, index) => (
-        <View key={index} style={styles.educationItem}>
-          <View style={styles.iconCircle}>
-            {/* <Text style={styles.icon}>🎓</Text> */}
+      {data.map((edu, index) => {
+        const educationLine = formatEducationLine(edu.degree, edu.fieldOfStudy);
+
+        return (
+          <View key={index} style={styles.educationItem}>
+            <View style={styles.iconCircle}>
+              {/* <Text style={styles.icon}>Education</Text> */}
+            </View>
+            <View style={styles.content}>
+              {educationLine ? (
+                <Text style={styles.degree}>{educationLine}</Text>
+              ) : null}
+              <Text style={styles.university}>{edu.university}</Text>
+              <Text style={styles.dates}>
+                {formatTemplateDateRange(
+                  edu.startDate,
+                  edu.stillStudying ? "Present" : edu.endDate,
+                )}
+              </Text>
+            </View>
           </View>
-          <View style={styles.content}>
-            <Text style={styles.degree}>{edu.degree}</Text>
-            <Text style={styles.field}>{edu.fieldOfStudy}</Text>
-            <Text style={styles.university}>{edu.university}</Text>
-            <Text style={styles.dates}>
-              {edu.startDate} - {edu.stillStudying ? "Present" : edu.endDate}
-            </Text>
-          </View>
-        </View>
-      ))}
+        );
+      })}
     </View>
   );
 }

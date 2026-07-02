@@ -33,17 +33,24 @@ export default function Projects({ resumeData, id, generatedResumeId }: props) {
 
       <ProjectsModal session="create" addProject={addProject} />
 
+      {projects?.length === 0 && (
+        <p className="text-center text-muted-foreground">
+          No projects added yet. Click the button above to add your projects.
+        </p>
+      )}
+
       <AnimatePresence>
-        {projects?.map((proj, i) => (
-          <ProjectCard
-            key={proj.title}
-            proj={proj}
-            index={i}
-            resumeId={id}
-            deleteProject={deleteProject}
-            editProject={editProject}
-          />
-        ))}
+        {projects.length > 0 &&
+          projects?.map((proj, i) => (
+            <ProjectCard
+              key={proj.title}
+              proj={proj}
+              index={i}
+              resumeId={id}
+              deleteProject={deleteProject}
+              editProject={editProject}
+            />
+          ))}
       </AnimatePresence>
       <FormButton
         loadingText="Saving Projects..."

@@ -15,6 +15,7 @@ interface props {
   resume: AiGeneratedResume;
   isLoading: boolean;
   id: string;
+  title?: string | null;
   isChangingVersion: boolean;
   allVersions?: { id: string; content: string }[];
   changeVersion: (version: string) => void;
@@ -26,6 +27,7 @@ export default function ResumeWrapper({
   type,
   isLoading,
   id,
+  title,
   isChangingVersion,
   allVersions,
   changeVersion,
@@ -33,6 +35,7 @@ export default function ResumeWrapper({
 }: props) {
   function renderResume() {
     if (!resume) return;
+    // const tempType = "creative" as ResumeType;
     switch (type) {
       case "classic":
         return <ResumeClassic resumeData={resume} />;
@@ -56,11 +59,13 @@ export default function ResumeWrapper({
           </PDFViewer>
           <div className=" fixed top-4 right-4 ">
             <EditModal
+              isLoading={isLoading}
               changeVersion={changeVersion}
               defaultVersion={defaultVersion}
               allVersions={allVersions}
               resumeData={resume}
               id={id}
+              title={title || null}
             />
           </div>
         </div>

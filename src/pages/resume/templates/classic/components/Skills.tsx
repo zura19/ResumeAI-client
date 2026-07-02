@@ -1,5 +1,6 @@
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 import type { ClassicColors } from "..";
+import { visibleSkillsCategories } from "../../utils";
 import { Text, View, StyleSheet } from "@react-pdf/renderer";
 
 interface props {
@@ -8,6 +9,12 @@ interface props {
 }
 
 export default function Skills({ data, colors }: props) {
+  const visibleCategories = visibleSkillsCategories(
+    data.soft,
+    data.technical,
+    data.languages,
+  );
+
   const styles = StyleSheet.create({
     title: {
       fontSize: 12,
@@ -41,24 +48,19 @@ export default function Skills({ data, colors }: props) {
     },
   });
 
+  if (visibleCategories.length === 0) {
+    return null;
+  }
+
   return (
     <View>
       <Text style={styles.title}>Technical Skills</Text>
-
-      <View style={styles.skillRow}>
-        <Text style={styles.label}>Soft Skills:</Text>
-        <Text style={styles.skillList}>{data.soft.join(", ")}</Text>
-      </View>
-
-      <View style={styles.skillRow}>
-        <Text style={styles.label}>Technologies:</Text>
-        <Text style={styles.skillList}>{data.technical.join(", ")}</Text>
-      </View>
-
-      <View style={styles.skillRow}>
-        <Text style={styles.label}>Languages:</Text>
-        <Text style={styles.skillList}>{data.languages.join(", ")}</Text>
-      </View>
+      {visibleCategories.map((category) => (
+        <View key={category.title} style={styles.skillRow}>
+          <Text style={styles.label}>{category.title}:</Text>
+          <Text style={styles.skillList}>{category.values.join(", ")}</Text>
+        </View>
+      ))}
     </View>
   );
 }

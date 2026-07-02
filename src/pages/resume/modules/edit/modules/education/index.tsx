@@ -35,18 +35,23 @@ export default function Education({
       <SaveAlert />
 
       <EducationModal session="create" addEducation={addEducation} />
-
+      {educations?.length === 0 && (
+        <p className="text-center text-muted-foreground">
+          No education added yet. Click the button above to add your education.
+        </p>
+      )}
       <AnimatePresence>
-        {educations?.map((edu, i) => (
-          <EducationCard
-            deleteEducation={deleteEducation}
-            editEducation={editEducation}
-            key={edu.university + edu.degree + edu.fieldOfStudy}
-            edu={edu}
-            index={i}
-            resumeId={id}
-          />
-        ))}
+        {educations.length > 0 &&
+          educations?.map((edu, i) => (
+            <EducationCard
+              deleteEducation={deleteEducation}
+              editEducation={editEducation}
+              key={edu.university + edu.degree + edu.fieldOfStudy}
+              edu={edu}
+              index={i}
+              resumeId={id}
+            />
+          ))}
       </AnimatePresence>
       <FormButton
         loadingText="Saving Education..."

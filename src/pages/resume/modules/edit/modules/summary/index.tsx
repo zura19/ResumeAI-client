@@ -39,7 +39,7 @@ export default function Summary({ resumeData, id, generatedResumeId }: props) {
       />
       <div className="flex items-center justify-between mt-4">
         <FormButton
-          disabled={!isChanged || !summary || isPending || isUpdatingSummary}
+          disabled={!isChanged || isPending || isUpdatingSummary}
           loading={isPending}
           loadingText="Saving Changes..."
         >

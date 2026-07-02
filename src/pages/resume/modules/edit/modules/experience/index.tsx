@@ -36,17 +36,25 @@ export default function Experience({
 
       <ExperienceModal addExperience={addExperience} session="create" />
 
+      {experiences?.length === 0 && (
+        <p className="text-center text-muted-foreground">
+          No experience added yet. Click the button above to add your
+          experience.
+        </p>
+      )}
+
       <AnimatePresence>
-        {experiences?.map((exp, i) => (
-          <ExperienceCard
-            deleteExperience={deleteExperience}
-            editExperience={editExperience}
-            key={exp.company + exp.position}
-            exp={exp}
-            index={i}
-            resumeId={id}
-          />
-        ))}
+        {experiences.length > 0 &&
+          experiences?.map((exp, i) => (
+            <ExperienceCard
+              deleteExperience={deleteExperience}
+              editExperience={editExperience}
+              key={exp.company + exp.position}
+              exp={exp}
+              index={i}
+              resumeId={id}
+            />
+          ))}
       </AnimatePresence>
       <FormButton
         loadingText="Saving Experience..."

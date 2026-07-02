@@ -20,6 +20,7 @@ export default function ResumePage() {
     isRefetching,
     resumes,
     type,
+    title,
   } = useResumeData();
 
   return (
@@ -36,9 +37,11 @@ export default function ResumePage() {
         {isError ? null : (
           <div className="hidden lg:block overflow-scroll">
             <Edit
+              isLoading={isLoading || isRefetching}
               id={id}
               disabledToOpen={isLoading || isError}
               type="page"
+              title={title || null}
               resumeData={activeResume as AiGeneratedResume}
               defaultVersion={defaultVersion}
               allVersions={resumes}
@@ -52,6 +55,7 @@ export default function ResumePage() {
           isLoading={isLoading || isRefetching}
           resume={activeResume as AiGeneratedResume}
           type={type as ResumeType}
+          title={title || null}
           isChangingVersion={isChangingVersion}
           changeVersion={changeVersion}
           allVersions={resumes}

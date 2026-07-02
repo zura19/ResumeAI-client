@@ -22,10 +22,6 @@ export default function useEditSummaryAction({
   async function handleSave(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    if (!summary) {
-      return;
-    }
-
     await editResume({
       ...resumeData,
       summary,
