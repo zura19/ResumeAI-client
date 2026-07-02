@@ -18,6 +18,7 @@ import ChatWithAiButton from "./components/ChatWithAiButton";
 import ResumeTitle from "./components/ResumeTitle";
 
 interface props {
+  isLoading: boolean;
   resumeData: AiGeneratedResume;
   type: "modal" | "page";
   disabledToOpen?: boolean;
@@ -37,6 +38,7 @@ export default function Edit({
   allVersions,
   changeVersion,
   defaultVersion,
+  isLoading,
 }: props) {
   const { user } = useUser();
   const triggerClassName = "text-md font-medium";
@@ -51,7 +53,7 @@ export default function Edit({
       {type === "page" && (
         <div className="flex flex-col gap-0 mb-4">
           <div className="flex items-center justify-between">
-            <ResumeTitle title={title} />
+            <ResumeTitle isLoading={isLoading} id={id} title={title} />
 
             <DeleteModal
               totalVersions={allVersions?.length}

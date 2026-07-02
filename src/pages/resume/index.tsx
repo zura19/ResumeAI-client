@@ -37,6 +37,7 @@ export default function ResumePage() {
         {isError ? null : (
           <div className="hidden lg:block overflow-scroll">
             <Edit
+              isLoading={isLoading || isRefetching}
               id={id}
               disabledToOpen={isLoading || isError}
               type="page"
