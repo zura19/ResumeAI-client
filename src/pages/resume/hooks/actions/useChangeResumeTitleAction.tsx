@@ -3,6 +3,18 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { updateResumeTitleService } from "@/lib/services/resume/updateResumeTitleService";
 
+interface ResumeQueryData {
+  resumes: {
+    id: string;
+    resumeId: string;
+    content: string;
+    createdAt: string;
+    updatedAt: string;
+  }[];
+  type: string;
+  title: string | null;
+}
+
 interface UseChangeResumeTitleActionProps {
   id: string;
   title: string | null;
@@ -29,8 +41,6 @@ export default function useChangeResumeTitleAction({
     }
   }, [isEditing]);
 
-  console.log(!!draftTitle);
-
   function canSave() {
     const normalizedInitialTitle = (title || "").trim();
     const normalizedDraftTitle = draftTitle.trim();
@@ -40,15 +50,52 @@ export default function useChangeResumeTitleAction({
   }
 
   const { mutateAsync: changeResumeTitle, isPending } = useMutation({
-    mutationFn: async () => updateResumeTitleService(id, draftTitle),
-    onSuccess: () => {
-      toast.success("Resume title updated successfully");
-      queryClient.invalidateQueries({
+    mutationFn: async () => updateResumeTitleService(id, draftTitle.trim()),
+    onMutate: async () => {
+      const nextTitle = draftTitle.trim();
+
+      await queryClient.cancelQueries({
         queryKey: ["resume", id],
       });
+
+      const previousResume = queryClient.getQueryData<ResumeQueryData>([
+        "resume",
+        id,
+      ]);
+
+      queryClient.setQueryData<ResumeQueryData>(["resume", id], (oldData) => {
+        if (!oldData) {
+          return oldData;
+        }
+
+        return {
+          ...oldData,
+          title: nextTitle,
+        };
+      });
+
+      return { previousResume };
+    },
+    onSuccess: (response) => {
+      queryClient.setQueryData<ResumeQueryData>(["resume", id], (oldData) => {
+        if (!oldData) {
+          return oldData;
+        }
+
+        return {
+          ...oldData,
+          title: response.data.title,
+        };
+      });
+
+      toast.success("Resume title updated successfully");
       setIsEditing(false);
     },
-    onError: (error) => {
+    onError: (error, _variables, context) => {
+      if (context?.previousResume) {
+        queryClient.setQueryData(["resume", id], context.previousResume);
+      }
+
       toast.error(error.message);
     },
   });
