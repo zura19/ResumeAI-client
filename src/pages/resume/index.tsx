@@ -20,6 +20,7 @@ export default function ResumePage() {
     isRefetching,
     resumes,
     type,
+    title,
   } = useResumeData();
 
   return (
@@ -39,6 +40,7 @@ export default function ResumePage() {
               id={id}
               disabledToOpen={isLoading || isError}
               type="page"
+              title={title || null}
               resumeData={activeResume as AiGeneratedResume}
               defaultVersion={defaultVersion}
               allVersions={resumes}

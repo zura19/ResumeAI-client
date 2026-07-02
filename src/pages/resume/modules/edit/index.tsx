@@ -15,12 +15,14 @@ import SelectVersion from "./components/SelectVersion";
 import { useUser } from "@/lib/store/userState";
 import DeleteModal from "./components/DeleteModal";
 import ChatWithAiButton from "./components/ChatWithAiButton";
+import ResumeTitle from "./components/ResumeTitle";
 
 interface props {
   resumeData: AiGeneratedResume;
   type: "modal" | "page";
   disabledToOpen?: boolean;
   id: string;
+  title: string | null;
   allVersions?: { id: string; content: string }[];
   changeVersion: (version: string) => void;
   defaultVersion: string;
@@ -31,6 +33,7 @@ export default function Edit({
   type = "page",
   disabledToOpen,
   id,
+  title,
   allVersions,
   changeVersion,
   defaultVersion,
@@ -48,7 +51,7 @@ export default function Edit({
       {type === "page" && (
         <div className="flex flex-col gap-0 mb-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-xl font-bold">Resume Editor</h1>
+            <ResumeTitle title={title} />
 
             <DeleteModal
               totalVersions={allVersions?.length}

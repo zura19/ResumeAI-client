@@ -34,6 +34,7 @@ export default function useResumeData() {
       return {
         resumes: generatedResumes,
         type: data.data.resume.type,
+        title: data.data.resume.title,
       };
     },
     refetchOnWindowFocus: false,
@@ -63,6 +64,7 @@ export default function useResumeData() {
     activeResume,
     resumes: res?.resumes,
     type: res?.type,
+    title: res?.title,
     isLoading,
     isError,
     error,

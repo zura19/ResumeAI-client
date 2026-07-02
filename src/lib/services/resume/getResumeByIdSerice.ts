@@ -6,6 +6,7 @@ export async function getResumeByIdService(id: string): PromiseResponseSuccess<{
   resume: {
     id: string;
     type: ResumeType;
+    title: string | null;
     generatedResumes: {
       id: string;
       resumeId: string;
