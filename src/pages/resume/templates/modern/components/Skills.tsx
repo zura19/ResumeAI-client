@@ -1,5 +1,6 @@
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 import type { ModernColors } from "..";
+import { visibleSkillsCategories } from "../../utils";
 import { Text, View, StyleSheet } from "@react-pdf/renderer";
 
 interface props {
@@ -8,6 +9,12 @@ interface props {
 }
 
 export default function Skills({ data, colors }: props) {
+  const visibleCategories = visibleSkillsCategories(
+    data.soft,
+    data.technical,
+    data.languages,
+  );
+
   const styles = StyleSheet.create({
     title: {
       fontSize: 12,
@@ -44,42 +51,25 @@ export default function Skills({ data, colors }: props) {
     },
   });
 
+  if (visibleCategories.length === 0) {
+    return null;
+  }
+
   return (
     <View>
       <Text style={styles.title}>SKILLS</Text>
-
-      <View style={styles.category}>
-        <Text style={styles.categoryTitle}>Technical Skills</Text>
-        <View style={styles.skillsContainer}>
-          {data.technical.map((skill, index) => (
-            <Text key={index} style={styles.skillBadge}>
-              {skill}
-            </Text>
-          ))}
+      {visibleCategories.map((category) => (
+        <View key={category.title} style={styles.category}>
+          <Text style={styles.categoryTitle}>{category.title}</Text>
+          <View style={styles.skillsContainer}>
+            {category.values.map((skill, index) => (
+              <Text key={index} style={styles.skillBadge}>
+                {skill}
+              </Text>
+            ))}
+          </View>
         </View>
-      </View>
-
-      <View style={styles.category}>
-        <Text style={styles.categoryTitle}>Soft Skills</Text>
-        <View style={styles.skillsContainer}>
-          {data.soft.map((skill, index) => (
-            <Text key={index} style={styles.skillBadge}>
-              {skill}
-            </Text>
-          ))}
-        </View>
-      </View>
-
-      <View style={styles.category}>
-        <Text style={styles.categoryTitle}>Languages</Text>
-        <View style={styles.skillsContainer}>
-          {data.languages.map((lang, index) => (
-            <Text key={index} style={styles.skillBadge}>
-              {lang}
-            </Text>
-          ))}
-        </View>
-      </View>
+      ))}
     </View>
   );
 }

@@ -1,5 +1,6 @@
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 import type { ExecutiveColors } from "..";
+import { formatTemplateDateRange } from "../../utils";
 import { Text, View, StyleSheet } from "@react-pdf/renderer";
 
 interface props {
@@ -73,7 +74,7 @@ export default function Experience({ data, colors }: props) {
             <Text style={styles.company}>{exp.company}</Text> | {exp.position}
           </Text>
           <Text style={styles.dates}>
-            {exp.startDate} - {exp.endDate || "Present"}
+            {formatTemplateDateRange(exp.startDate, exp.endDate)}
           </Text>
           {exp.responsibilities.map((item, i) => (
             <View key={i} style={styles.responsibility}>

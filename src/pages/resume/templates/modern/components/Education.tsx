@@ -1,5 +1,6 @@
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 import type { ModernColors } from "..";
+import { formatEducationLine, formatTemplateDateRange } from "../../utils";
 import { Text, View, StyleSheet } from "@react-pdf/renderer";
 
 interface props {
@@ -60,20 +61,28 @@ export default function Education({ data, colors }: props) {
   return (
     <View wrap={false}>
       <Text style={styles.title}>EDUCATION</Text>
-      {data.map((edu, index) => (
-        <View key={index} style={styles.educationItem}>
-          <View style={styles.header}>
-            <View style={styles.leftHeader}>
-              <Text style={styles.degree}>{edu.degree}</Text>
-              <Text style={styles.university}>{edu.university}</Text>
-              <Text style={styles.field}>{edu.fieldOfStudy}</Text>
+      {data.map((edu, index) => {
+        const educationLine = formatEducationLine(edu.degree, edu.fieldOfStudy);
+
+        return (
+          <View key={index} style={styles.educationItem}>
+            <View style={styles.header}>
+              <View style={styles.leftHeader}>
+                {educationLine ? (
+                  <Text style={styles.degree}>{educationLine}</Text>
+                ) : null}
+                <Text style={styles.university}>{edu.university}</Text>
+              </View>
+              <Text style={styles.dates}>
+                {formatTemplateDateRange(
+                  edu.startDate,
+                  edu.stillStudying ? "Present" : edu.endDate,
+                )}
+              </Text>
             </View>
-            <Text style={styles.dates}>
-              {edu.startDate} - {edu.stillStudying ? "Present" : edu.endDate}
-            </Text>
           </View>
-        </View>
-      ))}
+        );
+      })}
     </View>
   );
 }
