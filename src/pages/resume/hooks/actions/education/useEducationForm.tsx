@@ -9,7 +9,8 @@ interface UseEducationFormProps {
   edu?: AiGeneratedResume["education"][0];
 }
 
-const convertStrToTime = (value: string) => new Date(value.replaceAll("/", "-"));
+const convertStrToTime = (value: string) =>
+  new Date(value.replaceAll("/", "-"));
 const timeToStr = (value: Date) =>
   value.toISOString().split("T")[0].replaceAll("-", "/");
 
@@ -31,10 +32,12 @@ export default function useEducationForm({
   const [endDate, setEndDate] = useState(
     edu?.endDate ? convertStrToTime(edu.endDate) : new Date(),
   );
-  const [stillStudying, setStillStudying] = useState(edu?.endDate === "Present");
+  const [stillStudying, setStillStudying] = useState(
+    edu?.endDate === "Present",
+  );
 
   function isDisabled() {
-    if (!university || !degree || !field || !startDate) {
+    if (!university || !field || !startDate) {
       return true;
     }
 
@@ -47,9 +50,9 @@ export default function useEducationForm({
 
   function handleSubmit() {
     const education = {
-      university,
-      degree,
-      fieldOfStudy: field,
+      university: university.trim(),
+      degree: degree.trim(),
+      fieldOfStudy: field.trim(),
       startDate: timeToStr(startDate),
       endDate: stillStudying ? "Present" : timeToStr(endDate),
     };
