@@ -14,6 +14,7 @@ import SelectVersion from "./SelectVersion";
 import DeleteModal from "./DeleteModal";
 import { useUser } from "@/lib/store/userState";
 import ResumeTitle from "./ResumeTitle";
+import DuplicateResumeButton from "./DuplicateResumeButton";
 
 interface props {
   isLoading: boolean;
@@ -52,9 +53,15 @@ export default function EditModal({
       <DialogContent className=" overflow-scroll max-h-[90vh]  sm:max-w-3xl">
         <DialogHeader>
           <DialogTitle className="sr-only">Resume Editor</DialogTitle>
-          <div className="flex items-center justify-between mr-4">
+          <div className="flex flex-col gap-2 sm:gap-0 sm:flex-row items-center sm:justify-between sm:mr-4">
             <ResumeTitle isLoading={isLoading} id={id} title={title} />
-            <DeleteModal resumeId={id} defaultVersion={defaultVersion} />
+            <div className="flex items-center gap-2">
+              <DuplicateResumeButton
+                resumeId={id}
+                generatedId={defaultVersion}
+              />
+              <DeleteModal resumeId={id} defaultVersion={defaultVersion} />
+            </div>
           </div>
           <DialogDescription className="">
             If you are not satisfied with the generated resume, you can edit

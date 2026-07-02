@@ -18,7 +18,7 @@ export default function SelectVersion({
   allVersions,
 }: props) {
   return (
-    <Select defaultValue={defaultVersion} onValueChange={changeVersion}>
+    <Select value={defaultVersion || undefined} onValueChange={changeVersion}>
       <SelectTrigger className="w-full mt-3">
         <SelectValue placeholder="Select Version" />
       </SelectTrigger>

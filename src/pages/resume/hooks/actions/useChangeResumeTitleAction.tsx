@@ -45,7 +45,9 @@ export default function useChangeResumeTitleAction({
     const normalizedInitialTitle = (title || "").trim();
     const normalizedDraftTitle = draftTitle.trim();
     return (
-      normalizedDraftTitle && normalizedDraftTitle !== normalizedInitialTitle
+      normalizedDraftTitle &&
+      normalizedDraftTitle.length < 20 &&
+      normalizedDraftTitle !== normalizedInitialTitle
     );
   }
 

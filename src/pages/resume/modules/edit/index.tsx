@@ -16,6 +16,7 @@ import { useUser } from "@/lib/store/userState";
 import DeleteModal from "./components/DeleteModal";
 import ChatWithAiButton from "./components/ChatWithAiButton";
 import ResumeTitle from "./components/ResumeTitle";
+import DuplicateResumeButton from "./components/DuplicateResumeButton";
 
 interface props {
   isLoading: boolean;
@@ -52,14 +53,22 @@ export default function Edit({
     >
       {type === "page" && (
         <div className="flex flex-col gap-0 mb-4">
-          <div className="flex  justify-between">
+          <div className="flex  justify-between mb-2 ">
             <ResumeTitle isLoading={isLoading} id={id} title={title} />
 
-            <DeleteModal
-              totalVersions={allVersions?.length}
-              resumeId={id}
-              defaultVersion={defaultVersion}
-            />
+            <div className="flex items-center gap-2">
+              <DuplicateResumeButton
+                resumeId={id}
+                generatedId={defaultVersion}
+                disabled={isLoading || disabledToOpen}
+              />
+
+              <DeleteModal
+                totalVersions={allVersions?.length}
+                resumeId={id}
+                defaultVersion={defaultVersion}
+              />
+            </div>
           </div>
           <p className="text-muted-foreground text-sm">
             If you are not satisfied with the generated resume, you can edit
