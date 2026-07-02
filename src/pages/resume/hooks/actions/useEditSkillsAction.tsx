@@ -2,12 +2,19 @@ import useEditResume from "@/lib/hooks/useEditResume";
 import type { skillType } from "@/lib/types/buildResumeTypes";
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 import { useMemo, useState } from "react";
+import { toast } from "sonner";
 
 interface UseEditSkillsActionProps {
   resumeData: AiGeneratedResume;
   id: string;
   generatedResumeId: string;
 }
+
+export const MAX_SKILLS = {
+  soft: 10,
+  technical: 20,
+  languages: 10,
+} as const;
 
 export default function useEditSkillsAction({
   resumeData,
@@ -27,11 +34,31 @@ export default function useEditSkillsAction({
 
   const { editResume, isPending } = useEditResume(id, generatedResumeId);
 
+  function areSkillsEqual(current: string[], initial: string[]) {
+    if (current.length !== initial.length) {
+      return false;
+    }
+
+    return current.every((skill, index) => skill === initial[index]);
+  }
+
+  function disableAdd(type: skillType): boolean {
+    if (type === "soft") return skillsData.soft.length >= MAX_SKILLS.soft;
+    if (type === "languages")
+      return skillsData.languages.length >= MAX_SKILLS.languages;
+    if (type === "technical")
+      return skillsData.technical.length >= MAX_SKILLS.technical;
+    return true;
+  }
+
   function handleAdd(type: skillType) {
     if (type === "soft") {
-      if (skillsData.soft.includes(softSkill)) {
-        return;
-      }
+      if (
+        skillsData.soft.includes(softSkill) ||
+        disableAdd("soft") ||
+        !softSkill.trim()
+      )
+        return toast.error("skill already exists or is invalid");
 
       setSkillsData((previous) => ({
         ...previous,
@@ -41,9 +68,12 @@ export default function useEditSkillsAction({
     }
 
     if (type === "languages") {
-      if (skillsData.languages.includes(language)) {
-        return;
-      }
+      if (
+        skillsData.languages.includes(language) ||
+        disableAdd("languages") ||
+        !language.trim()
+      )
+        return toast.error("skill already exists or is invalid");
 
       setSkillsData((previous) => ({
         ...previous,
@@ -53,9 +83,12 @@ export default function useEditSkillsAction({
     }
 
     if (type === "technical") {
-      if (skillsData.technical.includes(technical)) {
-        return;
-      }
+      if (
+        skillsData.technical.includes(technical) ||
+        disableAdd("technical") ||
+        !technical.trim()
+      )
+        return toast.error("skill already exists or is invalid");
 
       setSkillsData((previous) => ({
         ...previous,
@@ -73,18 +106,17 @@ export default function useEditSkillsAction({
   }
 
   const allowSave = useMemo(() => {
-    const isSoftSame = skillsData.soft.length === resumeData.skills.soft.length;
-    const isLangSame =
-      skillsData.languages.length === resumeData.skills.languages.length;
-    const isTechSame =
-      skillsData.technical.length === resumeData.skills.technical.length;
-
-    return (
-      (!isSoftSame && !isLangSame && !isTechSame) ||
-      (skillsData.soft.length >= 3 &&
-        skillsData.languages.length >= 1 &&
-        skillsData.technical.length >= 3)
+    const isSoftSame = areSkillsEqual(skillsData.soft, resumeData.skills.soft);
+    const isLangSame = areSkillsEqual(
+      skillsData.languages,
+      resumeData.skills.languages,
     );
+    const isTechSame = areSkillsEqual(
+      skillsData.technical,
+      resumeData.skills.technical,
+    );
+
+    return !isSoftSame || !isLangSame || !isTechSame;
   }, [resumeData.skills, skillsData]);
 
   function handleSaveSkills() {
@@ -102,6 +134,7 @@ export default function useEditSkillsAction({
     setLanguage,
     technical,
     setTechnical,
+    disableAdd,
     isPending,
     allowSave,
     handleAdd,
