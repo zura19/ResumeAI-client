@@ -24,14 +24,13 @@ export function formatTemplateDate(value?: string) {
     return "Present";
   }
 
-  const normalizedDate = normalizedValue.replaceAll("/", "-");
-  const [year, month] = normalizedDate.split("-").map(Number);
+  const parsedDate = new Date(normalizedValue.replaceAll("/", "-"));
 
-  if (!year || !month) {
+  if (Number.isNaN(parsedDate.getTime())) {
     return normalizedValue;
   }
 
-  return MONTH_YEAR_FORMATTER.format(new Date(year, month - 1, 1));
+  return MONTH_YEAR_FORMATTER.format(parsedDate);
 }
 
 export function formatTemplateDateRange(startDate?: string, endDate?: string) {

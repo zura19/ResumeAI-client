@@ -19,6 +19,11 @@ interface props {
 
 export function DatePicker({ date, setDate, disabled }: props) {
   const [open, setOpen] = React.useState(false);
+  const [month, setMonth] = React.useState<Date | undefined>(date);
+
+  React.useEffect(() => {
+    setMonth(date);
+  }, [date]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -36,10 +41,13 @@ export function DatePicker({ date, setDate, disabled }: props) {
         <Calendar
           disabled={disabled}
           mode="single"
+          month={month}
+          onMonthChange={setMonth}
           selected={date}
           captionLayout="dropdown"
           onSelect={(date) => {
             setDate(date as Date);
+            setMonth(date);
             setOpen(false);
           }}
         />
