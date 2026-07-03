@@ -4,8 +4,14 @@ import SkillField from "../components/SkillField";
 import useSkillsStep from "../hooks/useSkillsStep";
 
 export default function SkillsStep() {
-  const { data, nextStep, handleAdd, handleRemoveSkill, allowNext } =
-    useSkillsStep();
+  const {
+    data,
+    nextStep,
+    handleAdd,
+    handleRemoveSkill,
+    handleUpdateSkill,
+    allowNext,
+  } = useSkillsStep();
 
   return (
     <StepHeading
@@ -19,6 +25,7 @@ export default function SkillsStep() {
             data={data.skills.soft}
             handleAdd={handleAdd}
             handleRemove={handleRemoveSkill}
+            handleUpdate={handleUpdateSkill}
             label="Soft Skills"
             placeholder="Comunication, leadership, teamwork, etc..."
             description="Min 3 required. You can add up to 6 soft skills."
@@ -29,6 +36,7 @@ export default function SkillsStep() {
             data={data.skills.languages}
             handleAdd={handleAdd}
             handleRemove={handleRemoveSkill}
+            handleUpdate={handleUpdateSkill}
             label="Languages"
             placeholder="English, French, etc..."
             description="Min 1 required. You can add up to 6 languages."
@@ -38,6 +46,7 @@ export default function SkillsStep() {
             data={data.skills.technical}
             handleAdd={handleAdd}
             handleRemove={handleRemoveSkill}
+            handleUpdate={handleUpdateSkill}
             label="Technical Skills"
             placeholder="React, Node.js, etc..."
             description="Min 3 required. You can add up to 6 technical skills."

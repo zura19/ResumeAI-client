@@ -25,6 +25,11 @@ interface ResumeActions {
   handleAddExperience: (experience: Experience) => void;
   handleAddSkill: (type: skillType, skill: string) => void;
   handleRemoveSkill: (type: skillType, skill: string) => void;
+  handleUpdateSkill: (
+    type: skillType,
+    currentSkill: string,
+    nextSkill: string,
+  ) => void;
   handleAddProject: (project: Project) => void;
   handleChangeType: (type: ResumeType) => void;
 }
@@ -119,6 +124,40 @@ const useBuildResume = create<ResumeStore>((set, get) => ({
         skills: {
           ...state.skills,
           [type]: state.skills[type].filter((s) => s !== skill),
+        },
+      },
+    });
+  },
+
+  handleUpdateSkill: (
+    type: skillType,
+    currentSkill: string,
+    nextSkill: string,
+  ) => {
+    const trimmedSkill = nextSkill.trim();
+    const state = get().data;
+
+    // if (!trimmedSkill) {
+    //   toast.error("Skill cannot be empty");
+    //   return;
+    // }
+
+    // if (
+    //   trimmedSkill !== currentSkill &&
+    //   state.skills[type].includes(trimmedSkill)
+    // ) {
+    //   toast.error("Skill already added");
+    //   return;
+    // }
+
+    set({
+      data: {
+        ...state,
+        skills: {
+          ...state.skills,
+          [type]: state.skills[type].map((skill) =>
+            skill === currentSkill ? trimmedSkill : skill,
+          ),
         },
       },
     });

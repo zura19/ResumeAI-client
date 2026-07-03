@@ -1,12 +1,13 @@
+import EditableTagItem from "@/components/shared/EditableTagItem";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { PlusIcon } from "lucide-react";
 import { useMemo, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { PlusIcon, X } from "lucide-react";
+import { cn } from "@/lib/utils";
 import type { skillType } from "@/lib/types/buildResumeTypes";
 import { skillsData } from "@/constants/resume/skillsData";
-import { AnimatePresence, motion } from "framer-motion";
-import { cn } from "@/lib/utils";
+import SkillSuggestions from "./SkillSuggestions";
 
 interface props {
   type: skillType;
@@ -16,6 +17,7 @@ interface props {
   description: string;
   handleAdd: (type: skillType, skill: string) => void;
   handleRemove: (type: skillType, skill: string) => void;
+  handleUpdate: (type: skillType, currentSkill: string, nextSkill: string) => void;
 }
 
 export default function SkillField({
@@ -23,15 +25,49 @@ export default function SkillField({
   data,
   handleAdd,
   handleRemove,
+  handleUpdate,
   label,
   placeholder,
   description,
 }: props) {
   const [temp, setTemp] = useState("");
+  const [editingSkill, setEditingSkill] = useState<string | null>(null);
+  const [editingValue, setEditingValue] = useState("");
+  const suggestions = useMemo(
+    () =>
+      skillsData[type].filter(
+        (skill) =>
+          skill.toLocaleLowerCase().includes(temp.toLocaleLowerCase()) &&
+          !data.includes(skill),
+      ),
+    [data, temp, type],
+  );
 
-  const add = (skill: string) => {
-    handleAdd(type, skill);
+  const add = () => {
+    const nextSkill = temp.trim();
+
+    if (!nextSkill) return;
+
+    handleAdd(type, nextSkill);
     setTemp("");
+  };
+
+  const handleEditStart = (skill: string) => {
+    setEditingSkill(skill);
+    setEditingValue(skill);
+  };
+
+  const handleEditSave = () => {
+    if (!editingSkill) return;
+
+    handleUpdate(type, editingSkill, editingValue);
+    setEditingSkill(null);
+    setEditingValue("");
+  };
+
+  const handleEditCancel = () => {
+    setEditingSkill(null);
+    setEditingValue("");
   };
 
   return (
@@ -51,96 +87,52 @@ export default function SkillField({
           id={type}
           className={cn(
             "h-10 focus-visible:ring-0",
-            temp.length > 0 ? "rounded-b-none" : ""
+            temp.length > 0 ? "rounded-b-none" : "",
           )}
           placeholder={placeholder}
         />
 
         {temp.length > 0 && (
           <Button
-            disabled={temp.length <= 2}
+            disabled={temp.trim().length <= 2}
             size={"icon"}
-            className="flex size-6 items-center justify-center rounded-full  absolute top-[68%] -translate-1/2 right-0 -translate-x-2"
-            onClick={() => add(temp)}
+            className="flex size-6 items-center justify-center rounded-full absolute top-[68%] -translate-1/2 right-0 -translate-x-2"
+            onClick={add}
           >
-            <PlusIcon className="size-4 " strokeWidth={2.5} />
+            <PlusIcon className="size-4" strokeWidth={2.5} />
           </Button>
         )}
 
-        <AnimatePresence>
-          {temp && <SkillsBox handleAdd={add} temp={temp} type={type} />}
-        </AnimatePresence>
+        <SkillSuggestions
+          type={type}
+          temp={temp}
+          suggestions={suggestions}
+          onSelect={(skill) => {
+            handleAdd(type, skill);
+            setTemp("");
+          }}
+        />
       </div>
       <p className="text-xs text-muted-foreground mt-2">{description}</p>
 
       <div className="grid grid-cols-3 items-center justify-center text-xs gap-2 mt-2">
         {data.map((skill) => (
-          <div
-            className="text-xs bg-muted rounded-full flex items-center justify-between px-3 py-1.5"
+          <EditableTagItem
             key={skill}
-          >
-            {skill}
-            <X
-              onClick={() => handleRemove(type, skill)}
-              className="size-4 cursor-pointer hover:bg-muted-foreground/20 rounded-full transition-all duration-300"
-              strokeWidth={2.5}
-            />
-          </div>
+            value={skill}
+            isEditing={editingSkill === skill}
+            editingValue={editingValue}
+            onEditingValueChange={(value) =>
+              value.length <= 20 && setEditingValue(value)
+            }
+            onEditStart={() => handleEditStart(skill)}
+            onEditSave={handleEditSave}
+            onEditCancel={handleEditCancel}
+            onRemove={() => handleRemove(type, skill)}
+            maxLength={20}
+          />
         ))}
       </div>
     </div>
-  );
-}
-
-function SkillsBox({
-  type,
-  temp,
-  handleAdd,
-}: {
-  type: skillType;
-  temp: string;
-  handleAdd: (skill: string) => void;
-}) {
-  const data = useMemo(
-    () =>
-      skillsData[type].filter((s) =>
-        s.toLocaleLowerCase().includes(temp.toLocaleLowerCase())
-      ),
-    [temp, type]
-  );
-
-  return (
-    <motion.div
-      id={"skill-box-" + type}
-      key={type}
-      layout
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{
-        opacity: 0,
-        y: 30,
-      }}
-      transition={{ duration: 0.3 }}
-      className="absolute bottom-0 translate-y-full left-0 w-full overflow-scroll border border-foreground/15 h-[250px] z-10 bg-card/80 backdrop-blur-md rounded-lg rounded-t-none"
-    >
-      {data.length > 0 ? (
-        data.map((s) => (
-          <div
-            key={s}
-            className=" hover:bg-muted text-sm text-foreground/80 py-2.5 px-4 transition-all duration-300 cursor-pointer"
-            onClick={() => handleAdd(s)}
-          >
-            <p className="">{s}</p>
-          </div>
-        ))
-      ) : (
-        <div className="text-center pt-8">
-          <p className="text-lg font-semibold">No Skills found</p>
-          <p className="text-sm text-muted-foreground">
-            you can still add the skill "{temp}" if you want.
-          </p>
-        </div>
-      )}
-    </motion.div>
   );
 }

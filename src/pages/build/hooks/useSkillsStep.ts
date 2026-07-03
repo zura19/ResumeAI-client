@@ -2,8 +2,13 @@ import type { skillType } from "@/lib/types/buildResumeTypes";
 import useBuildResume from "@/lib/store/buildResumeState";
 
 export default function useSkillsStep() {
-  const { nextStep, handleAddSkill, handleRemoveSkill, data } =
-    useBuildResume();
+  const {
+    nextStep,
+    handleAddSkill,
+    handleRemoveSkill,
+    handleUpdateSkill,
+    data,
+  } = useBuildResume();
 
   function handleAdd(type: skillType, skill: string) {
     if (type === "soft") handleAddSkill(type, skill);
@@ -26,6 +31,7 @@ export default function useSkillsStep() {
     nextStep,
     handleAdd,
     handleRemoveSkill,
+    handleUpdateSkill,
     allowNext,
   };
 }
