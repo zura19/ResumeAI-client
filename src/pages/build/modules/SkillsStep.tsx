@@ -1,28 +1,11 @@
-import useBuildResume from "@/lib/store/buildResumeState";
 import StepHeading from "../components/StepHeading";
 import StepFooter from "./StepFooter";
-import type { skillType } from "@/lib/types/buildResumeTypes";
 import SkillField from "../components/SkillField";
+import useSkillsStep from "../hooks/useSkillsStep";
 
 export default function SkillsStep() {
-  const { nextStep, handleAddSkill, handleRemoveSkill, data } =
-    useBuildResume();
-
-  function handleAdd(type: skillType, skill: string) {
-    if (type === "soft") handleAddSkill(type, skill);
-
-    if (type === "languages") handleAddSkill(type, skill);
-
-    if (type === "technical") handleAddSkill(type, skill);
-  }
-
-  function allowNext() {
-    return (
-      data.skills.soft.length >= 3 &&
-      data.skills.languages.length >= 1 &&
-      data.skills.technical.length >= 3
-    );
-  }
+  const { data, nextStep, handleAdd, handleRemoveSkill, handleUpdateSkill } =
+    useSkillsStep();
 
   return (
     <StepHeading
@@ -36,9 +19,10 @@ export default function SkillsStep() {
             data={data.skills.soft}
             handleAdd={handleAdd}
             handleRemove={handleRemoveSkill}
+            handleUpdate={handleUpdateSkill}
             label="Soft Skills"
             placeholder="Comunication, leadership, teamwork, etc..."
-            description="Min 3 required. You can add up to 6 soft skills."
+            description="Leave blank if you don't have any soft skill."
           />
 
           <SkillField
@@ -46,23 +30,25 @@ export default function SkillsStep() {
             data={data.skills.languages}
             handleAdd={handleAdd}
             handleRemove={handleRemoveSkill}
+            handleUpdate={handleUpdateSkill}
             label="Languages"
             placeholder="English, French, etc..."
-            description="Min 1 required. You can add up to 6 languages."
+            description="Leave blank if you don't know any language."
           />
           <SkillField
             type="technical"
             data={data.skills.technical}
             handleAdd={handleAdd}
             handleRemove={handleRemoveSkill}
+            handleUpdate={handleUpdateSkill}
             label="Technical Skills"
             placeholder="React, Node.js, etc..."
-            description="Min 3 required. You can add up to 6 technical skills."
+            description="Leave blank if you don't have any technical skill."
           />
         </div>
       </div>
       <div className="mt-auto pt-10">
-        <StepFooter disabledNext={!allowNext()} handleNext={nextStep} />
+        <StepFooter handleNext={nextStep} />
       </div>
     </StepHeading>
   );

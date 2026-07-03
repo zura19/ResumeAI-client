@@ -1,56 +1,34 @@
-import useBuildResume from "@/lib/store/buildResumeState";
 import StepHeading from "../components/StepHeading";
 import StepFooter from "./StepFooter";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DatePicker } from "@/components/shared/DatePicker";
-import type { Education } from "@/lib/types/buildResumeTypes";
 import StepModal from "../components/StepModal";
 import UniversityField from "../components/UniversityField";
+import useEducationStep from "../hooks/useEducationStep";
 
 export default function EducationStep() {
-  const { nextStep, handleAddEducation, data } = useBuildResume();
-
-  const [university, setUniversity] = useState("");
-  const [degree, setDegree] = useState("");
-  const [fieldOfStudy, setFieldOfStudy] = useState("");
-  const [startDate, setStartDate] = useState(
-    new Date(new Date().getTime() - 2 * 365 * 24 * 60 * 60 * 1000)
-  );
-  const [endDate, setEndDate] = useState(new Date());
-  const [stillStudying, setStillStudying] = useState(false);
-
-  function add() {
-    const dataToAdd: Education = {
-      university,
-      degree,
-      fieldOfStudy,
-      startDate: startDate.toLocaleDateString(),
-      endDate: stillStudying ? null : endDate.toLocaleDateString(),
-      stillStudying,
-    };
-
-    handleAddEducation(dataToAdd);
-
-    setUniversity("");
-    setDegree("");
-    setFieldOfStudy("");
-    setStartDate(new Date());
-    setEndDate(new Date());
-    setStillStudying(false);
-  }
-
-  const dissableAdd =
-    !university || !degree || !fieldOfStudy || !startDate || !endDate;
-
-  function disable(): boolean {
-    if (data.education.length === 0) return true;
-    if (university || degree || fieldOfStudy) return true;
-    return false;
-  }
+  const {
+    data,
+    nextStep,
+    university,
+    setUniversity,
+    degree,
+    setDegree,
+    fieldOfStudy,
+    setFieldOfStudy,
+    startDate,
+    setStartDate,
+    endDate,
+    setEndDate,
+    stillStudying,
+    setStillStudying,
+    addEducation,
+    disabledAdd,
+    disabledNext,
+  } = useEducationStep();
 
   return (
     <StepHeading
@@ -65,8 +43,8 @@ export default function EducationStep() {
             <Button
               size={"icon-lg"}
               className="bg-indigo-600 rounded-full text-gray-100 font-bold hover:bg-indigo-500"
-              disabled={dissableAdd}
-              onClick={add}
+              disabled={disabledAdd}
+              onClick={addEducation}
             >
               <Plus className="size-5.5" strokeWidth={2.5} />
             </Button>
@@ -76,19 +54,6 @@ export default function EducationStep() {
             university={university}
             setUniversity={setUniversity}
           />
-
-          {/* <div className="space-y-2">
-            <Label htmlFor="university" className="font-semibold">
-              University
-            </Label>
-            <Input
-              value={university}
-              onChange={(e) => setUniversity(e.target.value)}
-              name="university"
-              id="university"
-              placeholder="University Name"
-            />
-          </div> */}
 
           <div className="space-y-2">
             <Label htmlFor="fieldOfStudy" className="font-semibold">
@@ -167,11 +132,7 @@ export default function EducationStep() {
         </div>
       </div>
       <div className="mt-auto">
-        <StepFooter
-          disabledNext={disable()}
-          // disabledNext={data.education.length === 0}
-          handleNext={nextStep}
-        />
+        <StepFooter disabledNext={disabledNext()} handleNext={nextStep} />
       </div>
     </StepHeading>
   );

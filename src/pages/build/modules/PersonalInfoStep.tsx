@@ -1,37 +1,11 @@
 import { Form } from "@/components/ui/form";
 import StepHeading from "../components/StepHeading";
-import { useForm } from "react-hook-form";
 import FormInput from "@/components/shared/FormInput";
 import StepFooter from "./StepFooter";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  personalInfoSchema,
-  type PersonalInfo,
-} from "@/lib/schemas/personalInfoSchema";
-import useBuildResume from "@/lib/store/buildResumeState";
-import { useUser } from "@/lib/store/userState";
+import usePersonalInfoStep from "../hooks/usePersonalInfoStep";
 
 export default function PersonalInfoStep() {
-  const { user } = useUser();
-  const { nextStep, handlePersonalInfo, data } = useBuildResume();
-  const form = useForm<PersonalInfo>({
-    resolver: zodResolver(personalInfoSchema),
-    defaultValues: {
-      fullName:
-        data.personalInfo.fullName ||
-        `${user?.firstName} ${user?.lastName}` ||
-        "",
-      email: data.personalInfo.email || user?.email || "",
-      phone: data.personalInfo.phone || "",
-      address: data.personalInfo.address || "",
-    },
-  });
-
-  async function onSubmit(vals: PersonalInfo) {
-    console.log(vals);
-    handlePersonalInfo(vals);
-    nextStep();
-  }
+  const { form, onSubmit } = usePersonalInfoStep();
 
   return (
     <StepHeading

@@ -22,10 +22,18 @@ interface ResumeActions {
 
   handlePersonalInfo: (personalInfo: PersonalInfo) => void;
   handleAddEducation: (education: Education) => void;
+  handleRemoveEducation: (index: number) => void;
   handleAddExperience: (experience: Experience) => void;
+  handleRemoveExperience: (index: number) => void;
   handleAddSkill: (type: skillType, skill: string) => void;
   handleRemoveSkill: (type: skillType, skill: string) => void;
+  handleUpdateSkill: (
+    type: skillType,
+    currentSkill: string,
+    nextSkill: string,
+  ) => void;
   handleAddProject: (project: Project) => void;
+  handleRemoveProject: (index: number) => void;
   handleChangeType: (type: ResumeType) => void;
 }
 
@@ -87,9 +95,31 @@ const useBuildResume = create<ResumeStore>((set, get) => ({
     });
   },
 
+  handleRemoveEducation: (index: number) => {
+    const state = get().data;
+    set({
+      data: {
+        ...state,
+        education: state.education.filter((_, itemIndex) => itemIndex !== index),
+      },
+    });
+  },
+
   handleAddExperience: (experience: Experience) => {
     const state = get().data;
     set({ data: { ...state, experience: [...state.experience, experience] } });
+  },
+
+  handleRemoveExperience: (index: number) => {
+    const state = get().data;
+    set({
+      data: {
+        ...state,
+        experience: state.experience.filter(
+          (_, itemIndex) => itemIndex !== index,
+        ),
+      },
+    });
   },
 
   handleAddSkill: (type: skillType, skill: string) => {
@@ -124,9 +154,53 @@ const useBuildResume = create<ResumeStore>((set, get) => ({
     });
   },
 
+  handleUpdateSkill: (
+    type: skillType,
+    currentSkill: string,
+    nextSkill: string,
+  ) => {
+    const trimmedSkill = nextSkill.trim();
+    const state = get().data;
+
+    // if (!trimmedSkill) {
+    //   toast.error("Skill cannot be empty");
+    //   return;
+    // }
+
+    // if (
+    //   trimmedSkill !== currentSkill &&
+    //   state.skills[type].includes(trimmedSkill)
+    // ) {
+    //   toast.error("Skill already added");
+    //   return;
+    // }
+
+    set({
+      data: {
+        ...state,
+        skills: {
+          ...state.skills,
+          [type]: state.skills[type].map((skill) =>
+            skill === currentSkill ? trimmedSkill : skill,
+          ),
+        },
+      },
+    });
+  },
+
   handleAddProject: (project: Project) => {
     const state = get().data;
     set({ data: { ...state, projects: [...state.projects, project] } });
+  },
+
+  handleRemoveProject: (index: number) => {
+    const state = get().data;
+    set({
+      data: {
+        ...state,
+        projects: state.projects.filter((_, itemIndex) => itemIndex !== index),
+      },
+    });
   },
 
   handleChangeType: (type: ResumeType) => {

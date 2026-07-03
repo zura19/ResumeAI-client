@@ -1,4 +1,5 @@
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
+import { formatResumeDate, parseResumeDate } from "@/pages/resume/utils/date";
 import { useState } from "react";
 
 interface UseEducationFormProps {
@@ -8,19 +9,6 @@ interface UseEducationFormProps {
   editEducation?: (education: AiGeneratedResume["education"][0]) => void;
   edu?: AiGeneratedResume["education"][0];
 }
-
-const convertStrToTime = (value: string) => {
-  const [year, month, day] = value.split("/").map(Number);
-  return new Date(year, month - 1, day);
-};
-
-const timeToStr = (value: Date) => {
-  const year = value.getFullYear();
-  const month = String(value.getMonth() + 1).padStart(2, "0");
-  const day = String(value.getDate()).padStart(2, "0");
-
-  return `${year}/${month}/${day}`;
-};
 
 export default function useEducationForm({
   session,
@@ -34,11 +22,11 @@ export default function useEducationForm({
   const [field, setField] = useState(edu?.fieldOfStudy || "");
   const [startDate, setStartDate] = useState(
     edu?.startDate
-      ? convertStrToTime(edu.startDate)
+      ? parseResumeDate(edu.startDate)
       : new Date(new Date().getTime() - 2 * 365 * 24 * 60 * 60 * 1000),
   );
   const [endDate, setEndDate] = useState(
-    edu?.endDate ? convertStrToTime(edu.endDate) : new Date(),
+    parseResumeDate(edu?.endDate),
   );
   const [stillStudying, setStillStudying] = useState(
     edu?.endDate === "Present",
@@ -61,8 +49,8 @@ export default function useEducationForm({
       university: university.trim(),
       degree: degree.trim(),
       fieldOfStudy: field.trim(),
-      startDate: timeToStr(startDate),
-      endDate: stillStudying ? "Present" : timeToStr(endDate),
+      startDate: formatResumeDate(startDate),
+      endDate: stillStudying ? "Present" : formatResumeDate(endDate),
     };
 
     if (session === "create" && addEducation) {

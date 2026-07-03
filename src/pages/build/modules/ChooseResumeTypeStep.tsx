@@ -1,33 +1,12 @@
 import StepHeading from "../components/StepHeading";
 import StepFooter from "./StepFooter";
-import useBuildResume from "@/lib/store/buildResumeState";
-import { useNavigate } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
-import { createResumeService } from "@/lib/services/resume/createResumeService";
 import { motion } from "framer-motion";
 import { resumeTypeData } from "@/constants/resume/resumeTypeData";
-import { toast } from "sonner";
+import useChooseResumeTypeStep from "../hooks/useChooseResumeTypeStep";
 
 export default function ChooseResumeTypeStep() {
-  const { data, handleChangeType, reset } = useBuildResume();
-  const type = data.type;
-
-  const navigate = useNavigate();
-  const { mutate: createResume, isPending } = useMutation({
-    mutationFn: async () => {
-      console.log(data);
-
-      return await createResumeService(data);
-    },
-    onSuccess: (data) => {
-      toast.success("Resume created successfully");
-      reset();
-      navigate(`/resume/${data.data.resumeId}`);
-    },
-    onError: (error) => {
-      toast.error(error.message || "Failed to create resume");
-    },
-  });
+  const { type, handleChangeType, createResume, isPending } =
+    useChooseResumeTypeStep();
 
   return (
     <StepHeading

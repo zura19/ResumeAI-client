@@ -1,31 +1,24 @@
-import useBuildResume from "@/lib/store/buildResumeState";
 import StepHeading from "../components/StepHeading";
 import StepFooter from "./StepFooter";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import StepModal from "../components/StepModal";
 import { Textarea } from "@/components/ui/textarea";
+import useProjectsStep from "../hooks/useProjectsStep";
 
 export default function ProjectsStep() {
-  const { data, handleAddProject, nextStep } = useBuildResume();
-
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-
-  const dissableAdd = !description || !title;
-  function add() {
-    const dataToAdd = {
-      title,
-      description,
-    };
-
-    handleAddProject(dataToAdd);
-    setTitle("");
-    setDescription("");
-  }
+  const {
+    data,
+    nextStep,
+    title,
+    setTitle,
+    description,
+    setDescription,
+    disabledAdd,
+    addProject,
+  } = useProjectsStep();
 
   return (
     <StepHeading
@@ -40,8 +33,8 @@ export default function ProjectsStep() {
             <Button
               size={"icon-lg"}
               className="bg-indigo-600 rounded-full text-gray-100 font-bold hover:bg-indigo-500"
-              disabled={dissableAdd}
-              onClick={add}
+              disabled={disabledAdd}
+              onClick={addProject}
             >
               <Plus className="size-5.5" strokeWidth={2.5} />
             </Button>
