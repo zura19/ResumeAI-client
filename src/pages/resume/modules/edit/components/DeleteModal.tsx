@@ -8,7 +8,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
-import { EllipsisVertical } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import useDeleteResumeAction from "../../../hooks/actions/useDeleteResumeAction";
 
 interface props {
@@ -36,7 +36,7 @@ export default function DeleteModal({
           size="icon-sm"
           className="rounded-full flex  font-semibold"
         >
-          <EllipsisVertical className="" />
+          <Trash2 className="" />
         </Button>
       </DialogTrigger>
 

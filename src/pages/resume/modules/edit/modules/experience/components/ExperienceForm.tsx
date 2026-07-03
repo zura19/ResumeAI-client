@@ -27,13 +27,17 @@ export default function ExperienceForm({
     position,
     setPosition,
     responsibilities,
-    setResponsibilities,
+    addResponsibility,
+    removeResponsibility,
+    updateResponsibility,
     startDate,
     setStartDate,
     endDate,
     setEndDate,
     stillWorking,
     setStillWorking,
+    generateResponsibilitie,
+    isGenerating,
     isDisabled,
     handleSubmit,
   } = useExperienceForm({
@@ -76,7 +80,11 @@ export default function ExperienceForm({
         company={company as string}
         position={position as string}
         responsibilities={responsibilities}
-        setResponsibilities={setResponsibilities}
+        addResponsibility={addResponsibility}
+        removeResponsibility={removeResponsibility}
+        updateResponsibility={updateResponsibility}
+        generateResponsibilitie={generateResponsibilitie}
+        isGenerating={isGenerating}
       />
 
       <div className="flex w-full gap-4">

@@ -1,5 +1,8 @@
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
+import { generateResponsibilitieService } from "@/lib/services/ai/generateResponsibilitieService";
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
+import { toast } from "sonner";
 
 interface UseExperienceFormProps {
   session: "edit" | "create";
@@ -44,6 +47,42 @@ export default function useExperienceForm({
   );
   const [stillWorking, setStillWorking] = useState(exp?.endDate === "Present");
 
+  const { mutateAsync: generateResponsibilitie, isPending: isGenerating } =
+    useMutation({
+      mutationFn: async () => {
+        const data = await generateResponsibilitieService({
+          company,
+          position,
+          responsibilities,
+        });
+
+        return data.data.responsibilitie;
+      },
+      onError: (error) => toast.error(error.message || "Failed to generate"),
+    });
+
+  function addResponsibility(value: string) {
+    const nextValue = value.trim();
+
+    if (!nextValue) return;
+
+    setResponsibilities((prev) => [...prev, nextValue]);
+  }
+
+  function removeResponsibility(index: number) {
+    setResponsibilities((prev) => prev.filter((_, current) => current !== index));
+  }
+
+  function updateResponsibility(index: number, value: string) {
+    const nextValue = value.trim();
+
+    if (!nextValue) return;
+
+    setResponsibilities((prev) =>
+      prev.map((item, current) => (current === index ? nextValue : item)),
+    );
+  }
+
   function isDisabled() {
     if (!company || !position || !responsibilities.length || !startDate) {
       return true;
@@ -83,12 +122,17 @@ export default function useExperienceForm({
     setPosition,
     responsibilities,
     setResponsibilities,
+    addResponsibility,
+    removeResponsibility,
+    updateResponsibility,
     startDate,
     setStartDate,
     endDate,
     setEndDate,
     stillWorking,
     setStillWorking,
+    generateResponsibilitie,
+    isGenerating,
     isDisabled,
     handleSubmit,
   };

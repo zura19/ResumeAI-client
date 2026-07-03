@@ -58,6 +58,9 @@ export default function ProjectCard({
           </p>
         ))}
       </div>
+      <p className="text-xs text-muted-foreground">
+        {proj.features.length} Features
+      </p>
     </motion.div>
   );
 }
