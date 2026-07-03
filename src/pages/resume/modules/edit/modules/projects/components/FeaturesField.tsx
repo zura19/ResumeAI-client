@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Loader, Plus, Sparkles, X } from "lucide-react";
+import { Loader, Plus, Sparkles } from "lucide-react";
 import useGenerateFeature from "@/pages/resume/hooks/actions/projects/useGenerateFeature";
+import { useState } from "react";
+import FeatureItem from "./FeatureItem";
 
 interface props {
   title: string;
@@ -23,12 +25,33 @@ export default function FeaturesField({
     isGenerating,
     addFeature,
     removeFeature,
+    updateFeature,
   } = useGenerateFeature({
     title,
     technologies,
     features,
     setFeatures,
   });
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [editingValue, setEditingValue] = useState("");
+
+  const handleEditStart = (index: number) => {
+    setEditingIndex(index);
+    setEditingValue(features[index] ?? "");
+  };
+
+  const handleEditSave = () => {
+    if (editingIndex === null) return;
+
+    updateFeature(editingIndex, editingValue);
+    setEditingIndex(null);
+    setEditingValue("");
+  };
+
+  const handleEditCancel = () => {
+    setEditingIndex(null);
+    setEditingValue("");
+  };
 
   return (
     <div className="space-y-2 relative">
@@ -77,15 +100,16 @@ export default function FeaturesField({
         <div className="space-y-3 mt-2 bg-muted/50 rounded-lg p-2">
           {features.map((r, i) => (
             <div key={i} className="flex text-xs items-center justify-between">
-              <span>{r}</span>
-              <Button
-                size={"icon-sm"}
-                variant={"destructive"}
-                className="size-5 rounded-full"
-                onClick={() => removeFeature(i)}
-              >
-                <X className="size-3" />
-              </Button>
+              <FeatureItem
+                feature={r}
+                isEditing={editingIndex === i}
+                editingValue={editingValue}
+                onEditingValueChange={setEditingValue}
+                onEditStart={() => handleEditStart(i)}
+                onEditSave={handleEditSave}
+                onEditCancel={handleEditCancel}
+                onRemove={() => removeFeature(i)}
+              />
             </div>
           ))}
         </div>

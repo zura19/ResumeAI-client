@@ -2,8 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Check, Pencil, X } from "lucide-react";
 
-interface ResponsibilitieItemProps {
-  responsibility: string;
+interface FeatureItemProps {
+  feature: string;
   isEditing: boolean;
   editingValue: string;
   onEditingValueChange: (value: string) => void;
@@ -13,8 +13,8 @@ interface ResponsibilitieItemProps {
   onRemove: () => void;
 }
 
-export default function ResponsibilitieItem({
-  responsibility,
+export default function FeatureItem({
+  feature,
   isEditing,
   editingValue,
   onEditingValueChange,
@@ -22,7 +22,7 @@ export default function ResponsibilitieItem({
   onEditSave,
   onEditCancel,
   onRemove,
-}: ResponsibilitieItemProps) {
+}: FeatureItemProps) {
   if (isEditing) {
     return (
       <div className="flex w-full items-center gap-2">
@@ -55,8 +55,8 @@ export default function ResponsibilitieItem({
 
   return (
     <div className="flex w-full items-start justify-between gap-2">
-      <span className="pr-2">{responsibility}</span>
-      <div className="flex items-center gap-1">
+      <span className="pr-2">{feature}</span>
+      <div className="flex items- gap-1">
         <Button
           size={"icon-sm"}
           variant={"outline"}

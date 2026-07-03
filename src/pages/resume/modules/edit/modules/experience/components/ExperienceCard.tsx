@@ -10,7 +10,7 @@ interface props {
   deleteExperience: (edu: AiGeneratedResume["experience"][0]) => void;
   editExperience: (
     exp: AiGeneratedResume["experience"][0],
-    index: number
+    index: number,
   ) => void;
   index: number;
 }
@@ -56,6 +56,9 @@ export default function ExperienceCard({
       <p className="text-sm text-muted-foreground">{exp.position}</p>
       <p className="text-xs text-muted-foreground">
         {exp.startDate} - {exp.endDate || "Present"}
+      </p>
+      <p className="text-xs text-muted-foreground">
+        {exp.responsibilities.length} Responsibilities
       </p>
     </motion.div>
   );

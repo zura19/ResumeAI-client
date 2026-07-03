@@ -30,12 +30,30 @@ export default function useGenerateFeature({
   });
 
   function addFeature() {
-    setFeatures((previous) => [...previous, feature]);
+    const nextFeature = feature.trim();
+
+    if (!nextFeature) return;
+
+    setFeatures((previous) => [...previous, nextFeature]);
     setFeature("");
   }
 
   function removeFeature(index: number) {
-    setFeatures(features.filter((_, featureIndex) => featureIndex !== index));
+    setFeatures((previous) =>
+      previous.filter((_, featureIndex) => featureIndex !== index),
+    );
+  }
+
+  function updateFeature(index: number, value: string) {
+    const nextFeature = value.trim();
+
+    if (!nextFeature) return;
+
+    setFeatures((previous) =>
+      previous.map((item, featureIndex) =>
+        featureIndex === index ? nextFeature : item,
+      ),
+    );
   }
 
   return {
@@ -45,5 +63,6 @@ export default function useGenerateFeature({
     isGenerating,
     addFeature,
     removeFeature,
+    updateFeature,
   };
 }
