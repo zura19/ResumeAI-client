@@ -1,28 +1,11 @@
-import useBuildResume from "@/lib/store/buildResumeState";
 import StepHeading from "../components/StepHeading";
 import StepFooter from "./StepFooter";
-import type { skillType } from "@/lib/types/buildResumeTypes";
 import SkillField from "../components/SkillField";
+import useSkillsStep from "../hooks/useSkillsStep";
 
 export default function SkillsStep() {
-  const { nextStep, handleAddSkill, handleRemoveSkill, data } =
-    useBuildResume();
-
-  function handleAdd(type: skillType, skill: string) {
-    if (type === "soft") handleAddSkill(type, skill);
-
-    if (type === "languages") handleAddSkill(type, skill);
-
-    if (type === "technical") handleAddSkill(type, skill);
-  }
-
-  function allowNext() {
-    return (
-      data.skills.soft.length >= 3 &&
-      data.skills.languages.length >= 1 &&
-      data.skills.technical.length >= 3
-    );
-  }
+  const { data, nextStep, handleAdd, handleRemoveSkill, allowNext } =
+    useSkillsStep();
 
   return (
     <StepHeading
