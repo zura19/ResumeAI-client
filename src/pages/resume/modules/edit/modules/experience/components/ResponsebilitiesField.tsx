@@ -1,40 +1,51 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { generateResponsibilitieService } from "@/lib/services/ai/generateResponsibilitieService";
-import { useMutation } from "@tanstack/react-query";
-import { Loader, Plus, Sparkles, X } from "lucide-react";
+import { Loader, Plus, Sparkles } from "lucide-react";
 import { useState } from "react";
-import { toast } from "sonner";
+import ResponsibilitieItem from "./ResponsibilitieItem";
 
 interface props {
   responsibilities: string[];
-  setResponsibilities: React.Dispatch<React.SetStateAction<string[]>>;
+  addResponsibility: (value: string) => void;
+  removeResponsibility: (index: number) => void;
+  updateResponsibility: (index: number, value: string) => void;
+  generateResponsibilitie: () => Promise<string>;
+  isGenerating: boolean;
   company: string;
   position: string;
 }
 export default function ResponsebilitiesField({
   responsibilities,
-  setResponsibilities,
+  addResponsibility,
+  removeResponsibility,
+  updateResponsibility,
+  generateResponsibilitie,
+  isGenerating,
   company,
   position,
 }: props) {
   const [res, setRes] = useState("");
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [editingValue, setEditingValue] = useState("");
 
-  const { mutateAsync: generate, isPending: isGenerating } = useMutation({
-    mutationFn: async () => {
-      const data = await generateResponsibilitieService({
-        company,
-        position,
-        responsibilities,
-      });
-      return data;
-    },
-    onSuccess: (data) => {
-      setRes(data.data.responsibilitie);
-    },
-    onError: (error) => toast.error(error.message || "Failed to generate"),
-  });
+  const handleEditStart = (index: number) => {
+    setEditingIndex(index);
+    setEditingValue(responsibilities[index] ?? "");
+  };
+
+  const handleEditSave = () => {
+    if (editingIndex === null) return;
+
+    updateResponsibility(editingIndex, editingValue);
+    setEditingIndex(null);
+    setEditingValue("");
+  };
+
+  const handleEditCancel = () => {
+    setEditingIndex(null);
+    setEditingValue("");
+  };
 
   return (
     <div className="space-y-2 relative">
@@ -53,7 +64,7 @@ export default function ResponsebilitiesField({
         <Button
           disabled={responsibilities.length >= 5}
           onClick={() => {
-            setResponsibilities((prev) => [...prev, res]);
+            addResponsibility(res);
             setRes("");
           }}
           size={"icon-sm"}
@@ -63,7 +74,14 @@ export default function ResponsebilitiesField({
         </Button>
       ) : (
         <Button
-          onClick={() => generate()}
+          onClick={async () => {
+            try {
+              const generated = await generateResponsibilitie();
+              setRes(generated);
+            } catch {
+              // Error feedback is handled by the mutation in the form hook.
+            }
+          }}
           disabled={
             responsibilities.length >= 5 ||
             isGenerating ||
@@ -91,19 +109,16 @@ export default function ResponsebilitiesField({
         <div className="space-y-3 mt-2 bg-muted/50 rounded-lg p-2">
           {responsibilities.map((r, i) => (
             <div key={i} className="flex text-xs items-center justify-between">
-              <span>{r}</span>
-              <Button
-                size={"icon-sm"}
-                variant={"destructive"}
-                className="size-5 rounded-full"
-                onClick={() =>
-                  setResponsibilities(
-                    responsibilities.filter((_, index) => index !== i)
-                  )
-                }
-              >
-                <X className="size-3" />
-              </Button>
+              <ResponsibilitieItem
+                responsibility={r}
+                isEditing={editingIndex === i}
+                editingValue={editingValue}
+                onEditingValueChange={setEditingValue}
+                onEditStart={() => handleEditStart(i)}
+                onEditSave={handleEditSave}
+                onEditCancel={handleEditCancel}
+                onRemove={() => removeResponsibility(i)}
+              />
             </div>
           ))}
         </div>
