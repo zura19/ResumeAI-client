@@ -18,20 +18,11 @@ export default function useSkillsStep() {
     if (type === "technical") handleAddSkill(type, skill);
   }
 
-  function allowNext() {
-    return (
-      data.skills.soft.length >= 3 &&
-      data.skills.languages.length >= 1 &&
-      data.skills.technical.length >= 3
-    );
-  }
-
   return {
     data,
     nextStep,
     handleAdd,
     handleRemoveSkill,
     handleUpdateSkill,
-    allowNext,
   };
 }
