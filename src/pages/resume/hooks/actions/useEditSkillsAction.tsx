@@ -98,10 +98,27 @@ export default function useEditSkillsAction({
     }
   }
 
-  function handleRemoveSkill(type: skillType, skill: string) {
+  function handleRemoveSkillAtIndex(type: skillType, indexToRemove: number) {
     setSkillsData((previous) => ({
       ...previous,
-      [type]: previous[type].filter((item) => item !== skill),
+      [type]: previous[type].filter((_, index) => index !== indexToRemove),
+    }));
+  }
+
+  function handleUpdateSkill(
+    type: skillType,
+    indexToUpdate: number,
+    value: string,
+  ) {
+    const nextSkill = value.trim();
+
+    if (!nextSkill) return;
+
+    setSkillsData((previous) => ({
+      ...previous,
+      [type]: previous[type].map((item, index) =>
+        index === indexToUpdate ? nextSkill : item,
+      ),
     }));
   }
 
@@ -138,7 +155,8 @@ export default function useEditSkillsAction({
     isPending,
     allowSave,
     handleAdd,
-    handleRemoveSkill,
+    handleRemoveSkillAtIndex,
+    handleUpdateSkill,
     handleSaveSkills,
   };
 }

@@ -1,10 +1,9 @@
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import FormButton from "@/components/shared/FormButton";
 import SaveAlert from "../../components/SaveAlert";
-import AddBtn from "./components/AddBtn";
-import SkillsList from "./components/SkillsList";
+import LanguagesSection from "./components/LanguagesSection";
+import SoftSkillsSection from "./components/SoftSkillsSection";
+import TechnicalSkillsSection from "./components/TechnicalSkillsSection";
 import useEditSkillsAction from "@/pages/resume/hooks/actions/useEditSkillsAction";
 
 interface props {
@@ -26,7 +25,8 @@ export default function Skills({ resumeData, id, generatedResumeId }: props) {
     isPending,
     allowSave,
     handleAdd,
-    handleRemoveSkill,
+    handleRemoveSkillAtIndex,
+    handleUpdateSkill,
     handleSaveSkills,
   } = useEditSkillsAction({
     resumeData,
@@ -38,89 +38,35 @@ export default function Skills({ resumeData, id, generatedResumeId }: props) {
     <div className="pb-0 flex flex-col  gap-10 px-1">
       <SaveAlert />
 
-      <div>
-        <div className="relative">
-          <Label htmlFor="softSkills" className="font-semibold mb-2">
-            Soft Skills
-          </Label>
-          <Input
-            disabled={disableAdd("soft")}
-            value={softSkill}
-            onChange={(e) =>
-              e.target.value.length <= 20 && setSoftSkill(e.target.value)
-            }
-            name="softSkills"
-            id="softSkills"
-            className="h-10"
-            placeholder="Comunication, leadership, teamwork, etc..."
-          />
-          <AddBtn
-            hide={softSkill.length === 0}
-            disabled={disableAdd("soft")}
-            onClick={() => handleAdd("soft")}
-          />
-        </div>
-        <SkillsList
-          onRemove={(skill: string) => handleRemoveSkill("soft", skill)}
-          skills={skillsData.soft}
-        />
-      </div>
+      <SoftSkillsSection
+        value={softSkill}
+        skills={skillsData.soft}
+        disabled={disableAdd("soft")}
+        setValue={setSoftSkill}
+        onAdd={() => handleAdd("soft")}
+        onRemove={handleRemoveSkillAtIndex}
+        onUpdate={handleUpdateSkill}
+      />
 
-      <div>
-        <div className="relative">
-          <Label htmlFor="languages" className="font-semibold mb-2">
-            Languages
-          </Label>
-          <Input
-            disabled={disableAdd("languages")}
-            value={language}
-            onChange={(e) =>
-              e.target.value.length <= 20 && setLanguage(e.target.value)
-            }
-            name="languages"
-            id="languages"
-            className="h-10"
-            placeholder="English, French, etc..."
-          />
-          <AddBtn
-            hide={language.length === 0}
-            disabled={disableAdd("languages")}
-            onClick={() => handleAdd("languages")}
-          />
-        </div>
-        <SkillsList
-          onRemove={(skill: string) => handleRemoveSkill("languages", skill)}
-          skills={skillsData.languages}
-        />
-      </div>
+      <LanguagesSection
+        value={language}
+        skills={skillsData.languages}
+        disabled={disableAdd("languages")}
+        setValue={setLanguage}
+        onAdd={() => handleAdd("languages")}
+        onRemove={handleRemoveSkillAtIndex}
+        onUpdate={handleUpdateSkill}
+      />
 
-      <div>
-        <div className="space-y-0 relative">
-          <Label htmlFor="technical" className="font-semibold mb-2">
-            Technical Skills
-          </Label>
-          <Input
-            disabled={disableAdd("technical")}
-            value={technical}
-            onChange={(e) =>
-              e.target.value.length <= 20 && setTechnical(e.target.value)
-            }
-            name="technical"
-            id="technical"
-            className="h-10"
-            placeholder="HTML, CSS, JavaScript, React, etc..."
-          />
-          <AddBtn
-            hide={technical.length === 0}
-            disabled={disableAdd("technical")}
-            onClick={() => handleAdd("technical")}
-          />
-        </div>
-        <SkillsList
-          onRemove={(skill: string) => handleRemoveSkill("technical", skill)}
-          skills={skillsData.technical}
-        />
-      </div>
+      <TechnicalSkillsSection
+        value={technical}
+        skills={skillsData.technical}
+        disabled={disableAdd("technical")}
+        setValue={setTechnical}
+        onAdd={() => handleAdd("technical")}
+        onRemove={handleRemoveSkillAtIndex}
+        onUpdate={handleUpdateSkill}
+      />
       <FormButton
         onClick={handleSaveSkills}
         loading={isPending}
