@@ -1,5 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import type { skillType } from "@/lib/types/buildResumeTypes";
 import AddBtn from "./AddBtn";
 import SkillsList from "./SkillsList";
 
@@ -9,8 +10,8 @@ interface TechnicalSkillsSectionProps {
   disabled: boolean;
   setValue: (value: string) => void;
   onAdd: () => void;
-  onRemove: (type: "technical", index: number) => void;
-  onUpdate: (type: "technical", index: number, value: string) => void;
+  onRemove: (type: skillType, index: number) => void;
+  onUpdate: (type: skillType, index: number, value: string) => void;
 }
 
 export default function TechnicalSkillsSection({
