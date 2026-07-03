@@ -1,5 +1,6 @@
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 import { generateResponsibilitieService } from "@/lib/services/ai/generateResponsibilitieService";
+import { formatResumeDate, parseResumeDate } from "@/pages/resume/utils/date";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -11,19 +12,6 @@ interface UseExperienceFormProps {
   editExperience?: (experience: AiGeneratedResume["experience"][0]) => void;
   exp?: AiGeneratedResume["experience"][0];
 }
-
-const convertStrToTime = (value: string) => {
-  const [year, month, day] = value.split("/").map(Number);
-  return new Date(year, month - 1, day);
-};
-
-const timeToStr = (value: Date) => {
-  const year = value.getFullYear();
-  const month = String(value.getMonth() + 1).padStart(2, "0");
-  const day = String(value.getDate()).padStart(2, "0");
-
-  return `${year}/${month}/${day}`;
-};
 
 export default function useExperienceForm({
   exp,
@@ -39,11 +27,11 @@ export default function useExperienceForm({
   );
   const [startDate, setStartDate] = useState(
     exp?.startDate
-      ? convertStrToTime(exp.startDate)
+      ? parseResumeDate(exp.startDate)
       : new Date(new Date().getTime() - 2 * 365 * 24 * 60 * 60 * 1000),
   );
   const [endDate, setEndDate] = useState(
-    exp?.endDate ? convertStrToTime(exp.endDate) : new Date(),
+    parseResumeDate(exp?.endDate),
   );
   const [stillWorking, setStillWorking] = useState(exp?.endDate === "Present");
 
@@ -100,8 +88,8 @@ export default function useExperienceForm({
       company,
       position,
       responsibilities,
-      startDate: timeToStr(startDate),
-      endDate: stillWorking ? "Present" : timeToStr(endDate),
+      startDate: formatResumeDate(startDate),
+      endDate: stillWorking ? "Present" : formatResumeDate(endDate),
     };
 
     if (session === "create" && addExperience) {
