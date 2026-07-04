@@ -1,4 +1,4 @@
-export const statusConfig: Record<
+export const paymentStatusConfig: Record<
   string,
   { label: string; className: string }
 > = {
