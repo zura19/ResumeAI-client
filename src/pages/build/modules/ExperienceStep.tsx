@@ -84,14 +84,14 @@ export default function ExperienceStep() {
               className="resize-none"
               value={description}
               onChange={(e) =>
-                e.target.value.length <= 100 && setDescription(e.target.value)
+                e.target.value.length <= 500 && setDescription(e.target.value)
               }
               name="description"
               id="description"
               placeholder="In charge of front-end development..."
             />
-            <div className="absolute bottom-3.5 right-2 text-[10px]   bg-muted px-2 text-muted-foreground py-1 rounded-2xl border">
-              {description.length}/100
+            <div className="absolute bottom-3.5 right-2 text-[10px]   bg-muted/20 px-2 text-muted-foreground py-1 rounded-2xl border">
+              {description.length}/500
             </div>
           </div>
 
@@ -146,10 +146,7 @@ export default function ExperienceStep() {
         </div>
       </div>
       <div className="mt-auto">
-        <StepFooter
-          disabledNext={disabledNext()}
-          handleNext={nextStep}
-        />
+        <StepFooter disabledNext={disabledNext()} handleNext={nextStep} />
       </div>
     </StepHeading>
   );

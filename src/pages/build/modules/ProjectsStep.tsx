@@ -62,14 +62,14 @@ export default function ProjectsStep() {
               className="resize-none min-h-32"
               value={description}
               onChange={(e) =>
-                e.target.value.length <= 250 && setDescription(e.target.value)
+                e.target.value.length <= 500 && setDescription(e.target.value)
               }
               name="description"
               id="description"
               placeholder="In this project I worked on..."
             />
-            <div className="absolute bottom-3.5 right-2 text-[10px]   bg-muted px-2 text-muted-foreground py-1 rounded-2xl border">
-              {description.length}/250
+            <div className="absolute bottom-3.5 right-2 text-[10px]   bg-muted/20 px-2 text-muted-foreground py-1 rounded-2xl border">
+              {description.length}/500
             </div>
           </div>
         </div>
