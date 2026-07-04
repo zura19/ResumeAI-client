@@ -92,21 +92,23 @@ export default function Projects({ data, colors }: props) {
             ))}
           </View>
 
-          <View
-            style={[
-              styles.section,
-              { borderTop: "none", marginTop: 4, paddingTop: 0 },
-            ]}
-          >
-            <Text style={styles.sectionLabel}>Technologies:</Text>
-            <View style={styles.techContainer}>
-              {project.technologies.map((tech, i) => (
-                <Text key={i} style={styles.techBadge}>
-                  {tech}
-                </Text>
-              ))}
+          {project.technologies.length > 0 && (
+            <View
+              style={[
+                styles.section,
+                { borderTop: "none", marginTop: 4, paddingTop: 0 },
+              ]}
+            >
+              <Text style={styles.sectionLabel}>Technologies:</Text>
+              <View style={styles.techContainer}>
+                {project.technologies.map((tech, i) => (
+                  <Text key={i} style={styles.techBadge}>
+                    {tech}
+                  </Text>
+                ))}
+              </View>
             </View>
-          </View>
+          )}
         </View>
       ))}
     </View>

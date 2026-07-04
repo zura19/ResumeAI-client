@@ -24,7 +24,7 @@ export default function MessageForm({ isLoading, sendMessage }: props) {
   const [input, setInput] = useState("");
 
   const disabledToSubmit =
-    !input.trim() || input.length < 10 || input.length > 500 || isLoading;
+    !input.trim() || input.length < 10 || input.length > 1000 || isLoading;
 
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(e.target.value);
@@ -36,7 +36,7 @@ export default function MessageForm({ isLoading, sendMessage }: props) {
   async function send() {
     if (input.length < 10)
       return toast.error("Message must be at least 10 characters long.");
-    if (input.length > 500)
+    if (input.length > 1000)
       return toast.error("Message must be less than 500 characters long.");
 
     const res = await sendMessage(input);

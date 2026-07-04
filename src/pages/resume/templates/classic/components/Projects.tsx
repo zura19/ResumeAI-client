@@ -58,9 +58,11 @@ export default function Projects({ data, colors }: props) {
       {data.map((project, index) => (
         <View wrap={false} key={index} style={styles.projectItem}>
           <Text style={styles.projectTitle}>{project.title}</Text>
-          <Text style={styles.technologies}>
-            {project.technologies.join(", ")}
-          </Text>
+          {project.technologies.length > 0 && (
+            <Text style={styles.technologies}>
+              {project.technologies.join(", ")}
+            </Text>
+          )}
           {project.features.map((feature, idx) => (
             <View key={idx} style={styles.feature}>
               <View style={styles.bullet} />

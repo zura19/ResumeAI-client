@@ -23,7 +23,7 @@ export default function useProjectForm({
   );
 
   function isDisabled() {
-    if (!title || !features.length || !technologies.length) {
+    if (!title || !features.length) {
       return true;
     }
 
