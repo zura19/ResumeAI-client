@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,21 +7,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ReceiptIcon, ChevronDownIcon } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
-import { getUserPaymentsService } from "@/lib/services/payment/getUserPayments";
 import { Spinner } from "@/components/ui/spinner";
 import DesktopTable from "./components/DesktopTable";
 import MobileTable from "./components/MobileTable";
 import { ErrorComponent } from "@/components/shared/ErrorComponents";
+import usePaymentHistoryData from "@/pages/profile/hooks/usePaymentHistoryData";
 
 export function PaymentHistoryTab() {
-  const [showAll, setShowAll] = useState(false);
-  const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ["payment-history", showAll],
-    queryFn: async () => await getUserPaymentsService(showAll ? 100 : 5),
-    staleTime: 1 * 60 * 60 * 1000, // 1 hour
-  });
-  const payments = data?.data;
+  const { showAll, payments, isLoading, error, refetch, toggleShowAll } =
+    usePaymentHistoryData();
 
   if (error)
     return (
@@ -67,7 +60,7 @@ export function PaymentHistoryTab() {
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => setShowAll(!showAll)}
+                  onClick={toggleShowAll}
                   className="gap-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary"
                 >
                   {showAll ? "Show less" : `Show all  transactions`}
