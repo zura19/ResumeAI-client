@@ -36,7 +36,6 @@ export default function useExperienceStep() {
   const disabledAdd = !company || !position || !startDate || !endDate;
 
   function disabledNext() {
-    if (data.experience.length === 0) return true;
     if (company || position || description) return true;
     return false;
   }

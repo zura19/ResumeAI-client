@@ -18,6 +18,11 @@ export default function useProjectsStep() {
     setDescription("");
   }
 
+  function disabledNext() {
+    if (title || description) return true;
+    return false;
+  }
+
   return {
     data,
     nextStep,
@@ -26,6 +31,7 @@ export default function useProjectsStep() {
     description,
     setDescription,
     disabledAdd,
+    disabledNext,
     addProject,
   };
 }

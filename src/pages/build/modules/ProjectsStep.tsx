@@ -17,6 +17,7 @@ export default function ProjectsStep() {
     description,
     setDescription,
     disabledAdd,
+    disabledNext,
     addProject,
   } = useProjectsStep();
 
@@ -77,7 +78,7 @@ export default function ProjectsStep() {
         <StepFooter
           // loading={isPending}
           loadingText="Creating resume..."
-          disabledNext={data.projects.length === 0}
+          disabledNext={disabledNext()}
           handleNext={nextStep}
           nextText="Next"
         />

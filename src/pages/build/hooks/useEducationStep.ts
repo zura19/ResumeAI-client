@@ -34,11 +34,9 @@ export default function useEducationStep() {
     setStillStudying(false);
   }
 
-  const disabledAdd =
-    !university || !degree || !fieldOfStudy || !startDate || !endDate;
+  const disabledAdd = !university || !fieldOfStudy || !startDate || !endDate;
 
   function disabledNext() {
-    if (data.education.length === 0) return true;
     if (university || degree || fieldOfStudy) return true;
     return false;
   }
