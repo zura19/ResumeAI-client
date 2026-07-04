@@ -13,39 +13,29 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import UserTableRow from "./components/Row";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { usersService } from "@/lib/services/admin/userService";
 import { ErrorComponent } from "@/components/shared/ErrorComponents";
 import { Skeleton } from "@/components/ui/skeleton";
 import InfiniteLoader from "@/components/shared/InfiniteLoader";
+import useAdminRecentUsersData from "@/pages/admin/hooks/useAdminRecentUsersData";
 
 export function RecentUsersTable() {
   const {
-    data,
+    recentUsers,
     isLoading,
     isError,
     error,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useInfiniteQuery({
-    queryKey: ["recentUsers"],
-    queryFn: async ({ pageParam }: { pageParam?: string }) =>
-      usersService(pageParam, 10),
-    initialPageParam: undefined,
-    getNextPageParam: (lastPage) => {
-      if (!lastPage.data.hasMore) return undefined;
-      const lastUser = lastPage.data.users[lastPage.data.users.length - 1];
-      return lastUser.id;
-    },
-    staleTime: 24 * 60 * 60 * 1000, // 24 hours
-  });
-
-  const recentUsers =
-    data?.pages.flatMap((page) => page?.data.users).filter(Boolean) || [];
+  } = useAdminRecentUsersData();
 
   if (isLoading) return <Skeleton className="h-100 w-full rounded-md" />;
-  if (isError) return <ErrorComponent message={error.message} />;
+  if (isError)
+    return (
+      <ErrorComponent
+        message={error?.message || "Unable to load recent users."}
+      />
+    );
 
   if (!isError && !isLoading)
     return (
