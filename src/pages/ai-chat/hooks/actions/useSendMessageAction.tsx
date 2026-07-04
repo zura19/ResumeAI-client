@@ -1,20 +1,12 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { getChatService } from "../services/chat/getChatService";
-import { sendMessageService } from "../services/chat/sendMessageService";
-import { socket } from "../configs/socket";
-import { useUser } from "../store/userState";
+import { socket } from "@/lib/configs/socket";
+import { sendMessageService } from "@/lib/services/chat/sendMessageService";
+import { useUser } from "@/lib/store/userState";
+import type { Message } from "@/lib/types/chat";
+import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import type { Message } from "../types/chat";
 
-export function useGetChat(id: string) {
-  return useQuery({
-    queryKey: ["chat", id],
-    queryFn: async () => await getChatService(id),
-  });
-}
-
-export function useSendMessage(
+export default function useSendMessageAction(
   chatId: string,
   resumeId: string,
   setMessages: React.Dispatch<React.SetStateAction<Message[]>>,
@@ -28,7 +20,6 @@ export function useSendMessage(
 
   useEffect(() => {
     socket.on("resume:update:status", (data) => {
-      console.log(data);
       setStatus(data.message);
     });
 
@@ -49,15 +40,11 @@ export function useSendMessage(
           sender: "user",
           content: message,
           id: Date.now().toString(),
-          chatId: chatId as string,
+          chatId,
         },
       ]);
 
-      const aiAnswer = await sendMessageService(
-        resumeId as string,
-        message.trim(),
-      );
-      return aiAnswer;
+      return await sendMessageService(resumeId, message.trim());
     },
     onSuccess: (data) => {
       toast.success("Message sent successfully");
