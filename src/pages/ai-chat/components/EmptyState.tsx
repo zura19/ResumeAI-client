@@ -1,17 +1,12 @@
 import { FileText, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
+import { aiChatSuggestions } from "../configs/suggestions";
 
 export function EmptyState({
   onSuggestionClick,
 }: {
   onSuggestionClick: (suggestion: string) => void;
 }) {
-  const suggestions = [
-    "I'm a software engineer with 5 years of experience in React and Node.js",
-    "Create a resume for a marketing manager position",
-    "Help me highlight my leadership skills and project management experience",
-  ];
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -38,7 +33,7 @@ export function EmptyState({
         <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground/60">
           Try these prompts
         </p>
-        {suggestions.map((suggestion, i) => (
+        {aiChatSuggestions.map((suggestion, i) => (
           <SuggestionChip
             key={suggestion}
             onClick={() => onSuggestionClick(suggestion)}

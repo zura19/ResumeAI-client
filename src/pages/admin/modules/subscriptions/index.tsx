@@ -11,51 +11,14 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { useQuery } from "@tanstack/react-query";
-import { countSubscriptionsService } from "@/lib/services/admin/countSubscriptionsService";
 import SubscriptionsSkeleton from "./components/Skeleton";
-import { useMemo } from "react";
-
-const chartConfig = {
-  Free: {
-    label: "Free",
-    color: "hsl(160, 70%, 45%)",
-  },
-  Pro: {
-    label: "Pro",
-    color: "hsl(200, 75%, 55%)",
-  },
-  Enterprise: {
-    label: "Enterprise",
-    color: "hsl(35, 90%, 56%)",
-  },
-};
+import useAdminSubscriptionsData from "@/pages/admin/hooks/useAdminSubscriptionsData";
+import { subscriptionChartConfig } from "@/pages/admin/configs/subscriptionChartConfig";
 
 export function SubscriptionChart() {
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["planCounts"],
-    queryFn: async () => await countSubscriptionsService(),
-  });
+  const { displayData, total, isLoading, isError, error } =
+    useAdminSubscriptionsData();
 
-  console.log("Plan counts:", data);
-  const displayData = useMemo(
-    () => [
-      {
-        plan: "Free",
-        count: data?.data?.free || 0,
-        fill: chartConfig.Free.color,
-      },
-      { plan: "Pro", count: data?.data?.pro || 0, fill: chartConfig.Pro.color },
-      {
-        plan: "Enterprise",
-        count: data?.data?.enterprise || 0,
-        fill: chartConfig.Enterprise.color,
-      },
-    ],
-    [data],
-  );
-
-  const total = displayData.reduce((sum, item) => sum + item.count, 0);
   return (
     <Card className="border-border bg-background/50  backdrop-blur-lg">
       <CardHeader>
@@ -69,7 +32,7 @@ export function SubscriptionChart() {
         {isError && (
           <div className=" flex items-center justify-center h-75">
             <p className="text-sm text-destructive">
-              {error.message ||
+              {error?.message ||
                 `Failed to load subscription data. Please try again later.`}
             </p>
           </div>
@@ -78,7 +41,7 @@ export function SubscriptionChart() {
         {!isLoading && !isError && (
           <>
             <ChartContainer
-              config={chartConfig}
+              config={subscriptionChartConfig}
               className="mx-auto h-66 w-full"
             >
               <ResponsiveContainer width="100%" height="100%">

@@ -18,7 +18,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { aiCreditsData } from "../../admin-data";
+import { aiCreditsData } from "@/pages/admin/constants/admin-data";
 
 const chartConfig = {
   used: {

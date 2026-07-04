@@ -1,14 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { API } from "@/lib/services/helpers";
 import { Loader } from "lucide-react";
-import { useState } from "react";
+import useGoogleLoginAction from "@/pages/auth/hooks/actions/useGoogleLoginAction";
 
 export default function GoogleLogin() {
-  const [loading, setLoading] = useState(false);
-  function handleGoogleLogin() {
-    setLoading(true);
-    window.open(`${API}/auth/google`, "_self");
-  }
+  const { loading, handleGoogleLogin } = useGoogleLoginAction();
 
   return (
     <Button

@@ -1,7 +1,10 @@
 import SpotlightCard from "@/components/shared/SpotlightCard";
 import { CardContent } from "@/components/ui/card";
-import { formatCurrency } from "@/lib/utils";
 import { FileTextIcon, ZapIcon, DollarSign } from "lucide-react";
+import {
+  getTotalStatValue,
+  type ProfileTotals,
+} from "@/pages/profile/helpers/getTotalStatValue";
 
 const stats = [
   {
@@ -35,28 +38,10 @@ const stats = [
 ];
 
 interface props {
-  totals?: {
-    totalTransactions: number;
-    totalResumes: number;
-    totalAiCredits: number;
-  };
+  totals?: ProfileTotals;
 }
 
 export function TotalsSection({ totals }: props) {
-  function addNumber(id: string) {
-    switch (id) {
-      case "transactions":
-        return (
-          totals?.totalTransactions &&
-          formatCurrency(totals.totalTransactions / 100)
-        );
-      case "total-resumes":
-        return totals?.totalResumes;
-      case "ai-credits-used":
-        return totals?.totalAiCredits;
-    }
-  }
-
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:grid-cols-3">
       {stats.map((stat) => (
@@ -72,7 +57,7 @@ export function TotalsSection({ totals }: props) {
             </div>
             <div className="flex flex-col">
               <span className="text-2xl font-bold tracking-tight text-foreground text-center sm:text-start">
-                {addNumber(stat.id)}
+                {getTotalStatValue({ statId: stat.id, totals })}
               </span>
               <span className="text-xs text-muted-foreground">
                 {stat.label}

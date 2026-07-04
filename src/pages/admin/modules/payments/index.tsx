@@ -14,56 +14,31 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { paymentsService } from "@/lib/services/admin/paymentsService";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ErrorComponent } from "@/components/shared/ErrorComponents";
 import InfiniteLoader from "@/components/shared/InfiniteLoader";
-
-function getPaymentStatusClasses(status: string) {
-  switch (status) {
-    case "SUCCEEDED":
-      return "border-emerald-500/30 bg-emerald-500/10 text-emerald-400";
-    case "FAILED":
-      return "border-red-500/30 bg-red-500/10 text-red-400";
-    case "PROCESSING":
-      return "border-sky-500/30 bg-sky-500/10 text-sky-400";
-    case "REQUIRES_PAYMENT_METHOD":
-      return "border-amber-500/30 bg-amber-500/10 text-amber-400";
-    default:
-      return "border-border bg-secondary text-muted-foreground";
-  }
-}
+import useAdminRecentPaymentsData from "@/pages/admin/hooks/useAdminRecentPaymentsData";
+import { getPaymentStatusClasses } from "@/pages/admin/constants/paymentStatusClasses";
 
 export function RecentPaymentsTable() {
   const {
-    data,
+    payments,
     isLoading,
     isError,
     error,
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
-  } = useInfiniteQuery({
-    queryKey: ["payments"],
-    queryFn: async ({ pageParam }: { pageParam?: string }) => {
-      const response = await paymentsService(pageParam, 10);
-      return response.data;
-    },
-    getNextPageParam: (lastPage) => {
-      if (!lastPage.hasMore) return undefined;
-      const lastPayment = lastPage.payments[lastPage.payments.length - 1];
-      return lastPayment.id;
-    },
-    initialPageParam: undefined,
-  });
-
-  const payments =
-    data?.pages.flatMap((page) => page?.payments).filter(Boolean) || [];
+  } = useAdminRecentPaymentsData();
 
   if (isLoading) return <Skeleton className="h-100 w-full rounded-md" />;
-  if (isError) return <ErrorComponent message={error.message} />;
+  if (isError)
+    return (
+      <ErrorComponent
+        message={error?.message || "Unable to load recent payments."}
+      />
+    );
 
   if (!isLoading && !isError)
     return (

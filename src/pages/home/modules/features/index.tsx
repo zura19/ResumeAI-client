@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { features } from "@/constants/homepage/features";
+import { features } from "@/pages/home/constants/features";
 import Section from "../../components/Section";
 import FeatureCard from "./components/FeatureCard";
 import { containerVariant, itemVariant } from "@/lib/animations/cardAppear";
@@ -28,23 +28,6 @@ export function FeaturesSection() {
           </motion.div>
         ))}
       </motion.div>
-
-      {/* <motion.div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {features.map((feature, i) => {
-          return (
-            <motion.div
-              key={feature.title}
-              initial={{ opacity: 0 }}
-              viewport={{ once: true }}
-              whileInView={{ opacity: 1, y: [20, 0] }}
-              transition={{ duration: 0.7, delay: i * 0.2 }}
-              className=" rounded-lg"
-            >
-              <FeatureCard feature={feature} />
-            </motion.div>
-          );
-        })} */}
-      {/* </motion.div> */}
     </Section>
   );
 }

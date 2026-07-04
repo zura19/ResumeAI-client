@@ -14,7 +14,6 @@ export const templates = [
     description: "Stand out with a unique layout for creative positions",
     color: " from-cyan-500/50 to-pink-500/50",
   },
-
   {
     name: "Executive",
     description: "Sophisticated template for senior-level positions",

@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
-import { statusConfig } from "../statusConfig";
 import type { Payment } from "@/lib/types/payment";
 import { formatCurrency } from "@/lib/utils";
+import { paymentStatusConfig } from "@/pages/profile/configs/paymentStatusConfig";
 
 interface props {
   payments?: Payment[];
@@ -11,7 +11,7 @@ export default function MobileTable({ payments }: props) {
   return (
     <div className="flex flex-col gap-3 md:hidden">
       {payments?.map((payment) => {
-        const status = statusConfig[payment.status];
+        const status = paymentStatusConfig[payment.status];
         return (
           <div
             key={payment.id}

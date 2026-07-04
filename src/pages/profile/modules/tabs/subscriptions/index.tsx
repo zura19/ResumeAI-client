@@ -1,25 +1,16 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Spinner } from "@/components/ui/spinner";
-import { getSubscriptionDataService } from "@/lib/services/subscription/getSubscriptionData";
-import { useQuery } from "@tanstack/react-query";
 import Actions from "./components/Actions";
 import Features from "./components/Features";
 import NextPayment from "./components/NextPayment";
 import Header from "./components/Header";
 import UsageStats from "./components/UsageStats";
 import { ErrorComponent } from "@/components/shared/ErrorComponents";
-import { useUser } from "@/lib/store/userState";
+import useSubscriptionsData from "@/pages/profile/hooks/useSubscriptionsData";
 
 export function SubscriptionCardTab() {
-  const { user } = useUser();
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["subscription"],
-    queryFn: async () => await getSubscriptionDataService(),
-    staleTime: 1 * 60 * 60 * 1000, // 1 hour
-  });
-
-  const { subscription, userActions } = data?.data || {};
-  const { plan } = subscription || {};
+  const { user, subscription, userActions, plan, isLoading, error } =
+    useSubscriptionsData();
 
   if (error)
     return (
@@ -29,8 +20,6 @@ export function SubscriptionCardTab() {
         message={error.message}
       />
     );
-
-  console.log(data);
 
   return (
     <Card className="border-border bg-background/50 backdrop-blur-lg min-h-100">

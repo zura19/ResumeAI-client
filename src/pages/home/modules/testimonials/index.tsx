@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { testimonials } from "@/constants/homepage/testimonials";
+import { testimonials } from "@/pages/home/constants/testimonials";
 import Section from "../../components/Section";
 import TestimonialCard from "./components/TestimonialCard";
 import { containerVariant, itemVariant } from "@/lib/animations/cardAppear";
@@ -29,20 +29,6 @@ export function TestimonialsSection() {
           </motion.div>
         ))}
       </motion.div>
-
-      {/* <div className="grid gap-6 md:grid-cols-3">
-        {testimonials.map((testimonial, i) => (
-          <motion.div
-            key={testimonial.name}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: i * 0.2 }}
-          >
-            <TestimonialCard testimonial={testimonial} />
-          </motion.div>
-        ))}
-      </div> */}
     </Section>
   );
 }

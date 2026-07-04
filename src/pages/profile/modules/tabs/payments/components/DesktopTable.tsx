@@ -12,7 +12,7 @@ import type { Payment } from "@/lib/types/payment";
 import { formatCurrency } from "@/lib/utils";
 import { formatDate } from "date-fns";
 import { DownloadIcon } from "lucide-react";
-import { statusConfig } from "../statusConfig";
+import { paymentStatusConfig } from "@/pages/profile/configs/paymentStatusConfig";
 
 interface props {
   payments?: Payment[];
@@ -39,7 +39,7 @@ export default function DesktopTable({ payments }: props) {
         </TableHeader>
         <TableBody>
           {payments?.map((payment) => {
-            const status = statusConfig[payment.status];
+            const status = paymentStatusConfig[payment.status];
             return (
               <TableRow
                 key={payment.id}

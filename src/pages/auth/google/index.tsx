@@ -1,40 +1,9 @@
-import { getMeService } from "@/lib/services/user/getMeService";
-import { useUser } from "@/lib/store/userState";
-import type { User } from "@/lib/types/User";
-import { useQuery } from "@tanstack/react-query";
 import { Loader } from "lucide-react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import useGoogleAuthCallback from "../hooks/useGoogleAuthCallback";
 
 export default function GoogleCallback() {
-  const { user, setUser } = useUser();
-  //   const isLoading = true;
-
-  const navigate = useNavigate();
-
-  const { error } = useQuery({
-    queryKey: ["google-user"],
-    queryFn: async () => {
-      const data = await getMeService();
-
-      if (data.success) {
-        const user: Pick<
-          User,
-          "email" | "firstName" | "lastName" | "role" | "id" | "plan"
-        > = data.data.user;
-
-        setUser({
-          email: user.email,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          role: user.role,
-          id: user.id,
-          plan: user.plan,
-        });
-      }
-      return navigate("/profile");
-    },
-    enabled: !user,
-  });
+  const { error } = useGoogleAuthCallback();
 
   if (error) return <Navigate to="/login" />;
 

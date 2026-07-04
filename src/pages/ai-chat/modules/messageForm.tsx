@@ -3,11 +3,10 @@ import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
 import type { Message } from "@/lib/types/chat";
 import { ArrowUp } from "lucide-react";
-import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import type { ResponseSuccess } from "@/lib/types/requestResponseTypes";
 import type { UseMutateAsyncFunction } from "@tanstack/react-query";
-import { toast } from "sonner";
+import useMessageFormAction from "../hooks/actions/useMessageFormAction";
 
 interface props {
   isLoading: boolean;
@@ -20,43 +19,17 @@ interface props {
 }
 
 export default function MessageForm({ isLoading, sendMessage }: props) {
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const [input, setInput] = useState("");
-
-  const disabledToSubmit =
-    !input.trim() || input.length < 10 || input.length > 1000 || isLoading;
-
-  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setInput(e.target.value);
-    // Auto-resize textarea
-    e.target.style.height = "auto";
-    e.target.style.height = `${Math.min(e.target.scrollHeight, 200)}px`;
-  };
-
-  async function send() {
-    if (input.length < 10)
-      return toast.error("Message must be at least 10 characters long.");
-    if (input.length > 1000)
-      return toast.error("Message must be less than 500 characters long.");
-
-    const res = await sendMessage(input);
-
-    if (res.success) {
-      setInput("");
-      textareaRef.current?.focus();
-    }
-  }
-
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    await send();
-  }
-
-  async function handleEnterClick(e: React.KeyboardEvent<HTMLTextAreaElement>) {
-    if (e.key === "Enter" && !e.shiftKey) {
-      await handleSubmit(e as unknown as React.FormEvent<HTMLFormElement>);
-    }
-  }
+  const {
+    textareaRef,
+    input,
+    disabledToSubmit,
+    handleTextareaChange,
+    handleSubmit,
+    handleEnterClick,
+  } = useMessageFormAction({
+    isLoading,
+    sendMessage,
+  });
 
   return (
     <motion.form

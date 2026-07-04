@@ -5,52 +5,27 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useQuery } from "@tanstack/react-query";
-import { monthlyRevenueUsersService } from "@/lib/services/admin/monthlyRevenueUsersService";
-import { useMemo, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ErrorComponent } from "@/components/shared/ErrorComponents";
 import SelectYear from "./components/SelectYear";
 import Chart from "./components/Chart";
-
-// prettier-ignore
-const months = [ "Jan", "Feb", "Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec",];
+import useAdminRevenueChartData from "@/pages/admin/hooks/useAdminRevenueChartData";
 
 export default function RevenueChart() {
-  const [year, setYear] = useState(new Date().getFullYear().toString());
-  const { data, isLoading, isError, error, refetch } = useQuery({
-    queryKey: ["monthlyRevenueUsers", year],
-    queryFn: async () => await monthlyRevenueUsersService(year),
-  });
-
-  const formattedData = useMemo(() => {
-    function formatMonth(lastTwoDigits: string) {
-      const monthIndex = parseInt(lastTwoDigits, 10) - 1;
-      return months[monthIndex] || lastTwoDigits;
-    }
-
-    return (
-      data?.data.map((d) => ({
-        ...d,
-        month: formatMonth(d.month.slice(-2)),
-        revenue: d.revenue / 100,
-      })) || []
-    );
-  }, [data]);
+  const { year, setYear, formattedData, isLoading, isError, error, refetch } =
+    useAdminRevenueChartData();
 
   if (isError) {
     return (
       <ErrorComponent
         title={"Something went wrong"}
         message={
-          error.message || "Unable to load revenue and user growth data."
+          error?.message || "Unable to load revenue and user growth data."
         }
         onRetry={refetch}
       />
     );
   }
-
-  console.log("Formatted Data:", formattedData);
 
   return (
     <Card className="border-border bg-background/50  backdrop-blur-lg">

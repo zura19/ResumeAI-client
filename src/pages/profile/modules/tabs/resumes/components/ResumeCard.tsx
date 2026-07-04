@@ -6,6 +6,8 @@ import { formatDate } from "date-fns";
 import { DownloadIcon, ExternalLinkIcon, FileTextIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { resumeGradientConfig } from "@/pages/profile/configs/resumeGradientConfig";
+import { resumeTypeConfig } from "@/pages/profile/configs/resumeTypeConfig";
 
 interface props {
   resume?: {
@@ -17,32 +19,6 @@ interface props {
   };
 }
 
-const typeConfig: Record<ResumeType, { label: string; className: string }> = {
-  classic: {
-    label: "Classic",
-    className: "bg-gray-400/10 text-gray-400 border-gray-400/25",
-  },
-  modern: {
-    label: "Modern",
-    className: "bg-blue-500/10 text-blue-500 border-blue-500/25",
-  },
-  executive: {
-    label: "Executive",
-    className: "bg-emerald-500/15 text-emerald-500 border-emerald-500/25",
-  },
-  creative: {
-    label: "Creative",
-    className: "bg-pink-500/15 text-pink-400 border-pink-500/25",
-  },
-};
-
-const gradients: Record<ResumeType, string> = {
-  executive: "from-emerald-500/20 to-teal-600/20",
-  creative: "from-cyan-500/50 to-pink-500/50",
-  classic: "from-gray-400/20 to-gray-600/20",
-  modern: "from-blue-500/30 to-blue-600/20",
-};
-
 export default function ResumeCard({ resume }: props) {
   return (
     <div
@@ -53,7 +29,7 @@ export default function ResumeCard({ resume }: props) {
         <div
           className={cn(
             "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg backdrop-blur-lg bg-linear-to-br ",
-            gradients[resume?.type as ResumeType],
+            resumeGradientConfig[resume?.type as ResumeType],
           )}
         >
           <FileTextIcon className="h-5 w-5 text-primary" />
@@ -68,10 +44,10 @@ export default function ResumeCard({ resume }: props) {
               className={
                 "ml-auto" +
                 " " +
-                typeConfig[resume?.type as ResumeType].className
+                resumeTypeConfig[resume?.type as ResumeType].className
               }
             >
-              {resume?.type}
+              {resumeTypeConfig[resume?.type as ResumeType].label}
             </Badge>
           </div>
           <div className="flex items-center gap-3 text-xs text-muted-foreground">

@@ -1,79 +1,32 @@
-import { ArrowLeft, Check } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ErrorComponent } from "@/components/shared/ErrorComponents";
 import Wrapper from "@/components/shared/Wrapper";
 import Contact from "./components/Contact";
 import Header from "./components/Header";
+import AdditionalFeatures from "./components/AdditionalFeatures";
 import FormButton from "@/components/shared/FormButton";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { getPlansByNameService } from "@/lib/services/plan/getPlanByName";
-import type { PlanName } from "@/lib/types/plan";
 import { Spinner } from "@/components/ui/spinner";
-import { createCheckoutService } from "@/lib/services/checkout/createCheckout";
-import { toast } from "sonner";
-import { cancleSubscriptionService } from "@/lib/services/payment/cancelSubscription";
-import { useUser } from "@/lib/store/userState";
+import useDetailedPlanData from "./hooks/useDetailedPlanData";
+import usePlanCheckoutAction from "./hooks/actions/usePlanCheckoutAction";
 
 export default function PlanDetails() {
-  const { user } = useUser();
-  const params = useParams();
-  const navigate = useNavigate();
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["plan", params.id],
-    queryFn: () => getPlansByNameService(params.id as PlanName),
-    staleTime: 3 * 60 * 60 * 1000, // 3 hour
-    enabled: !!params.id,
-  });
-
-  const plan = data?.data;
-
-  const { mutate: createCheckout, isPending: isCreating } = useMutation({
-    mutationFn: async () => await createCheckoutService(plan?.name as PlanName),
-    onSuccess: (data) => {
-      console.log(data);
-      toast.success("Redirecting to checkout...");
-      // go to another webpage url:
-      window.location.href = data.data.sessionUrl;
-      // window = data.data.sessionUrl;
-    },
-    onError: (err) => {
-      console.log(err);
-      toast.error(err.message);
-    },
-  });
-
-  const { mutate: cancleSubscription, isPending: isCancling } = useMutation({
-    mutationFn: async () => await cancleSubscriptionService(),
-    onSuccess: (data) => {
-      console.log(data);
-      toast.success("Redirecting to cancel...");
-      navigate("/cancel");
-
-      // go to another webpage url:
-      // window.location.href = data.data.sessionUrl;
-      // window = data.data.sessionUrl;
-    },
-    onError: (err) => {
-      console.log(err);
-      toast.error(err.message);
-    },
-  });
-
-  function handleClick() {
-    if (plan?.name !== "free" && user?.plan !== plan?.name) {
-      createCheckout();
-    }
-
-    if (plan?.name === "free" && user?.plan !== "free") {
-      cancleSubscription();
-    }
-  }
+  const { plan, isLoading, isError, error } = useDetailedPlanData();
+  const { user, isCreating, isCanceling, handlePlanAction } =
+    usePlanCheckoutAction({
+      planName: plan?.name,
+    });
 
   if (isError)
     return (
       <div className="h-dvh flex items-center justify-center">
-        <ErrorComponent title="Something went wrong" message={error?.message} />
+        <ErrorComponent
+          title="Something went wrong"
+          message={
+            error?.message || "Something went wrong. Please try again later."
+          }
+        />
       </div>
     );
 
@@ -108,33 +61,7 @@ export default function PlanDetails() {
               </p>
             </div>
 
-            <div className="mb-10">
-              <h2 className="mb-6 text-xl font-semibold text-foreground">
-                {"What's included"}
-              </h2>
-              <div className="grid gap-4 md:grid-cols-2">
-                {plan.additionalFeatures.map((feature) => (
-                  <div key={feature} className="flex items-start gap-3">
-                    <div
-                      className={cn(
-                        "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full",
-                        plan.recommended ? "bg-primary/20" : "bg-secondary",
-                      )}
-                    >
-                      <Check
-                        className={cn(
-                          "h-3 w-3",
-                          plan.recommended
-                            ? "text-primary"
-                            : "text-muted-foreground",
-                        )}
-                      />
-                    </div>
-                    <span className="text-sm text-foreground">{feature}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <AdditionalFeatures plan={plan} />
 
             <div className="flex flex-col gap-4 border-t border-border pt-8 sm:flex-row sm:items-center sm:justify-between">
               <div>
@@ -147,8 +74,8 @@ export default function PlanDetails() {
 
               <FormButton
                 type="button"
-                disabled={isCreating || plan.name === user?.plan || isCancling}
-                onClick={handleClick}
+                disabled={isCreating || plan.name === user?.plan || isCanceling}
+                onClick={handlePlanAction}
                 loading={isCreating}
                 loadingText="Creating Checkout..."
                 className={cn(
