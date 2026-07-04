@@ -64,13 +64,15 @@ export default function Projects({ data, colors }: props) {
               • {feature}
             </Text>
           ))}
-          <View style={styles.techContainer}>
-            {project.technologies.map((tech, i) => (
-              <Text key={i} style={styles.techBadge}>
-                {tech}
-              </Text>
-            ))}
-          </View>
+          {project.technologies.length > 0 && (
+            <View style={styles.techContainer}>
+              {project.technologies.map((tech, i) => (
+                <Text key={i} style={styles.techBadge}>
+                  {tech}
+                </Text>
+              ))}
+            </View>
+          )}
         </View>
       ))}
     </View>
