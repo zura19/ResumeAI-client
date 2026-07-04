@@ -1,31 +1,25 @@
 import { ErrorComponent } from "@/components/shared/ErrorComponents";
 import Wrapper from "@/components/shared/Wrapper";
-import { getProfileDataService } from "@/lib/services/user/profileDataService";
-import { useUser } from "@/lib/store/userState";
-import { useQuery } from "@tanstack/react-query";
 import { ProfileSkeleton } from "./components/ProfileSkeleton";
 import UserSection from "./modules/UserSection";
 import { Separator } from "@/components/ui/separator";
 import { TotalsSection } from "./modules/TotalsSection";
 import ProfileTabsSection from "./modules/tabs";
+import useProfileData from "./hooks/useProfileData";
 
 export default function Profile() {
-  const { user: logged } = useUser();
-  const { data, isLoading, isError, error, refetch } = useQuery({
-    queryKey: ["user", logged?.id],
-    queryFn: async () => await getProfileDataService(),
-  });
+  const { user, resumes, totals, isLoading, isError, error, refetch } =
+    useProfileData();
 
   if (isError)
     return (
       <div className="h-full flex items-center justify-center">
-        <ErrorComponent message={error.message} onRetry={refetch} />
+        <ErrorComponent
+          message={error?.message || "Failed to load profile data"}
+          onRetry={refetch}
+        />
       </div>
     );
-
-  const { user, resumes, totals } = data?.data || {};
-
-  console.log(resumes);
 
   if (!isError)
     return (
