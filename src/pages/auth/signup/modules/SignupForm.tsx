@@ -1,35 +1,11 @@
 import FormButton from "@/components/shared/FormButton";
 import FormInput from "@/components/shared/FormInput";
 import { Form } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
 import AnimationProvider from "@/components/shared/AnimationProvider";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { signupSchema, type SignupSchema } from "@/lib/schemas/signupSchema";
-import { registerService } from "@/lib/services/auth/registerService";
-import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+import useSignupAction from "@/pages/auth/hooks/actions/useSignupAction";
 
 export default function SignupForm() {
-  const form = useForm<SignupSchema>({
-    resolver: zodResolver(signupSchema),
-    defaultValues: {
-      fullName: "",
-      email: "",
-      password: "",
-    },
-  });
-  const navigate = useNavigate();
-
-  async function onSubmit(vals: SignupSchema) {
-    const data = await registerService(vals);
-
-    if (data.success) {
-      console.log(data.data.user);
-      toast.success(data.message);
-      navigate("/login");
-      form.reset();
-    }
-  }
+  const { form, onSubmit } = useSignupAction();
 
   return (
     <Form {...form}>

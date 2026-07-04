@@ -1,38 +1,12 @@
 import FormButton from "@/components/shared/FormButton";
 import FormInput from "@/components/shared/FormInput";
 import { Form } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
 // import { motion } from "framer-motion";
 import AnimationProvider from "@/components/shared/AnimationProvider";
-import { loginSchema, type LoginSchema } from "@/lib/schemas/loginSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { loginService } from "@/lib/services/auth/loginService";
-import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
-import { useUser } from "@/lib/store/userState";
+import useLoginAction from "@/pages/auth/hooks/actions/useLoginAction";
 
 export default function LoginForm() {
-  const form = useForm<LoginSchema>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
-
-  const { setUser } = useUser();
-  const navigate = useNavigate();
-
-  async function onSubmit(vals: LoginSchema) {
-    const data = await loginService(vals);
-
-    if (data.success) {
-      console.log(data);
-      toast.success(data.message);
-      setUser(data.data.user);
-      navigate("/profile");
-    }
-  }
+  const { form, onSubmit } = useLoginAction();
 
   return (
     <Form {...form}>
