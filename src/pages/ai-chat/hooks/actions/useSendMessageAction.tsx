@@ -2,7 +2,7 @@ import { socket } from "@/lib/configs/socket";
 import { sendMessageService } from "@/lib/services/chat/sendMessageService";
 import { useUser } from "@/lib/store/userState";
 import type { Message } from "@/lib/types/chat";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -12,6 +12,7 @@ export default function useSendMessageAction(
   setMessages: React.Dispatch<React.SetStateAction<Message[]>>,
 ) {
   const { user } = useUser();
+  const queryClient = useQueryClient();
   const [status, setStatus] = useState<string | null>(null);
 
   useEffect(() => {
@@ -48,6 +49,9 @@ export default function useSendMessageAction(
     },
     onSuccess: (data) => {
       toast.success("Message sent successfully");
+      queryClient.invalidateQueries({
+        queryKey: ["resume", resumeId],
+      });
       setMessages((prev) => [...prev, data.data]);
     },
     onError: (error) => {

@@ -24,6 +24,7 @@ export default function useResumeData() {
     isLoading,
     isError,
     error,
+    isFetching,
     isRefetching,
   } = useQuery({
     queryKey: ["resume", id],
@@ -40,37 +41,27 @@ export default function useResumeData() {
     refetchOnWindowFocus: false,
   });
 
-  const selectedVersion = useMemo(() => {
-    if (!res?.resumes.length) return "";
+  const resumes = res?.resumes ?? [];
+  const requestedResume = resumes.find((resume) => resume.id === version);
+  const latestVersion = resumes.at(-1)?.id || "";
 
-    const versionExists = res.resumes.some((resume) => resume.id === version);
-
-    if (version && versionExists) {
-      return version;
-    }
-
-    return res.resumes.at(-1)?.id || "";
-  }, [res, version]);
+  const selectedVersion =
+    requestedResume?.id || (version && isFetching ? version : latestVersion);
+  const selectedResume =
+    requestedResume ?? resumes.find((resume) => resume.id === selectedVersion);
 
   useEffect(() => {
-    if (!selectedVersion || version === selectedVersion) {
-      return;
-    }
+    if (!selectedVersion || version === selectedVersion) return;
+    if (version && !requestedResume && isFetching) return;
 
     setSearchParams({ version: selectedVersion }, { replace: true });
-  }, [selectedVersion, setSearchParams, version]);
+  }, [isFetching, requestedResume, selectedVersion, setSearchParams, version]);
 
   const activeResume = useMemo(() => {
-    if (!res) return;
-
-    const selectedResume = res.resumes.find(
-      (resume) => resume.id === selectedVersion,
-    );
-
     return selectedResume
       ? (JSON.parse(selectedResume.content) as AiGeneratedResume)
       : undefined;
-  }, [res, selectedVersion]);
+  }, [selectedResume]);
 
   return {
     id: id || "",
