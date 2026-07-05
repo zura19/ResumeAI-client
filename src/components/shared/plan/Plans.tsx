@@ -25,8 +25,6 @@ export default function Plans({ updateSession = false }: props) {
 
   const plans = data?.data || [];
 
-  console.log(data);
-
   return (
     <div ref={ref}>
       {isError && (

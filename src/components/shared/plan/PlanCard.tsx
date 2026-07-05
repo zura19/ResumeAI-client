@@ -14,7 +14,6 @@ interface props {
 
 export function PlanCard({ plan, updateSession = false }: props) {
   const { user } = useUser();
-  console.log(user);
 
   const recommendedPlan = plan.recommended;
 
