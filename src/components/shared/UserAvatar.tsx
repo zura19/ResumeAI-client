@@ -3,14 +3,20 @@ import { useUser } from "@/lib/store/userState";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
 
-interface props {
+interface Props {
   goto?: string;
   className?: string;
 }
 
-export default function UserAvatar({ goto, className }: props) {
+function getInitial(value?: string) {
+  return value?.trim().charAt(0).toUpperCase() ?? "";
+}
+
+export default function UserAvatar({ goto, className }: Props) {
   const navigate = useNavigate();
   const { user } = useUser();
+  const initials =
+    `${getInitial(user?.firstName)}${getInitial(user?.lastName)}` || "U";
 
   function handleGo() {
     if (!goto) return;
@@ -24,9 +30,7 @@ export default function UserAvatar({ goto, className }: props) {
     >
       <AvatarImage src="" />
       {user && (
-        <AvatarFallback className=" font-bold">
-          {user?.firstName[0].toUpperCase() + user?.lastName[0].toUpperCase()}
-        </AvatarFallback>
+        <AvatarFallback className=" font-bold">{initials}</AvatarFallback>
       )}
     </Avatar>
   );
