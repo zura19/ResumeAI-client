@@ -1,8 +1,8 @@
 import { getResumeByIdService } from "@/lib/services/resume/getResumeByIdSerice";
-import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
+import { parseResumeContent } from "../utils/parseResumeContent";
 
 export default function useResumeData() {
   const { id } = useParams();
@@ -57,10 +57,10 @@ export default function useResumeData() {
     setSearchParams({ version: selectedVersion }, { replace: true });
   }, [isFetching, requestedResume, selectedVersion, setSearchParams, version]);
 
-  const activeResume = useMemo(() => {
+  const parsedResume = useMemo(() => {
     return selectedResume
-      ? (JSON.parse(selectedResume.content) as AiGeneratedResume)
-      : undefined;
+      ? parseResumeContent(selectedResume.content)
+      : { resume: null, error: null };
   }, [selectedResume]);
 
   return {
@@ -68,7 +68,8 @@ export default function useResumeData() {
     version,
     isChangingVersion,
     changeVersion,
-    activeResume,
+    activeResume: parsedResume.resume,
+    activeResumeError: parsedResume.error,
     resumes: res?.resumes,
     type: res?.type,
     title: res?.title,
