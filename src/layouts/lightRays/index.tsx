@@ -9,11 +9,17 @@ import { sharedLayoutLightRaysProps } from "@/lib/configs/lightRays";
 // //   children: React.ReactNode;
 // }
 
-const showNavbarRoutes = ["/profile", "/plans"];
+const showNavbarExactRoutes = ["/plans"];
+const showNavbarPrefixRoutes = ["/profile"];
 
 export default function LightRaysLayout() {
   const location = useLocation();
-  const showNavbar = showNavbarRoutes.includes(location.pathname);
+  const showNavbar =
+    showNavbarExactRoutes.includes(location.pathname) ||
+    showNavbarPrefixRoutes.some(
+      (route) =>
+        location.pathname === route || location.pathname.startsWith(`${route}/`)
+    );
 
   return (
     <div className="relative w-full min-h-dvh bg-black overflow-hidden">
