@@ -38,8 +38,8 @@ export default function EditProfileModal({ user }: props) {
         <DialogHeader>
           <DialogTitle>Edit Profile</DialogTitle>
           <DialogDescription>
-            This is a placeholder for the edit profile form. You can add form
-            fields here to allow users to update their profile information.
+            Update your personal details and keep your profile information
+            current.
           </DialogDescription>
         </DialogHeader>
         <EditProfileForm user={user} onClose={handleClose} />

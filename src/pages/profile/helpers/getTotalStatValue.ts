@@ -16,13 +16,12 @@ interface GetTotalStatValueParams {
 export function getTotalStatValue({ statId, totals }: GetTotalStatValueParams) {
   switch (statId) {
     case "transactions":
-      return (
-        totals?.totalTransactions &&
-        formatCurrency(totals.totalTransactions / 100)
-      );
+      return totals?.totalTransactions != null
+        ? formatCurrency(totals.totalTransactions / 100)
+        : undefined;
     case "total-resumes":
-      return totals?.totalResumes;
+      return totals?.totalResumes ?? undefined;
     case "ai-credits-used":
-      return totals?.totalAiCredits;
+      return totals?.totalAiCredits ?? undefined;
   }
 }
