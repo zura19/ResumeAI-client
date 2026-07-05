@@ -6,9 +6,10 @@ export default function useSubscriptionsData() {
   const { user } = useUser();
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["subscription"],
+    queryKey: ["subscription", user?.id],
     queryFn: async () => await getSubscriptionDataService(),
     staleTime: 1 * 60 * 60 * 1000,
+    enabled: !!user?.id,
   });
 
   const { subscription, userActions } = data?.data || {};

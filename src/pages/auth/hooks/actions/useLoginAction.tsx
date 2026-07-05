@@ -19,12 +19,18 @@ export default function useLoginAction() {
   const navigate = useNavigate();
 
   async function onSubmit(values: LoginSchema) {
-    const data = await loginService(values);
+    try {
+      const data = await loginService(values);
 
-    if (data.success) {
-      toast.success(data.message);
-      setUser(data.data.user);
-      navigate("/profile");
+      if (data.success) {
+        toast.success(data.message);
+        setUser(data.data.user);
+        navigate("/profile");
+      }
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : "Failed to log in"
+      );
     }
   }
 

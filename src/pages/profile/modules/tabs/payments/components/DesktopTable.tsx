@@ -9,10 +9,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import type { Payment } from "@/lib/types/payment";
-import { formatCurrency } from "@/lib/utils";
 import { formatDate } from "date-fns";
 import { DownloadIcon } from "lucide-react";
 import { paymentStatusConfig } from "@/pages/profile/configs/paymentStatusConfig";
+import { formatPaymentAmount } from "../helpers/formatPaymentAmount";
 
 interface props {
   payments?: Payment[];
@@ -63,7 +63,7 @@ export default function DesktopTable({ payments }: props) {
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right font-mono text-sm text-foreground">
-                  {formatCurrency(payment.amount / 100)}
+                  {formatPaymentAmount(payment.amount)}
                 </TableCell>
                 <TableCell>
                   <Button

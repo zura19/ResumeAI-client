@@ -18,12 +18,18 @@ export default function useSignupAction() {
   const navigate = useNavigate();
 
   async function onSubmit(values: SignupSchema) {
-    const data = await registerService(values);
+    try {
+      const data = await registerService(values);
 
-    if (data.success) {
-      toast.success(data.message);
-      navigate("/login");
-      form.reset();
+      if (data.success) {
+        toast.success(data.message);
+        navigate("/login");
+        form.reset();
+      }
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : "Failed to register"
+      );
     }
   }
 
