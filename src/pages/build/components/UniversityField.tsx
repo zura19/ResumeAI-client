@@ -30,11 +30,16 @@ export default function UniversityField({ university, setUniversity }: props) {
   };
 
   useEffect(() => {
-    document.addEventListener("click", (e) => {
+    const hide = (e: MouseEvent) => {
       if (boxRef.current && !boxRef.current.contains(e.target as Node)) {
         setHide(true);
       }
-    });
+    };
+    document.addEventListener("click", hide);
+
+    return () => {
+      document.removeEventListener("click", hide);
+    };
   }, [data]);
 
   return (
@@ -45,7 +50,7 @@ export default function UniversityField({ university, setUniversity }: props) {
       <Input
         className={cn(
           "mt-2",
-          show && !hide ? "rounded-b-none focus-visible:ring-0 border " : ""
+          show && !hide ? "rounded-b-none focus-visible:ring-0 border " : "",
         )}
         value={university}
         onChange={change}
