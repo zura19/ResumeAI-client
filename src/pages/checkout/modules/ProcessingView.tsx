@@ -13,6 +13,7 @@ export default function ProcessingView({ session = "checkout" }: props) {
     session === "checkout"
       ? " Please wait while we confirm your transaction. This may take a moment."
       : "Please wait while we cancel your subscription. This may take a moment.";
+      
   return (
     <PaymentCard>
       <div className="flex flex-col items-center gap-6">

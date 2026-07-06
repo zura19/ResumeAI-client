@@ -21,6 +21,7 @@ export default function FailedView({
     session === "checkout"
       ? "  Error code: CARD_DECLINED. Your card issuer declined the transaction. Please contact your bank or try a different payment method."
       : "  Error code: SUBSCRIPTION_CANCEL_FAILED. We were unable to cancel your subscription. Please try again later.";
+
   return (
     <PaymentCard>
       <div className="flex flex-col items-center gap-6">
