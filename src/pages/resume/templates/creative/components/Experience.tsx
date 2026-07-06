@@ -1,6 +1,6 @@
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 import type { ICreativeColors } from "..";
-import { formatTemplateDateRange } from "../../utils";
+import { formatTemplateDateRange } from "../../../utils/templateUtils";
 import { StyleSheet } from "@react-pdf/renderer";
 import { Text, View } from "@react-pdf/renderer";
 

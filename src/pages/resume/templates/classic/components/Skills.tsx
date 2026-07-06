@@ -1,6 +1,6 @@
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 import type { ClassicColors } from "..";
-import { visibleSkillsCategories } from "../../utils";
+import { visibleSkillsCategories } from "../../../utils/templateUtils";
 import { Text, View, StyleSheet } from "@react-pdf/renderer";
 
 interface props {
