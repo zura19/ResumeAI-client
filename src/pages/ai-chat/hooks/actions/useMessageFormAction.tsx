@@ -20,8 +20,11 @@ export default function useMessageFormAction({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [input, setInput] = useState("");
 
-  const disabledToSubmit =
-    !input.trim() || input.length < 10 || input.length > 1000 || isLoading;
+  const canSend =
+    Boolean(input.trim()) &&
+    input.length >= 5 &&
+    input.length <= 1000 &&
+    !isLoading;
 
   function handleTextareaChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     setInput(e.target.value);
@@ -30,9 +33,10 @@ export default function useMessageFormAction({
   }
 
   async function send() {
-    const response = await sendMessage(input);
+    if (!canSend) return;
 
-    if (response.success) {
+    const res = await sendMessage(input.trim());
+    if (res.success) {
       setInput("");
       textareaRef.current?.focus();
     }
@@ -53,7 +57,7 @@ export default function useMessageFormAction({
   return {
     textareaRef,
     input,
-    disabledToSubmit,
+    canSend,
     handleTextareaChange,
     handleSubmit,
     handleEnterClick,
