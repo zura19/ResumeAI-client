@@ -1,6 +1,7 @@
 import { formatCurrency, formatDate } from "@/lib/utils";
 import { PaymentCard } from "../components/PaymentCard";
 import { AnimatedCheckmark } from "../components/PaymentIcons";
+import { successColorsConfig } from "../config/colors";
 
 interface props {
   total: number;
@@ -27,7 +28,7 @@ export default function SuccessView({
           </h1>
           <p
             className="text-sm leading-relaxed"
-            style={{ color: "rgba(255,255,255,0.5)" }}
+            style={successColorsConfig.description}
           >
             Your payment of{"    "}
             <span className="text-white font-medium">
@@ -41,21 +42,18 @@ export default function SuccessView({
         {/* Transaction details */}
         <div
           className="w-full rounded-xl p-4 flex flex-col gap-3 text-sm"
-          style={{
-            background: "rgba(255,255,255,0.03)",
-            border: "1px solid rgba(255,255,255,0.06)",
-          }}
+          style={successColorsConfig.details}
         >
           <div className="flex items-center justify-between">
-            <span style={{ color: "rgba(255,255,255,0.4)" }}>User Email</span>
+            <span style={successColorsConfig.detailLabel}>User Email</span>
             <span className="text-white font-mono text-xs">{email}</span>
           </div>
           <div
             className="w-full h-px"
-            style={{ background: "rgba(255,255,255,0.06)" }}
+            style={successColorsConfig.divider}
           />
           <div className="flex items-center justify-between">
-            <span style={{ color: "rgba(255,255,255,0.4)" }}>Date</span>
+            <span style={successColorsConfig.detailLabel}>Date</span>
             <span className="text-white text-xs">
               {formatDate(createdAt)}
               {/* {new Date(createdAt).getFullYear()} */}
@@ -63,10 +61,10 @@ export default function SuccessView({
           </div>
           <div
             className="w-full h-px"
-            style={{ background: "rgba(255,255,255,0.06)" }}
+            style={successColorsConfig.divider}
           />
           <div className="flex items-center justify-between">
-            <span style={{ color: "rgba(255,255,255,0.4)" }}>Method</span>
+            <span style={successColorsConfig.detailLabel}>Method</span>
             <span className="text-white text-xs">Visa ending {last4}</span>
           </div>
         </div>
@@ -75,10 +73,7 @@ export default function SuccessView({
           onClick={continueClick}
           type="button"
           className="w-full py-3 rounded-xl text-sm font-medium text-white transition-all duration-200 hover:opacity-90 cursor-pointer"
-          style={{
-            background: "linear-gradient(135deg, #615fff 0%, #7c6fff 100%)",
-            boxShadow: "0 4px 16px rgba(97,95,255,0.3)",
-          }}
+          style={successColorsConfig.primaryButton}
         >
           Continue
         </button>
