@@ -17,7 +17,7 @@ import Admin from "./pages/admin";
 import AdminLayout from "./layouts/admin";
 import UpdatePlan from "./pages/admin/child-pages/updatePlan";
 import Checkout from "./pages/checkout";
-import Cancel from "./pages/cancel";
+import Cancel from "./pages/checkout/child-pages/cancel";
 import AdminPlans from "./pages/admin/child-pages/plans";
 import AiChat from "./pages/ai-chat";
 
