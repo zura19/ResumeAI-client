@@ -14,13 +14,17 @@ export default function Cancel() {
     goHome,
   } = useCancelStatusData();
 
+  const isProcessing = isLoading || isRefetching;
+  const shouldShowSuccess = !isProcessing && !isError && allowCancel;
+  const shouldShowFailed = !isProcessing && !shouldShowSuccess;
+
   return (
     <div className="w-full h-dvh flex items-center justify-center animate-in fade-in slide-in-from-bottom-4 duration-500">
-      {isLoading || isRefetching ? (
-        <ProcessingView session="cancel" />
-      ) : !isError && allowCancel ? (
-        <CancelView continueClick={continueToProfile} />
-      ) : (
+      {isProcessing && <ProcessingView session="cancel" />}
+
+      {shouldShowSuccess && <CancelView continueClick={continueToProfile} />}
+
+      {shouldShowFailed && (
         <FailedView goHome={goHome} onReset={refetch} session="cancel" />
       )}
     </div>
