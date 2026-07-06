@@ -14,6 +14,9 @@ export default function useSendMessageAction(
   const { user } = useUser();
   const queryClient = useQueryClient();
   const [status, setStatus] = useState<string | null>(null);
+  const [failedMessageContent, setFailedMessageContent] = useState<
+    string | null
+  >(null);
 
   useEffect(() => {
     if (!user?.id) return;
@@ -43,29 +46,49 @@ export default function useSendMessageAction(
     error: sendMessageError,
   } = useMutation({
     mutationFn: async (message: string) => {
+      return await sendMessageService(resumeId, message.trim());
+    },
+    onMutate: (message: string) => {
+      const optimisticMessageId = `optimistic-${Date.now()}-${Math.random()}`;
+
+      setFailedMessageContent(null);
       setMessages((prev) => [
         ...prev,
         {
           sender: "user",
           content: message,
-          id: Date.now().toString(),
+          id: optimisticMessageId,
           chatId,
         },
       ]);
 
-      return await sendMessageService(resumeId, message.trim());
+      return { optimisticMessageId, message };
     },
     onSuccess: (data) => {
       toast.success("Message sent successfully");
       queryClient.invalidateQueries({
         queryKey: ["resume", resumeId],
       });
+      setFailedMessageContent(null);
       setMessages((prev) => [...prev, data.data]);
     },
-    onError: (error) => {
+    onError: (error, message, context) => {
+      setFailedMessageContent(message);
+      setMessages((prev) =>
+        prev.filter(
+          (currentMessage) =>
+            currentMessage.id !== context?.optimisticMessageId,
+        ),
+      );
       toast.error(error.message);
     },
   });
 
-  return { sendMessage, isSendingMessage, sendMessageError, status };
+  return {
+    sendMessage,
+    isSendingMessage,
+    sendMessageError,
+    failedMessageContent,
+    status,
+  };
 }
