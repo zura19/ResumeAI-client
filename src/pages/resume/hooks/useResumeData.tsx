@@ -1,29 +1,21 @@
 import { getResumeByIdService } from "@/lib/services/resume/getResumeByIdSerice";
-import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
+import { parseResumeContent } from "../utils/parseResumeContent";
 
 export default function useResumeData() {
   const { id } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const version = searchParams.get("version");
-  const [isChangingVersion, setIsChangingVersion] = useState(false);
-
-  function changeVersion(nextVersion: string) {
-    setIsChangingVersion(true);
-    setSearchParams({ version: nextVersion });
-
-    setTimeout(() => {
-      setIsChangingVersion(false);
-    }, 1000);
-  }
+  const [pendingVersion, setPendingVersion] = useState<string | null>(null);
 
   const {
     data: res,
     isLoading,
     isError,
     error,
+    isFetching,
     isRefetching,
   } = useQuery({
     queryKey: ["resume", id],
@@ -40,44 +32,61 @@ export default function useResumeData() {
     refetchOnWindowFocus: false,
   });
 
-  const selectedVersion = useMemo(() => {
-    if (!res?.resumes.length) return "";
+  const resumes = res?.resumes ?? [];
+  const requestedResume = resumes.find((resume) => resume.id === version);
+  const latestVersion = resumes.at(-1)?.id || "";
 
-    const versionExists = res.resumes.some((resume) => resume.id === version);
+  const selectedVersion =
+    requestedResume?.id || (version && isFetching ? version : latestVersion);
+  const selectedResume =
+    requestedResume ?? resumes.find((resume) => resume.id === selectedVersion);
 
-    if (version && versionExists) {
-      return version;
-    }
+  const parsedResume = useMemo(() => {
+    return selectedResume
+      ? parseResumeContent(selectedResume.content)
+      : { resume: null, error: null };
+  }, [selectedResume]);
 
-    return res.resumes.at(-1)?.id || "";
-  }, [res, version]);
+  const isPendingVersionReady =
+    pendingVersion !== null &&
+    version === pendingVersion &&
+    selectedResume?.id === pendingVersion &&
+    (parsedResume.resume !== null || parsedResume.error !== null);
+
+  const isChangingVersion = pendingVersion !== null && !isPendingVersionReady;
+
+  function changeVersion(nextVersion: string) {
+    if (nextVersion === version) return;
+
+    setPendingVersion(nextVersion);
+    setSearchParams({ version: nextVersion });
+  }
 
   useEffect(() => {
-    if (!selectedVersion || version === selectedVersion) {
-      return;
-    }
+    if (!selectedVersion || version === selectedVersion) return;
+    if (version && !requestedResume && isFetching) return;
 
     setSearchParams({ version: selectedVersion }, { replace: true });
-  }, [selectedVersion, setSearchParams, version]);
+  }, [isFetching, requestedResume, selectedVersion, setSearchParams, version]);
 
-  const activeResume = useMemo(() => {
-    if (!res) return;
+  useEffect(() => {
+    if (!pendingVersion) return;
 
-    const selectedResume = res.resumes.find(
-      (resume) => resume.id === selectedVersion,
+    const pendingVersionExists = resumes.some(
+      (resume) => resume.id === pendingVersion,
     );
 
-    return selectedResume
-      ? (JSON.parse(selectedResume.content) as AiGeneratedResume)
-      : undefined;
-  }, [res, selectedVersion]);
+    if (isPendingVersionReady || (!isFetching && !pendingVersionExists))
+      setPendingVersion(null);
+  }, [isFetching, isPendingVersionReady, pendingVersion, resumes]);
 
   return {
     id: id || "",
     version,
     isChangingVersion,
     changeVersion,
-    activeResume,
+    activeResume: parsedResume.resume,
+    activeResumeError: parsedResume.error,
     resumes: res?.resumes,
     type: res?.type,
     title: res?.title,

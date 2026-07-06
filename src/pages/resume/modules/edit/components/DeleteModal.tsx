@@ -15,12 +15,16 @@ interface props {
   resumeId: string;
   defaultVersion: string;
   totalVersions?: number;
+  triggerLabel?: string;
+  isLoading?: boolean;
 }
 
 export default function DeleteModal({
   resumeId,
   defaultVersion,
   totalVersions,
+  triggerLabel,
+  isLoading,
 }: props) {
   const { open, setOpen, deleteAll, deleteOne, isDeletingAll, isDeletingOne } =
     useDeleteResumeAction({
@@ -33,10 +37,14 @@ export default function DeleteModal({
       <DialogTrigger asChild>
         <Button
           variant={"outline"}
-          size="icon-sm"
-          className="rounded-full flex  font-semibold"
+          disabled={isLoading}
+          size={triggerLabel ? "default" : "icon-sm"}
+          className={
+            triggerLabel ? "font-semibold" : "rounded-full font-semibold"
+          }
         >
           <Trash2 className="" />
+          {triggerLabel}
         </Button>
       </DialogTrigger>
 

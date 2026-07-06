@@ -26,8 +26,13 @@ export default function useAiChatData() {
 
   const chatId = data?.data?.id as string;
 
-  const { sendMessage, isSendingMessage, sendMessageError, status } =
-    useSendMessageAction(chatId, resumeId, setMessages);
+  const {
+    sendMessage,
+    isSendingMessage,
+    sendMessageError,
+    failedMessageContent,
+    status,
+  } = useSendMessageAction(chatId, resumeId, setMessages);
 
   useEffect(() => {
     const setter = () => setMessages(data?.data?.messages || []);
@@ -48,6 +53,11 @@ export default function useAiChatData() {
   }, [sendMessageError]);
 
   async function handleRetry() {
+    if (failedMessageContent) {
+      await sendMessage(failedMessageContent);
+      return;
+    }
+
     if (messages.length > 0) {
       const lastUserMessage = [...messages]
         .reverse()

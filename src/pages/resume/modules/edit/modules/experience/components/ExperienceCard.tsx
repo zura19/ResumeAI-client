@@ -21,8 +21,6 @@ export default function ExperienceCard({
   editExperience,
   index,
 }: props) {
-  console.log(exp);
-
   function edit(exp: AiGeneratedResume["experience"][0]) {
     editExperience(exp, index);
   }

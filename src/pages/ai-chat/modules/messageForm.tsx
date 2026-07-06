@@ -22,7 +22,7 @@ export default function MessageForm({ isLoading, sendMessage }: props) {
   const {
     textareaRef,
     input,
-    disabledToSubmit,
+    canSend,
     handleTextareaChange,
     handleSubmit,
     handleEnterClick,
@@ -53,7 +53,7 @@ export default function MessageForm({ isLoading, sendMessage }: props) {
         <Button
           type="submit"
           size="icon"
-          disabled={disabledToSubmit}
+          disabled={!canSend}
           className="size-8 shrink-0 rounded-full bg-primary text-primary-foreground transition-all hover:bg-primary/90 hover:scale-105 disabled:opacity-50"
         >
           {isLoading ? (

@@ -67,6 +67,7 @@ export default function Edit({
                 totalVersions={allVersions?.length}
                 resumeId={id}
                 defaultVersion={defaultVersion}
+                isLoading={isLoading || disabledToOpen}
               />
             </div>
           </div>
