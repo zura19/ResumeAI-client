@@ -16,16 +16,24 @@ export default function useSendMessageAction(
   const [status, setStatus] = useState<string | null>(null);
 
   useEffect(() => {
-    socket.emit("join", user?.id);
+    if (!user?.id) return;
+
+    socket.emit("join", user.id);
+
+    return () => {
+      socket.emit("leave", user.id);
+    };
   }, [user?.id]);
 
   useEffect(() => {
-    socket.on("resume:update:status", (data) => {
+    const handleResumeStatusUpdate = (data: { message: string }) => {
       setStatus(data.message);
-    });
+    };
+
+    socket.on("resume:update:status", handleResumeStatusUpdate);
 
     return () => {
-      socket.off("resume:update:status");
+      socket.off("resume:update:status", handleResumeStatusUpdate);
     };
   }, []);
 

@@ -21,8 +21,6 @@ export default function EducationCard({
   editEducation,
   index,
 }: props) {
-  console.log(edu);
-
   function edit(edu: AiGeneratedResume["education"][0]) {
     editEducation(edu, index);
   }

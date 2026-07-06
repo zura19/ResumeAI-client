@@ -18,8 +18,6 @@ export default function ProjectCard({
   editProject,
   index,
 }: props) {
-  console.log(proj);
-
   function edit(proj: AiGeneratedResume["projects"][0]) {
     editProject(proj, index);
   }
