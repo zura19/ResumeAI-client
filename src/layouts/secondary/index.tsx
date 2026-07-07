@@ -31,7 +31,7 @@ export default function SecondaryLayout() {
       )}
 
       <section className="relative isolate h-dvh min-h-0 w-full overflow-hidden bg-black text-white">
-        <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_bottom_left,rgb(99_102_241_/_0.20),transparent_55%),radial-gradient(circle_at_top_right,rgb(20_184_166_/_0.20),transparent_55%)]" />
+        <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_bottom_left,rgb(99_102_241_/_0.25),transparent_55%),radial-gradient(circle_at_top_right,rgb(14_165_233_/_0.25),transparent_55%)]" />
 
         {shouldShowLogo && <Logo className="absolute left-5 top-5 z-20" />}
         <div className="relative z-10 h-full overflow-y-auto">
