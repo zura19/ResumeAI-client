@@ -62,7 +62,9 @@ export default function BuildResume() {
       )}
       {can?.data.canGenerate && (
         <BuildResumeTemplate>
-          <div className="p-9 overflow-scroll ">{returnStep()}</div>
+          <div className="flex min-h-full items-center z-10 justify-center overflow-y-auto p-6 sm:p-9">
+            <div className=" w-full max-w-2xl ">{returnStep()}</div>
+          </div>
         </BuildResumeTemplate>
       )}
     </div>
