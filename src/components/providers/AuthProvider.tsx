@@ -30,7 +30,8 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   if (isLoading) {
     return (
       <div className="relative h-dvh overflow-hidden bg-black">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(99,102,241,0.45),_transparent_32%),radial-gradient(circle_at_bottom_right,_rgba(99,102,241,0.4),_transparent_30%)]" />
+        {/* <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(99,102,241,0.45),_transparent_32%),radial-gradient(circle_at_bottom_right,_rgba(99,102,241,0.4),_transparent_30%)]" /> */}
+        <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_bottom_right,rgb(99_102_241_/_0.20),transparent_55%),radial-gradient(circle_at_top_left,rgb(99_102_241_/_0.20),transparent_55%)]" />
         <div className="absolute -left-24 -top-24 h-120 w-120 rounded-full bg-indigo-500/0 blur-3xl" />
         <div className="absolute -bottom-24 -right-24 h-120 w-120 rounded-full bg-indigo-500/0 blur-3xl" />
 
