@@ -13,16 +13,8 @@ export default function AuthTemplate(props: props) {
     templateFor === "login" ? "Log in to your account" : "Create an account";
 
   return (
-    <div className="grid sm:grid-cols-[8fr_10fr] w-full bg-muted/40 border backdrop:backdrop-blur-2xl rounded-lg">
-      <div className="relative overflow-hidden hidden sm:block">
-        <img
-          src="/auth-template.jpg"
-          alt="login"
-          className="w-full h-full object-cover rounded-lg rounded-r-none"
-        />
-      </div>
-
-      <div className="p-4 sm:px-6 md:px-12 sm:py-24 space-y-8">
+    <div className="flex h-full w-full items-center justify-center p-4 sm:px-6 md:px-12">
+      <div className="w-full max-w-xl space-y-8">
         <div>
           <AnimatedText
             text={heading}

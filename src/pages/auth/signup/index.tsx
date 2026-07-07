@@ -3,7 +3,7 @@ import SignupForm from "./modules/SignupForm";
 
 export default function Signup() {
   return (
-    <div className="space-y-12 flex w-full items-center justify-center h-full">
+    <div className="flex h-full w-full items-center justify-center">
       <AuthTemplate templateFor="register">
         <SignupForm />
       </AuthTemplate>
