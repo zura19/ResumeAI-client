@@ -20,6 +20,7 @@ import Checkout from "./pages/checkout";
 import Cancel from "./pages/checkout/child-pages/cancel";
 import AdminPlans from "./pages/admin/child-pages/plans";
 import AiChat from "./pages/ai-chat";
+import AdminUsers from "./pages/admin/child-pages/users";
 
 function App() {
   const { user } = useUser();
@@ -87,6 +88,12 @@ function App() {
         <Route
           path="/admin/plans"
           element={user?.role === "admin" ? <AdminPlans /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/admin/users"
+          element={
+            user?.role === "admin" ? <AdminUsers /> : <Navigate to="/" />
+          }
         />
         <Route
           path="/admin/plan/:name"
