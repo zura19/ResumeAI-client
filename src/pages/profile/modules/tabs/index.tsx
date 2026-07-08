@@ -35,7 +35,7 @@ export default function ProfileTabsSection({ resumes }: props) {
       </TabsContent>
 
       <TabsContent value="subscription" className="mt-1">
-        <SubscriptionCardTab />
+        <SubscriptionCardTab totalResumes={resumes?.length || 0} />
       </TabsContent>
 
       <TabsContent value="billing" className=" mt-1">
