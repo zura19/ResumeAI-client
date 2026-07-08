@@ -13,6 +13,8 @@ dist-ssr
 *.local
 
 AGENTS.md
+CLAUDE.md
+.calude/
 
 # Editor directories and files
 .vscode/*
