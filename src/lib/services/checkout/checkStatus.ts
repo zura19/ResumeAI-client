@@ -2,22 +2,34 @@ import type { User } from "@/lib/types/User";
 import { API } from "../helpers";
 import type { PromiseResponseSuccess } from "@/lib/types/requestResponseTypes";
 
-interface Res {
+export type CheckoutPaymentStatus = "PROCESSING" | "SUCCEEDED" | "FAILED";
+
+export interface CheckoutStatusResponse {
   status: string;
-  total: number;
+  paymentStatus: CheckoutPaymentStatus | null;
+  total: number | null;
   currency: string | null;
   last4: string | null;
-  created: Date;
+  created: string | null;
   email?: string | null;
   isProcessed: boolean;
   user: User;
 }
 
+export class CheckoutStatusError extends Error {
+  status: number;
+
+  constructor(message: string, status: number) {
+    super(message);
+    this.name = "CheckoutStatusError";
+    this.status = status;
+  }
+}
+
 export async function checkStatusService(
   sessionId: string,
-): PromiseResponseSuccess<Res> {
+): PromiseResponseSuccess<CheckoutStatusResponse> {
   try {
-    await new Promise((resolve) => setTimeout(resolve, 10000));
     const res = await fetch(`${API}/payment/status/${sessionId}`, {
       method: "GET",
       headers: {
@@ -26,13 +38,14 @@ export async function checkStatusService(
       credentials: "include",
     });
     if (!res.ok) {
-      const error = await res.json();
-      console.log(error);
-      throw new Error(error.message || "Failed to create checkout");
+      const error = await res.json().catch(() => null);
+      throw new CheckoutStatusError(
+        error?.message || "Failed to check payment status",
+        res.status,
+      );
     }
 
     const data = await res.json();
-    console.log(data);
     return data;
   } catch (error) {
     console.log(error);

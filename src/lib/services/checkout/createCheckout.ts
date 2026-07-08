@@ -6,6 +6,10 @@ export async function createCheckoutService(
   plan: PlanName,
 ): PromiseResponseSuccess<{ sessionUrl: string; sessionId: string }> {
   try {
+    if (plan === "free") {
+      throw new Error("Free plans do not require checkout");
+    }
+
     const res = await fetch(`${API}/payment/checkout`, {
       ...postHeadersCredentials,
       body: JSON.stringify({ plan }),
