@@ -5,7 +5,7 @@ import { API, postHeadersCredentials } from "../helpers";
 export async function contactService(
   body: ContactSchema,
 ): PromiseResponseSuccess<null> {
-  const res = await fetch(`${API}/contact`, {
+  const res = await fetch(`${API}/email/contact`, {
     ...postHeadersCredentials,
     body: JSON.stringify(body),
   });
