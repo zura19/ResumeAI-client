@@ -9,7 +9,7 @@ import { sharedLayoutLightRaysProps } from "@/lib/configs/lightRays";
 // //   children: React.ReactNode;
 // }
 
-const showNavbarExactRoutes = ["/plans"];
+const showNavbarExactRoutes = ["/plans", "/contact"];
 const showNavbarPrefixRoutes = ["/profile"];
 
 export default function LightRaysLayout() {

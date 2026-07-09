@@ -21,6 +21,7 @@ import Cancel from "./pages/checkout/child-pages/cancel";
 import AdminPlans from "./pages/admin/child-pages/plans";
 import AiChat from "./pages/ai-chat";
 import AdminUsers from "./pages/admin/child-pages/users";
+import Contact from "./pages/contact";
 
 function App() {
   const { user } = useUser();
@@ -58,6 +59,7 @@ function App() {
           element={user ? <AiChat /> : <Navigate to="/login" />}
         />
         <Route path="/plans" element={<Plans />} />
+        <Route path="/contact" element={<Contact />} />
         <Route
           path="/plans/:id"
           element={user ? <PlanDetails /> : <Navigate to="/login" />}
