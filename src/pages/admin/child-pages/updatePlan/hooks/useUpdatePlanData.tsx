@@ -12,7 +12,7 @@ export interface UpdatePlanFormState {
   features: string[];
   additionalFeatures: string[];
   detailedDescription: string;
-  recommended: "true" | "false";
+  recommended: boolean;
   stripeProductId: string;
   stripePriceId: string;
   aiCreditsPerMonth: number;
@@ -25,7 +25,7 @@ const initialFormState: UpdatePlanFormState = {
   features: [],
   additionalFeatures: [],
   detailedDescription: "",
-  recommended: "false",
+  recommended: false,
   stripeProductId: "",
   stripePriceId: "",
   aiCreditsPerMonth: 0,
@@ -58,7 +58,7 @@ export default function useUpdatePlanData() {
         features: plan.features,
         additionalFeatures: plan.additionalFeatures,
         detailedDescription: plan.detailedDescription,
-        recommended: plan.recommended ? "true" : "false",
+        recommended: plan.recommended || false,
         stripeProductId: plan.stripeProductId,
         stripePriceId: plan.stripePriceId,
         aiCreditsPerMonth: plan.aiCreditsPerMonth,
@@ -101,7 +101,7 @@ export default function useUpdatePlanData() {
       features: form.features,
       additionalFeatures: form.additionalFeatures,
       detailedDescription: form.detailedDescription,
-      recommended: form.recommended === "true",
+      recommended: form.recommended,
       stripeProductId: form.stripeProductId,
       stripePriceId: form.stripePriceId,
       aiCreditsPerMonth: form.aiCreditsPerMonth,

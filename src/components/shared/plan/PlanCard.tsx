@@ -87,8 +87,11 @@ export function PlanCard({ plan, updateSession = false }: props) {
             </p>
 
             <ul className="mb-8 flex-1 space-y-3 h-full">
-              {plan.features.map((feature) => (
-                <li key={feature} className="flex items-start gap-2">
+              {plan.features.map((feature, index) => (
+                <li
+                  key={`${plan.id}-feature-${index}-${feature}`}
+                  className="flex items-start gap-2"
+                >
                   <Check
                     className={cn(
                       "mt-0.5 h-4 w-4 shrink-0",

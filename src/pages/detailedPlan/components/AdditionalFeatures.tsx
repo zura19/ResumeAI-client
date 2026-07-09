@@ -15,8 +15,11 @@ export default function AdditionalFeatures({
         {"What's included"}
       </h2>
       <div className="grid gap-4 md:grid-cols-2">
-        {plan.additionalFeatures.map((feature) => (
-          <div key={feature} className="flex items-start gap-3">
+        {plan.additionalFeatures.map((feature, index) => (
+          <div
+            key={`${plan.id}-additional-feature-${index}-${feature}`}
+            className="flex items-start gap-3"
+          >
             <div
               className={cn(
                 "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full",

@@ -11,9 +11,9 @@ export default function Features({ features }: props) {
         Included Features
       </span>
       <div className="grid gap-1.5">
-        {features.map((feature) => (
+        {features.map((feature, index) => (
           <div
-            key={feature}
+            key={`${index}-${feature}`}
             className="flex items-center gap-2 text-sm text-muted-foreground"
           >
             <CheckIcon className="h-3.5 w-3.5 text-emerald-500" />

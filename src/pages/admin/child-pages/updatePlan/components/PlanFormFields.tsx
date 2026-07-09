@@ -1,14 +1,8 @@
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
 import ArrayInput from "./ArrayInput";
 import type { UpdatePlanFormState } from "../hooks/useUpdatePlanData";
 
@@ -139,24 +133,39 @@ export default function PlanFormFields({
         arr={form.additionalFeatures}
       />
 
-      <div className="flex flex-col gap-2 ">
+      <div className="flex flex-col gap-2 sm:max-w-sm">
         <Label htmlFor="recommended">Recommended</Label>
-        <Select
-          value={form.recommended}
-          onValueChange={(value) =>
-            setField("recommended", value === "true" ? "true" : "false")
-          }
+        <div
+          id="recommended"
+          className="grid grid-cols-2 rounded-md border border-input bg-transparent p-1"
         >
-          <SelectTrigger id="recommended" className="w-full">
-            <SelectValue placeholder="Recommended" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem value="true">Yes</SelectItem>
-              <SelectItem value="false">No</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+          <Button
+            type="button"
+            variant="ghost"
+            aria-pressed={form.recommended}
+            onClick={() => setField("recommended", true)}
+            className={cn(
+              "rounded-sm transition-colors",
+              form.recommended &&
+                "bg-primary text-primary-foreground hover:!bg-primary/90 hover:!text-primary-foreground",
+            )}
+          >
+            Yes
+          </Button>
+          <Button
+            type="button"
+            variant="ghost"
+            aria-pressed={!form.recommended}
+            onClick={() => setField("recommended", false)}
+            className={cn(
+              "rounded-sm transition-colors",
+              !form.recommended &&
+                "bg-primary text-primary-foreground hover:!bg-primary/90 hover:!text-primary-foreground",
+            )}
+          >
+            No
+          </Button>
+        </div>
       </div>
     </>
   );
