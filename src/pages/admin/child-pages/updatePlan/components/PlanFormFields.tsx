@@ -133,7 +133,7 @@ export default function PlanFormFields({
         arr={form.additionalFeatures}
       />
 
-      <div className="flex flex-col gap-2 ">
+      <div className="flex flex-col gap-2 sm:max-w-sm">
         <Label htmlFor="recommended">Recommended</Label>
         <div
           id="recommended"
