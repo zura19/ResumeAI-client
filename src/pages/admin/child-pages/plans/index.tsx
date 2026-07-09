@@ -10,7 +10,7 @@ export default function AdminPlans() {
 
   return (
     <div className="space-y-6">
-      <SpotlightCard cardClassName="flex flex-col gap-6 rounded-lg border border-border bg-background/50 p-6 backdrop-blur-lg sm:flex-row sm:items-start sm:justify-between">
+      <SpotlightCard cardClassName="flex flex-col gap-6 p-6 sm:flex-row sm:items-start sm:justify-between">
         <div className="space-y-1">
           <h1 className="text-center sm:text-left font-bold text-3xl">
             Available Plans
