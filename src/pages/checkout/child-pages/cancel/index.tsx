@@ -5,27 +5,42 @@ import { useCancelStatusData } from "../../hooks/useCancelStatusData";
 
 export default function Cancel() {
   const {
-    isLoading,
     isError,
+    errorMessage,
     refetch,
-    isRefetching,
-    allowCancel,
+    isCanceled,
+    showProcessing,
+    showTimeout,
     continueToProfile,
     goHome,
   } = useCancelStatusData();
 
-  const isProcessing = isLoading || isRefetching;
-  const shouldShowSuccess = !isProcessing && !isError && allowCancel;
-  const shouldShowFailed = !isProcessing && !shouldShowSuccess;
+  const shouldShowSuccess = !showProcessing && !isError && isCanceled;
+  const shouldShowFailed =
+    !showProcessing && !isError && !shouldShowSuccess && showTimeout;
 
   return (
     <div className="w-full h-dvh flex items-center justify-center animate-in fade-in slide-in-from-bottom-4 duration-500">
-      {isProcessing && <ProcessingView session="cancel" />}
+      {showProcessing && <ProcessingView session="cancel" />}
 
       {shouldShowSuccess && <CancelView continueClick={continueToProfile} />}
 
+      {!showProcessing && isError && (
+        <FailedView
+          goHome={goHome}
+          onReset={refetch}
+          session="cancel"
+          error={errorMessage}
+        />
+      )}
+
       {shouldShowFailed && (
-        <FailedView goHome={goHome} onReset={refetch} session="cancel" />
+        <FailedView
+          goHome={goHome}
+          onReset={refetch}
+          session="cancel"
+          error="Cancellation is still finalizing. Please try again in a moment or check your profile for the latest subscription status."
+        />
       )}
     </div>
   );

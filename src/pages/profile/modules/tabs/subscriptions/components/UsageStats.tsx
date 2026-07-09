@@ -2,7 +2,7 @@ import { Progress } from "@/components/ui/progress";
 
 interface props {
   userActions?: {
-    generatedResumesThisMonth: number;
+    totalResumes: number;
     aiCreditsThisMonth: number;
   };
   plan?: {
@@ -18,13 +18,12 @@ export default function UsageStats({ userActions, plan }: props) {
         <div className="flex items-center justify-between text-sm">
           <span className="text-muted-foreground">Resumes</span>
           <span className="font-mono text-xs text-foreground">
-            {userActions?.generatedResumesThisMonth}/{plan?.totalResumes}
+            {userActions?.totalResumes}/{plan?.totalResumes}
           </span>
         </div>
         <Progress
           value={
-            (Number(userActions?.generatedResumesThisMonth) /
-              Number(plan?.totalResumes)) *
+            (Number(userActions?.totalResumes) / Number(plan?.totalResumes)) *
             100
           }
           className="h-1.5"

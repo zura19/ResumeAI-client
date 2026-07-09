@@ -3,11 +3,10 @@ import { API } from "../helpers";
 import type { PromiseResponseSuccess } from "@/lib/types/requestResponseTypes";
 
 export async function cancelStatusService(): PromiseResponseSuccess<{
-  allowCancel: boolean;
+  isCanceled: boolean;
   user: User;
 }> {
   try {
-    await new Promise((resolve) => setTimeout(resolve, 10000));
     const res = await fetch(`${API}/payment/cancel/status`, {
       method: "GET",
       headers: {
@@ -16,13 +15,11 @@ export async function cancelStatusService(): PromiseResponseSuccess<{
       credentials: "include",
     });
     if (!res.ok) {
-      const error = await res.json();
-      console.log(error);
-      throw new Error(error.message || "Failed to create checkout");
+      const error = await res.json().catch(() => null);
+      throw new Error(error?.message || "Failed to check cancellation status");
     }
 
     const data = await res.json();
-    console.log(data);
     return data;
   } catch (error) {
     console.log(error);

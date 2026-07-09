@@ -8,7 +8,11 @@ import UsageStats from "./components/UsageStats";
 import { ErrorComponent } from "@/components/shared/ErrorComponents";
 import useSubscriptionsData from "@/pages/profile/hooks/useSubscriptionsData";
 
-export function SubscriptionCardTab() {
+interface props {
+  totalResumes: number;
+}
+
+export function SubscriptionCardTab({ totalResumes }: props) {
   const { user, subscription, userActions, plan, isLoading, error } =
     useSubscriptionsData();
 
@@ -40,8 +44,7 @@ export function SubscriptionCardTab() {
             )}
             <UsageStats
               userActions={{
-                generatedResumesThisMonth:
-                  userActions?.generatedResumesThisMonth || 0,
+                totalResumes,
                 aiCreditsThisMonth: userActions?.aiCreditsThisMonth || 0,
               }}
               plan={{

@@ -7,42 +7,56 @@ import { useCheckoutStatusData } from "./hooks/useCheckoutStatusData";
 export default function Checkout() {
   const {
     checkoutData,
-    isLoading: loading,
     isError,
+    errorMessage,
     refetch,
-    isRefetching,
+    showFailed,
+    showProcessing,
     showSuccess,
+    showTimeout,
     continueToProfile,
     goHome,
   } = useCheckoutStatusData();
 
-  const isProcessing = loading || isRefetching;
   const shouldShowSuccess =
-    !isProcessing && !isError && showSuccess && !!checkoutData;
-  const shouldShowFailed = !isProcessing && !isError && !shouldShowSuccess;
+    !showProcessing && !isError && showSuccess && !!checkoutData;
+  const shouldShowFailed =
+    !showProcessing && !isError && (showFailed || showTimeout);
 
   return (
     <div className="w-full h-dvh flex items-center justify-center animate-in fade-in slide-in-from-bottom-4 duration-500">
-      {isProcessing && <ProcessingView />}
+      {showProcessing && <ProcessingView />}
 
-      {!isProcessing && isError && (
+      {!showProcessing && isError && (
         <ErrorComponent
           title={"Something went wrong"}
-          message={`This Dose not mean your payment was not successful, it is our server problem. `}
+          message={errorMessage}
+          onRetry={refetch}
         />
       )}
 
       {shouldShowSuccess && checkoutData && (
         <SuccessView
-          createdAt={checkoutData.created + ""}
-          last4={checkoutData.last4 as string}
-          email={(checkoutData.email as string) || "-"}
+          createdAt={checkoutData.created}
+          currency={checkoutData.currency}
+          last4={checkoutData.last4}
+          email={checkoutData.email ?? null}
           total={checkoutData.total}
           continueClick={continueToProfile}
         />
       )}
 
-      {shouldShowFailed && <FailedView onReset={refetch} goHome={goHome} />}
+      {shouldShowFailed && (
+        <FailedView
+          onReset={refetch}
+          goHome={goHome}
+          error={
+            showTimeout
+              ? "Payment is still finalizing. Please try again in a moment or check your profile for the latest subscription status."
+              : "The payment could not be completed. Please try again or use a different payment method."
+          }
+        />
+      )}
     </div>
   );
 }
