@@ -38,7 +38,7 @@ export const footerData = [
       },
       {
         label: "Contact",
-        href: "/",
+        href: "/contact",
       },
       {
         label: "Legal",

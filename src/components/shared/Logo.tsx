@@ -51,7 +51,9 @@ export default function Logo({ className, onlyLogo = false }: props) {
 
           <div className="relative overflow-hidden">
             <p className="relative flex items-center gap-0.5 text-lg font-bold tracking-wide sm:text-xl md:text-2xl">
-              <span className="text-slate-900 dark:text-white">Resume</span>
+              <span className="bg-linear-to-b from-slate-50 to-slate-400 bg-clip-text text-transparent">
+                Resume
+              </span>
               <span className="text-indigo-500">AI</span>
             </p>
           </div>
