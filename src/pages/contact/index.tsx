@@ -55,15 +55,20 @@ export default function Contact() {
           </section>
         </AnimationProvider>
 
-        <AnimationProvider initX={20} endX={0} duration={0.6}>
-          <SpotlightCard cardClassName="border-border bg-card/70 shadow-2xl shadow-black/20 backdrop-blur-xl h-full overflow-scroll scrollbar-hide">
-            <CardHeader>
+        <AnimationProvider
+          initX={20}
+          endX={0}
+          duration={0.6}
+          className="min-h-0 lg:h-full"
+        >
+          <SpotlightCard cardClassName="max-h-[calc(84dvh-4.5rem)] min-h-0 overflow-hidden border-border bg-card/70 shadow-2xl shadow-black/20 backdrop-blur-xl lg:h-full">
+            <CardHeader className="shrink-0">
               <CardTitle className="text-2xl">Send a message</CardTitle>
               <CardDescription>
                 Include enough context so we can answer with the right details.
               </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="min-h-0 flex-1 overflow-y-auto pb-1 scrollbar-hide">
               <ContactForm />
             </CardContent>
           </SpotlightCard>

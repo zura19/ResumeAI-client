@@ -18,7 +18,7 @@ export default function ContactForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-5 overflow-scroll"
+        className="space-y-5 pb-1"
       >
         <FormInput
           control={form.control}
@@ -29,6 +29,7 @@ export default function ContactForm() {
           className="h-12"
           autoComplete="email"
           readOnly={isAuthenticated}
+          disabled={isAuthenticated}
         />
 
         <FormInput

@@ -20,6 +20,7 @@ interface props {
   autoComplete?: string;
   maxLength?: number;
   readOnly?: boolean;
+  disabled?: boolean;
 }
 
 export default function FormInput({
@@ -33,6 +34,7 @@ export default function FormInput({
   autoComplete,
   maxLength,
   readOnly,
+  disabled,
 }: props) {
   return (
     <FormField
@@ -50,6 +52,7 @@ export default function FormInput({
               autoComplete={autoComplete}
               maxLength={maxLength}
               readOnly={readOnly}
+              disabled={disabled}
               {...field}
               onChange={(e) => {
                 // If input is of type number, convert the incoming string value
