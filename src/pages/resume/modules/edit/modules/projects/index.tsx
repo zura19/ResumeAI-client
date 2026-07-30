@@ -4,6 +4,7 @@ import SaveAlert from "../../components/SaveAlert";
 import ProjectCard from "./components/ProjectCard";
 import ProjectsModal from "./components/ProjectModal";
 import useEditProjectsAction from "@/pages/resume/hooks/actions/projects/useEditProjectsAction";
+import useReorderProject from "@/pages/resume/hooks/actions/projects/useReorderProject";
 
 interface props {
   resumeData: AiGeneratedResume;
@@ -18,6 +19,11 @@ export default function Projects({ resumeData, id, generatedResumeId }: props) {
       id,
       generatedResumeId,
     });
+  
+  const { reorderProject, isReordering } = useReorderProject({
+    id,
+    generatedResumeId,
+  });
 
   return (
     <div className="space-y-4">
@@ -42,9 +48,12 @@ export default function Projects({ resumeData, id, generatedResumeId }: props) {
               key={proj.id}
               proj={proj}
               index={i}
-              isPending={isPending}
+              isPending={isPending || isReordering}
               deleteProject={deleteProject}
               editProject={editProject}
+              reorderProject={reorderProject}
+              isFirst={i === 0}
+              isLast={i === resumeData.projects.length - 1}
             />
           ))}
       </AnimatePresence>
