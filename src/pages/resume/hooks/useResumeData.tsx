@@ -1,8 +1,23 @@
-import { getResumeByIdService } from "@/lib/services/resume/getResumeByIdSerice";
+import { getResumeByIdService } from "@/lib/services/resume/getResumeByIdService";
+import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
+import type { GeneratedResumeResponse } from "@/lib/services/resume/getResumeByIdService";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
-import { parseResumeContent } from "../utils/parseResumeContent";
+
+function extractResumeData(
+  generated: GeneratedResumeResponse,
+): AiGeneratedResume {
+  return {
+    summary: generated.summary,
+    personalInfo: generated.personalInfo,
+    education: generated.education,
+    // @ts-expect-error TODO: fix this is all types
+    experience: generated.experiences,
+    skills: generated.skills,
+    projects: generated.projects,
+  };
+}
 
 export default function useResumeData() {
   const { id } = useParams();
@@ -22,7 +37,6 @@ export default function useResumeData() {
     queryFn: async () => {
       const data = await getResumeByIdService(id || "");
       const generatedResumes = data.data.resume.generatedResumes;
-
       return {
         resumes: generatedResumes,
         type: data.data.resume.type,
@@ -41,17 +55,15 @@ export default function useResumeData() {
   const selectedResume =
     requestedResume ?? resumes.find((resume) => resume.id === selectedVersion);
 
-  const parsedResume = useMemo(() => {
-    return selectedResume
-      ? parseResumeContent(selectedResume.content)
-      : { resume: null, error: null };
+  const activeResume = useMemo(() => {
+    return selectedResume ? extractResumeData(selectedResume) : null;
   }, [selectedResume]);
 
   const isPendingVersionReady =
     pendingVersion !== null &&
     version === pendingVersion &&
     selectedResume?.id === pendingVersion &&
-    (parsedResume.resume !== null || parsedResume.error !== null);
+    activeResume !== null;
 
   const isChangingVersion = pendingVersion !== null && !isPendingVersionReady;
 
@@ -76,8 +88,10 @@ export default function useResumeData() {
       (resume) => resume.id === pendingVersion,
     );
 
-    if (isPendingVersionReady || (!isFetching && !pendingVersionExists))
-      setPendingVersion(null);
+    if (isPendingVersionReady || (!isFetching && !pendingVersionExists)) {
+      const setter = () => setPendingVersion(null);
+      setter();
+    }
   }, [isFetching, isPendingVersionReady, pendingVersion, resumes]);
 
   return {
@@ -85,8 +99,8 @@ export default function useResumeData() {
     version,
     isChangingVersion,
     changeVersion,
-    activeResume: parsedResume.resume,
-    activeResumeError: parsedResume.error,
+    activeResume,
+    activeResumeError: null,
     resumes: res?.resumes,
     type: res?.type,
     title: res?.title,
