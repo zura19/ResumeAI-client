@@ -1,28 +1,40 @@
 import { Button } from "@/components/ui/button";
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
-import { Trash2Icon } from "lucide-react";
+import { LoaderIcon, Trash2Icon } from "lucide-react";
 import EducationModal from "./EducationModal";
 import { motion } from "framer-motion";
+import { useState } from "react";
+
+type EducationItem = AiGeneratedResume["education"][0];
 
 interface props {
-  edu: AiGeneratedResume["education"][0];
-  resumeId: string;
-  deleteEducation: (edu: AiGeneratedResume["education"][0]) => void;
-  editEducation: (
-    edu: AiGeneratedResume["education"][0],
-    index: number,
-  ) => void;
+  edu: EducationItem;
+  isPending: boolean;
+  deleteEducation: (educationId: string) => Promise<unknown>;
+  editEducation: (payload: {
+    educationId: string;
+    education: EducationItem;
+  }) => Promise<unknown>;
   index: number;
 }
 
 export default function EducationCard({
   edu,
+  isPending,
   deleteEducation,
   editEducation,
   index,
 }: props) {
-  function edit(edu: AiGeneratedResume["education"][0]) {
-    editEducation(edu, index);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  async function handleDelete() {
+    if (!edu.id) return;
+    setIsDeleting(true);
+    try {
+      await deleteEducation(edu.id);
+    } finally {
+      setIsDeleting(false);
+    }
   }
 
   return (
@@ -42,14 +54,24 @@ export default function EducationCard({
           {edu.degree ? `${edu.degree} in ` : ""} {edu.fieldOfStudy}
         </h3>
         <div className="flex items-center gap-2">
-          <EducationModal edu={edu} session="edit" editEducation={edit} />
+          <EducationModal
+            edu={edu}
+            session="edit"
+            editEducation={editEducation}
+            isPending={isPending}
+          />
           <Button
-            onClick={() => deleteEducation(edu)}
+            onClick={handleDelete}
             size={"icon-sm"}
             variant="destructive"
             className="size-6 rounded-sm"
+            disabled={isPending || isDeleting}
           >
-            <Trash2Icon className="size-3" />
+            {isDeleting ? (
+              <LoaderIcon className="size-3 animate-spin" />
+            ) : (
+              <Trash2Icon className="size-3" />
+            )}
           </Button>
         </div>
       </div>

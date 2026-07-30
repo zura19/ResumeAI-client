@@ -2,7 +2,6 @@ import { AnimatePresence } from "framer-motion";
 import SaveAlert from "../../components/SaveAlert";
 import ExperienceModal from "./components/ExperienceModal";
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
-import FormButton from "@/components/shared/FormButton";
 import ExperienceCard from "./components/ExperienceCard";
 import useEditExperienceAction from "@/pages/resume/hooks/actions/experience/useEditExperienceAction";
 
@@ -18,12 +17,10 @@ export default function Experience({
   generatedResumeId,
 }: props) {
   const {
-    experiences,
     isPending,
     addExperience,
     deleteExperience,
     editExperience,
-    saveExperience,
   } = useEditExperienceAction({
     resumeData,
     id,
@@ -34,9 +31,13 @@ export default function Experience({
     <div className="space-y-4">
       <SaveAlert />
 
-      <ExperienceModal addExperience={addExperience} session="create" />
+      <ExperienceModal
+        addExperience={addExperience}
+        session="create"
+        isPending={isPending}
+      />
 
-      {experiences?.length === 0 && (
+      {resumeData.experience?.length === 0 && (
         <p className="text-center text-muted-foreground">
           No experience added yet. Click the button above to add your
           experience.
@@ -44,25 +45,18 @@ export default function Experience({
       )}
 
       <AnimatePresence>
-        {experiences.length > 0 &&
-          experiences?.map((exp, i) => (
+        {resumeData.experience.length > 0 &&
+          resumeData.experience?.map((exp, i) => (
             <ExperienceCard
               deleteExperience={deleteExperience}
               editExperience={editExperience}
-              key={exp.company + exp.position}
+              key={exp.id}
               exp={exp}
               index={i}
-              resumeId={id}
+              isPending={isPending}
             />
           ))}
       </AnimatePresence>
-      <FormButton
-        loadingText="Saving Experience..."
-        loading={isPending}
-        onClick={saveExperience}
-      >
-        Save Experience
-      </FormButton>
     </div>
   );
 }

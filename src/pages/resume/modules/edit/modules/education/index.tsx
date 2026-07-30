@@ -2,7 +2,6 @@ import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 import EducationCard from "./components/EducationCard";
 import EducationModal from "./components/EducationModal";
 import { AnimatePresence } from "framer-motion";
-import FormButton from "@/components/shared/FormButton";
 import SaveAlert from "../../components/SaveAlert";
 import useEditEducationAction from "@/pages/resume/hooks/actions/education/useEditEducationAction";
 
@@ -18,12 +17,10 @@ export default function Education({
   generatedResumeId,
 }: props) {
   const {
-    educations,
     isPending,
     addEducation,
     deleteEducation,
     editEducation,
-    saveEducation,
   } = useEditEducationAction({
     resumeData,
     id,
@@ -34,32 +31,29 @@ export default function Education({
     <div className="space-y-4">
       <SaveAlert />
 
-      <EducationModal session="create" addEducation={addEducation} />
-      {educations?.length === 0 && (
+      <EducationModal
+        session="create"
+        addEducation={addEducation}
+        isPending={isPending}
+      />
+      {resumeData.education?.length === 0 && (
         <p className="text-center text-muted-foreground">
           No education added yet. Click the button above to add your education.
         </p>
       )}
       <AnimatePresence>
-        {educations.length > 0 &&
-          educations?.map((edu, i) => (
+        {resumeData.education.length > 0 &&
+          resumeData.education?.map((edu, i) => (
             <EducationCard
               deleteEducation={deleteEducation}
               editEducation={editEducation}
-              key={edu.university + edu.degree + edu.fieldOfStudy}
+              key={edu.id}
               edu={edu}
               index={i}
-              resumeId={id}
+              isPending={isPending}
             />
           ))}
       </AnimatePresence>
-      <FormButton
-        loadingText="Saving Education..."
-        loading={isPending}
-        onClick={saveEducation}
-      >
-        Save Education
-      </FormButton>
     </div>
   );
 }

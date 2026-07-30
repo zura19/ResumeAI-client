@@ -2,12 +2,17 @@ import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 import { formatResumeDate, parseResumeDate } from "@/pages/resume/utils/date";
 import { useState } from "react";
 
+type EducationItem = AiGeneratedResume["education"][0];
+
 interface UseEducationFormProps {
   session: "edit" | "create";
   handleClose: () => void;
-  addEducation?: (education: AiGeneratedResume["education"][0]) => void;
-  editEducation?: (education: AiGeneratedResume["education"][0]) => void;
-  edu?: AiGeneratedResume["education"][0];
+  addEducation?: (education: EducationItem) => Promise<unknown>;
+  editEducation?: (payload: {
+    educationId: string;
+    education: EducationItem;
+  }) => Promise<unknown>;
+  edu?: EducationItem & { id?: string };
 }
 
 export default function useEducationForm({
@@ -29,8 +34,9 @@ export default function useEducationForm({
     parseResumeDate(edu?.endDate),
   );
   const [stillStudying, setStillStudying] = useState(
-    edu?.endDate === "Present",
+    edu?.endDate === "Present" || edu?.stillStudying === true,
   );
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   function isDisabled() {
     if (!university || !field || !startDate) {
@@ -44,24 +50,31 @@ export default function useEducationForm({
     return false;
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
     const education = {
       university: university.trim(),
       degree: degree.trim(),
       fieldOfStudy: field.trim(),
       startDate: formatResumeDate(startDate),
       endDate: stillStudying ? "Present" : formatResumeDate(endDate),
+      stillStudying,
     };
 
-    if (session === "create" && addEducation) {
-      addEducation(education);
-    }
+    setIsSubmitting(true);
 
-    if (session === "edit" && editEducation) {
-      editEducation(education);
-    }
+    try {
+      if (session === "create" && addEducation) {
+        await addEducation(education as EducationItem);
+      }
 
-    handleClose();
+      if (session === "edit" && editEducation && edu?.id) {
+        await editEducation({ educationId: edu.id, education: education as EducationItem });
+      }
+
+      handleClose();
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return {
@@ -78,6 +91,7 @@ export default function useEducationForm({
     stillStudying,
     setStillStudying,
     isDisabled,
+    isSubmitting,
     handleSubmit,
   };
 }

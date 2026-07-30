@@ -1,6 +1,8 @@
-import useEditResume from "@/lib/hooks/useEditResume";
+import { createExperienceService } from "@/lib/services/resume/edit/createExperienceService";
+import { updateExperienceService } from "@/lib/services/resume/edit/updateExperienceService";
+import { deleteExperienceService } from "@/lib/services/resume/edit/deleteExperienceService";
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
-import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 interface UseEditExperienceActionProps {
@@ -12,60 +14,69 @@ interface UseEditExperienceActionProps {
 type ExperienceItem = AiGeneratedResume["experience"][0];
 
 export default function useEditExperienceAction({
-  resumeData,
   id,
   generatedResumeId,
 }: UseEditExperienceActionProps) {
-  const [experiences, setExperiences] = useState<AiGeneratedResume["experience"]>(
-    resumeData.experience || [],
-  );
+  const queryClient = useQueryClient();
 
-  const { editResume, isPending } = useEditResume(id, generatedResumeId);
+  const { mutateAsync: addExperience, isPending: isAdding } = useMutation({
+    mutationFn: async (experience: ExperienceItem) => {
+      const res = await createExperienceService(generatedResumeId, experience);
+      return res.data;
+    },
+    onSuccess: () => {
+      toast.success("Experience added successfully");
+      queryClient.invalidateQueries({ queryKey: ["resume", id] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
-  function addExperience(experience: ExperienceItem) {
-    const hasExistingCompany = experiences.find(
-      (item) => item.company === experience.company,
-    );
-    const hasExistingPosition = experiences.find(
-      (item) => item.position === experience.position,
-    );
+  const { mutateAsync: editExperience, isPending: isEditing } = useMutation({
+    mutationFn: async ({
+      experienceId,
+      experience,
+    }: {
+      experienceId: string;
+      experience: ExperienceItem;
+    }) => {
+      const res = await updateExperienceService(
+        generatedResumeId,
+        experienceId,
+        experience,
+      );
+      return res.data;
+    },
+    onSuccess: () => {
+      toast.success("Experience updated successfully");
+      queryClient.invalidateQueries({ queryKey: ["resume", id] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
-    if (hasExistingCompany || hasExistingPosition) {
-      return toast.error("Education already exists.");
-    }
+  const { mutateAsync: deleteExperience, isPending: isDeleting } = useMutation({
+    mutationFn: async (experienceId: string) => {
+      const res = await deleteExperienceService(generatedResumeId, experienceId);
+      return res.data;
+    },
+    onSuccess: () => {
+      toast.success("Experience deleted successfully");
+      queryClient.invalidateQueries({ queryKey: ["resume", id] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
-    setExperiences((previous) => [...previous, experience]);
-  }
-
-  function deleteExperience(experience: ExperienceItem) {
-    setExperiences((previous) => previous.filter((item) => item !== experience));
-  }
-
-  function editExperience(experience: ExperienceItem, index: number) {
-    const existingExperience = experiences.at(index);
-
-    if (!existingExperience) {
-      return;
-    }
-
-    const nextExperiences = [...experiences];
-    nextExperiences[index] = experience;
-    setExperiences(nextExperiences);
-  }
-
-  function saveExperience() {
-    return editResume({
-      ...resumeData,
-      experience: experiences,
-    });
-  }
+  const isPending = isAdding || isEditing || isDeleting;
 
   return {
-    experiences,
     isPending,
     addExperience,
-    deleteExperience,
     editExperience,
-    saveExperience,
+    deleteExperience,
   };
 }

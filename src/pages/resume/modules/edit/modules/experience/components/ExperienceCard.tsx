@@ -1,28 +1,40 @@
 import { Button } from "@/components/ui/button";
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
-import { Trash2Icon } from "lucide-react";
+import { LoaderIcon, Trash2Icon } from "lucide-react";
 import { motion } from "framer-motion";
 import ExperienceModal from "./ExperienceModal";
+import { useState } from "react";
+
+type ExperienceItem = AiGeneratedResume["experience"][0];
 
 interface props {
-  exp: AiGeneratedResume["experience"][0];
-  resumeId: string;
-  deleteExperience: (edu: AiGeneratedResume["experience"][0]) => void;
-  editExperience: (
-    exp: AiGeneratedResume["experience"][0],
-    index: number,
-  ) => void;
+  exp: ExperienceItem;
+  isPending: boolean;
+  deleteExperience: (experienceId: string) => Promise<unknown>;
+  editExperience: (payload: {
+    experienceId: string;
+    experience: ExperienceItem;
+  }) => Promise<unknown>;
   index: number;
 }
 
 export default function ExperienceCard({
   exp,
+  isPending,
   deleteExperience,
   editExperience,
   index,
 }: props) {
-  function edit(exp: AiGeneratedResume["experience"][0]) {
-    editExperience(exp, index);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  async function handleDelete() {
+    if (!exp.id) return;
+    setIsDeleting(true);
+    try {
+      await deleteExperience(exp.id);
+    } finally {
+      setIsDeleting(false);
+    }
   }
 
   return (
@@ -40,14 +52,24 @@ export default function ExperienceCard({
       <div className="flex items-center justify-between">
         <h3 className="font-semibold text-lg">{exp.company}</h3>
         <div className="flex items-center gap-2">
-          <ExperienceModal exp={exp} session="edit" editExperience={edit} />
+          <ExperienceModal
+            exp={exp}
+            session="edit"
+            editExperience={editExperience}
+            isPending={isPending}
+          />
           <Button
-            onClick={() => deleteExperience(exp)}
+            onClick={handleDelete}
             size={"icon-sm"}
             variant="destructive"
             className="size-6 rounded-sm"
+            disabled={isPending || isDeleting}
           >
-            <Trash2Icon className="size-3" />
+            {isDeleting ? (
+              <LoaderIcon className="size-3 animate-spin" />
+            ) : (
+              <Trash2Icon className="size-3" />
+            )}
           </Button>
         </div>
       </div>
