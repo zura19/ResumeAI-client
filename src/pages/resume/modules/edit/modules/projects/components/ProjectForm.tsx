@@ -6,12 +6,17 @@ import FeaturesField from "./FeaturesField";
 import TechnologiesField from "./TechnologiesField";
 import useProjectForm from "@/pages/resume/hooks/actions/projects/useProjectForm";
 
+type ProjectItem = AiGeneratedResume["projects"][0];
+
 interface props {
   session: "edit" | "create";
   handleClose: () => void;
-  addProject?: (proj: AiGeneratedResume["projects"][0]) => void;
-  editProject?: (proj: AiGeneratedResume["projects"][0]) => void;
-  proj?: AiGeneratedResume["projects"][0];
+  addProject?: (proj: ProjectItem) => Promise<unknown>;
+  editProject?: (payload: {
+    projectId: string;
+    project: ProjectItem;
+  }) => Promise<unknown>;
+  proj?: ProjectItem;
 }
 
 export default function ProjectForm({
@@ -29,6 +34,7 @@ export default function ProjectForm({
     technologies,
     setTechnologies,
     isDisabled,
+    isSubmitting,
     handleSubmit,
   } = useProjectForm({
     session,
@@ -67,7 +73,9 @@ export default function ProjectForm({
 
       <FormButton
         onClick={handleSubmit}
-        disabled={isDisabled()}
+        disabled={isDisabled() || isSubmitting}
+        loading={isSubmitting}
+        loadingText={session === "edit" ? "Saving..." : "Adding..."}
         className="w-full"
       >
         {session === "edit" ? "Save Project" : "Add Project"}

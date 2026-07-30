@@ -4,6 +4,8 @@ export interface AiGeneratedResume {
   summary: string;
   personalInfo: PersonalInfo;
   education: {
+    id: string;
+    order: string;
     university: string;
     degree: string;
     fieldOfStudy: string;
@@ -12,6 +14,8 @@ export interface AiGeneratedResume {
     stillStudying?: boolean;
   }[];
   experience: {
+    id: string;
+    order: string;
     company: string;
     position: string;
     responsibilities: string[];
@@ -24,6 +28,8 @@ export interface AiGeneratedResume {
     languages: string[];
   };
   projects: {
+    id: string;
+    order: number;
     title: string;
     technologies: string[];
     features: string[];
