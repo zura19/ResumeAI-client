@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
-import { LoaderIcon, Trash2Icon } from "lucide-react";
+import { LoaderIcon, Trash2Icon, ArrowUpIcon, ArrowDownIcon } from "lucide-react";
 import EducationModal from "./EducationModal";
 import { motion } from "framer-motion";
 import { useState } from "react";
@@ -15,6 +15,12 @@ interface props {
     educationId: string;
     education: EducationItem;
   }) => Promise<unknown>;
+  reorderEducation: (payload: {
+    educationId: string;
+    order: number;
+  }) => Promise<unknown>;
+  isFirst: boolean;
+  isLast: boolean;
   index: number;
 }
 
@@ -23,6 +29,9 @@ export default function EducationCard({
   isPending,
   deleteEducation,
   editEducation,
+  reorderEducation,
+  isFirst,
+  isLast,
   index,
 }: props) {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -37,6 +46,16 @@ export default function EducationCard({
     }
   }
 
+  async function handleMoveUp() {
+    if (!edu.id || isFirst) return;
+    await reorderEducation({ educationId: edu.id, order: index - 1 });
+  }
+
+  async function handleMoveDown() {
+    if (!edu.id || isLast) return;
+    await reorderEducation({ educationId: edu.id, order: index + 1 });
+  }
+
   return (
     <motion.div
       layout
@@ -47,7 +66,7 @@ export default function EducationCard({
         x: -400,
       }}
       transition={{ duration: 0.3, delay: index * 0.2 }}
-      className="bg-muted rounded-lg py-2 px-4"
+      className="bg-muted rounded-lg py-2 px-4 flex flex-col gap-3"
     >
       <div className="flex items-center justify-between">
         <h3 className="font-semibold text-lg">
@@ -75,10 +94,33 @@ export default function EducationCard({
           </Button>
         </div>
       </div>
-      <p className="text-sm text-muted-foreground">{edu.university}</p>
-      <p className="text-xs text-muted-foreground">
-        {edu.startDate} - {edu.endDate || "Present"}
-      </p>
+      <div>
+        <p className="text-sm text-muted-foreground">{edu.university}</p>
+        <p className="text-xs text-muted-foreground">
+          {edu.startDate} - {edu.endDate || "Present"}
+        </p>
+      </div>
+
+      <div className="flex items-center gap-2 mt-2">
+        <Button
+          onClick={handleMoveUp}
+          size="sm"
+          variant="outline"
+          className="flex-1 bg-background/50 flex items-center gap-2"
+          disabled={isPending || isFirst}
+        >
+          Move Up <ArrowUpIcon className="size-3" />
+        </Button>
+        <Button
+          onClick={handleMoveDown}
+          size="sm"
+          variant="outline"
+          className="flex-1 bg-background/50 flex items-center gap-2"
+          disabled={isPending || isLast}
+        >
+          Move Down <ArrowDownIcon className="size-3" />
+        </Button>
+      </div>
     </motion.div>
   );
 }

@@ -4,6 +4,7 @@ import ExperienceModal from "./components/ExperienceModal";
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 import ExperienceCard from "./components/ExperienceCard";
 import useEditExperienceAction from "@/pages/resume/hooks/actions/experience/useEditExperienceAction";
+import useReorderExperience from "@/pages/resume/hooks/actions/experience/useReorderExperience";
 
 interface props {
   resumeData: AiGeneratedResume;
@@ -23,6 +24,11 @@ export default function Experience({
     editExperience,
   } = useEditExperienceAction({
     resumeData,
+    id,
+    generatedResumeId,
+  });
+
+  const { reorderExperience, isReordering } = useReorderExperience({
     id,
     generatedResumeId,
   });
@@ -50,10 +56,13 @@ export default function Experience({
             <ExperienceCard
               deleteExperience={deleteExperience}
               editExperience={editExperience}
+              reorderExperience={reorderExperience}
               key={exp.id}
               exp={exp}
               index={i}
-              isPending={isPending}
+              isPending={isPending || isReordering}
+              isFirst={i === 0}
+              isLast={i === resumeData.experience.length - 1}
             />
           ))}
       </AnimatePresence>

@@ -4,6 +4,7 @@ import EducationModal from "./components/EducationModal";
 import { AnimatePresence } from "framer-motion";
 import SaveAlert from "../../components/SaveAlert";
 import useEditEducationAction from "@/pages/resume/hooks/actions/education/useEditEducationAction";
+import useReorderEducation from "@/pages/resume/hooks/actions/education/useReorderEducation";
 
 interface props {
   resumeData: AiGeneratedResume;
@@ -23,6 +24,11 @@ export default function Education({
     editEducation,
   } = useEditEducationAction({
     resumeData,
+    id,
+    generatedResumeId,
+  });
+
+  const { reorderEducation, isReordering } = useReorderEducation({
     id,
     generatedResumeId,
   });
@@ -47,10 +53,13 @@ export default function Education({
             <EducationCard
               deleteEducation={deleteEducation}
               editEducation={editEducation}
+              reorderEducation={reorderEducation}
               key={edu.id}
               edu={edu}
               index={i}
-              isPending={isPending}
+              isPending={isPending || isReordering}
+              isFirst={i === 0}
+              isLast={i === resumeData.education.length - 1}
             />
           ))}
       </AnimatePresence>
