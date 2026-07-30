@@ -57,3 +57,11 @@ export const deleteHeadersCredentials = {
   },
   credentials: "include",
 };
+
+export const patchHeadersCredentials: RequestInit = {
+  method: "PATCH",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  credentials: "include",
+};

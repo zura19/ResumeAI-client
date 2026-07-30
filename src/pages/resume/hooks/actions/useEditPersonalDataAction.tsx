@@ -3,8 +3,9 @@ import {
   personalInfoSchema,
   type PersonalInfo,
 } from "@/lib/schemas/personalInfoSchema";
-import useEditResume from "@/lib/hooks/useEditResume";
+import { updatePersonalInfoService } from "@/lib/services/resume/edit/updatePersonalInfoService";
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 
@@ -29,7 +30,23 @@ export default function useEditPersonalDataAction({
     },
   });
 
-  const { editResume, isPending } = useEditResume(id, generatedResumeId);
+  const queryClient = useQueryClient();
+
+  const { mutateAsync: editPersonalInfo, isPending } = useMutation({
+    mutationFn: async (data: PersonalInfo) => {
+      const res = await updatePersonalInfoService(generatedResumeId, data);
+      return res.data;
+    },
+    onSuccess: () => {
+      toast.success("Personal info updated successfully");
+      queryClient.invalidateQueries({
+        queryKey: ["resume", id],
+      });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
   function isChanged(values: PersonalInfo) {
     return (
@@ -45,10 +62,7 @@ export default function useEditPersonalDataAction({
       return toast.error("No changes made to personal info.");
     }
 
-    await editResume({
-      ...resumeData,
-      personalInfo: values,
-    });
+    await editPersonalInfo(values);
   }
 
   return {
