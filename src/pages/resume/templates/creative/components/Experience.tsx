@@ -57,7 +57,7 @@ export function Experience({ data, colors }: props) {
     <View>
       <Text style={styles.title}>Experience</Text>
       {data.map((exp, index) => (
-        <View key={index} style={styles.experienceItem}>
+        <View key={exp.id || index} style={styles.experienceItem}>
           <Text style={styles.position}>{exp.position}</Text>
           <Text style={styles.company}>{exp.company}</Text>
           <Text style={styles.dates}>
