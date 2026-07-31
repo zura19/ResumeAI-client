@@ -48,7 +48,9 @@ export default function useReorderEducation({
               (resume: AiGeneratedResume) => {
                 if (resume.id !== generatedResumeId) return resume;
 
-                const education = [...(resume.education || [])];
+                // We must clone the objects so they get new references, otherwise react-pdf 
+                // might not detect the change and will fail to update the view on reorder.
+                const education = (resume.education || []).map(e => ({ ...e }));
                 const educationIndex = education.findIndex(
                   (e: Education) => e.id === educationId,
                 );
@@ -70,6 +72,7 @@ export default function useReorderEducation({
       },
       onSuccess: () => {
         toast.success("Education reordered successfully");
+        queryClient.invalidateQueries({ queryKey: ["resume", id] });
       },
       onError: (error, _, context) => {
         if (context?.previousData) {

@@ -47,7 +47,9 @@ export default function useReorderProject({
             (resume: AiGeneratedResume) => {
               if (resume.id !== generatedResumeId) return resume;
 
-              const projects = [...(resume.projects || [])];
+              // We must clone the objects so they get new references, otherwise react-pdf 
+              // might not detect the change and will fail to update the view on reorder.
+              const projects = (resume.projects || []).map(p => ({ ...p }));
               const projectIndex = projects.findIndex(
                 (p: Project) => p.id === projectId,
               );
@@ -70,6 +72,7 @@ export default function useReorderProject({
     },
     onSuccess: () => {
       toast.success("Project reordered successfully");
+      queryClient.invalidateQueries({ queryKey: ["resume", id] });
     },
     onError: (error, _, context) => {
       // If the mutation fails, use the context to roll back the cache

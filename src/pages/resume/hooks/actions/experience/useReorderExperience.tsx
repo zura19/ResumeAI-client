@@ -49,20 +49,16 @@ export default function useReorderExperience({
               (resume: AiGeneratedResume) => {
                 if (resume.id !== generatedResumeId) return resume;
 
-                // The backend actually returns 'experiences' instead of 'experience'
-                // so we need to fallback to (resume as any).experiences
-                const experienceData =
-                  (resume as any).experiences || resume.experience || [];
-                const experience = [...experienceData];
+                // We must clone the objects so they get new references, otherwise react-pdf 
+                // might not detect the change and will fail to update the view on reorder.
+                const experienceData = (resume as any).experiences || resume.experience || [];
+                const experience = experienceData.map((e: Experience) => ({ ...e }));
                 const experienceIndex = experience.findIndex(
                   (e: Experience) => e.id === experienceId,
                 );
 
                 if (experienceIndex !== -1) {
-                  const [movedExperience] = experience.splice(
-                    experienceIndex,
-                    1,
-                  );
+                  const [movedExperience] = experience.splice(experienceIndex, 1);
                   experience.splice(order, 0, movedExperience);
                 }
 
@@ -78,6 +74,7 @@ export default function useReorderExperience({
       },
       onSuccess: () => {
         toast.success("Experience reordered successfully");
+        queryClient.invalidateQueries({ queryKey: ["resume", id] });
       },
       onError: (error, _, context) => {
         if (context?.previousData) {
