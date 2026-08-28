@@ -82,7 +82,7 @@ export default function Experience({ data, colors }: props) {
           <Text style={styles.position}>{exp.position}</Text>
           {exp.technologies && exp.technologies.length > 0 && (
             <Text style={styles.technologies}>
-              Technologies: {exp.technologies.join(", ")}
+              {exp.technologies.join(", ")}
             </Text>
           )}
           {exp.responsibilities.map((resp, idx) => (

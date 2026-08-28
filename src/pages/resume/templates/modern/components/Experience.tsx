@@ -64,22 +64,12 @@ export default function Experience({ data, colors }: props) {
       marginRight: 5,
       marginTop: 2,
     },
-    techSection: {
-      marginTop: 3,
-      marginBottom: 3,
-    },
-    techLabel: {
-      fontSize: 8,
-      color: colors.textTertiary,
-      fontWeight: "bold",
-      fontFamily: "Helvetica-Bold",
-      marginBottom: 2,
-    },
     techContainer: {
       display: "flex",
       flexDirection: "row",
       flexWrap: "wrap",
       gap: 3,
+      marginTop: 3,
     },
     techBadge: {
       backgroundColor: colors.primaryLight,
@@ -111,15 +101,12 @@ export default function Experience({ data, colors }: props) {
             </View>
           ))}
           {exp.technologies && exp.technologies.length > 0 && (
-            <View style={styles.techSection}>
-              <Text style={styles.techLabel}>Technologies:</Text>
-              <View style={styles.techContainer}>
-                {exp.technologies.map((tech, idx) => (
-                  <Text key={idx} style={styles.techBadge}>
-                    {tech}
-                  </Text>
-                ))}
-              </View>
+            <View style={styles.techContainer}>
+              {exp.technologies.map((tech, idx) => (
+                <Text key={idx} style={styles.techBadge}>
+                  {tech}
+                </Text>
+              ))}
             </View>
           )}
         </View>
