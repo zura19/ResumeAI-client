@@ -4,13 +4,19 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 import useEducationForm from "@/pages/resume/hooks/actions/education/useEducationForm";
+import { LoaderIcon } from "lucide-react";
+
+type EducationItem = AiGeneratedResume["education"][0];
 
 interface props {
   session: "edit" | "create";
   handleClose: () => void;
-  addEducation?: (edu: AiGeneratedResume["education"][0]) => void;
-  editEducation?: (edu: AiGeneratedResume["education"][0]) => void;
-  edu?: AiGeneratedResume["education"][0];
+  addEducation?: (edu: EducationItem) => Promise<unknown>;
+  editEducation?: (payload: {
+    educationId: string;
+    education: EducationItem;
+  }) => Promise<unknown>;
+  edu?: EducationItem;
 }
 
 export default function EducationForm({
@@ -34,6 +40,7 @@ export default function EducationForm({
     stillStudying,
     setStillStudying,
     isDisabled,
+    isSubmitting,
     handleSubmit,
   } = useEducationForm({
     session,
@@ -132,8 +139,19 @@ export default function EducationForm({
           )}
         </div>
       </div>
-      <Button onClick={handleSubmit} disabled={isDisabled()} className="w-full">
-        {session === "edit" ? "Save" : "Add Education"}
+      <Button
+        onClick={handleSubmit}
+        disabled={isDisabled() || isSubmitting}
+        className="w-full flex items-center justify-center gap-2"
+      >
+        {isSubmitting && <LoaderIcon className="size-4 animate-spin" />}
+        {session === "edit"
+          ? isSubmitting
+            ? "Saving..."
+            : "Save"
+          : isSubmitting
+            ? "Adding..."
+            : "Add Education"}
       </Button>
     </div>
   );

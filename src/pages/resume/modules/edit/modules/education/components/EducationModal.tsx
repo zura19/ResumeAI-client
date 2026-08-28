@@ -12,16 +12,22 @@ import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 import EducationForm from "./EducationForm";
 import { useState } from "react";
 
+type EducationItem = AiGeneratedResume["education"][0];
+
 interface props {
   session: "edit" | "create";
-  addEducation?: (edu: AiGeneratedResume["education"][0]) => void;
-  editEducation?: (edu: AiGeneratedResume["education"][0]) => void;
-  edu?: AiGeneratedResume["education"][0];
+  isPending?: boolean;
+  addEducation?: (edu: EducationItem) => Promise<unknown>;
+  editEducation?: (payload: {
+    educationId: string;
+    education: EducationItem;
+  }) => Promise<unknown>;
+  edu?: EducationItem;
 }
 
 export default function EducationModal(props: props) {
   const [open, setOpen] = useState(false);
-  const { session, edu, addEducation, editEducation } = props;
+  const { session, edu, addEducation, editEducation, isPending } = props;
 
   function handleClose() {
     setOpen(false);
@@ -31,11 +37,18 @@ export default function EducationModal(props: props) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {session === "edit" ? (
-          <Button size={"icon-sm"} className="size-6 rounded-sm">
+          <Button
+            size={"icon-sm"}
+            className="size-6 rounded-sm"
+            disabled={isPending}
+          >
             <EditIcon className="size-3" />
           </Button>
         ) : (
-          <Button className="flex items-center text-foreground ml-auto rounded-full bg-indigo-500 hover:bg-indigo-600">
+          <Button
+            className="flex items-center text-foreground ml-auto rounded-full bg-indigo-500 hover:bg-indigo-600"
+            disabled={isPending}
+          >
             <span className="font-medium">Add Education</span>
             <PlusIcon className="size-5" strokeWidth={2.5} />
           </Button>

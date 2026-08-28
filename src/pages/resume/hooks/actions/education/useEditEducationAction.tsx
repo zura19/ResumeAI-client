@@ -1,6 +1,8 @@
-import useEditResume from "@/lib/hooks/useEditResume";
+import { createEducationService } from "@/lib/services/resume/edit/createEducationService";
+import { updateEducationService } from "@/lib/services/resume/edit/updateEducationService";
+import { deleteEducationService } from "@/lib/services/resume/edit/deleteEducationService";
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
-import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 interface UseEditEducationActionProps {
@@ -12,60 +14,69 @@ interface UseEditEducationActionProps {
 type EducationItem = AiGeneratedResume["education"][0];
 
 export default function useEditEducationAction({
-  resumeData,
   id,
   generatedResumeId,
 }: UseEditEducationActionProps) {
-  const [educations, setEducations] = useState<AiGeneratedResume["education"]>(
-    resumeData.education || [],
-  );
+  const queryClient = useQueryClient();
 
-  const { editResume, isPending } = useEditResume(id, generatedResumeId);
+  const { mutateAsync: addEducation, isPending: isAdding } = useMutation({
+    mutationFn: async (education: EducationItem) => {
+      const res = await createEducationService(generatedResumeId, education);
+      return res.data;
+    },
+    onSuccess: () => {
+      toast.success("Education added successfully");
+      queryClient.invalidateQueries({ queryKey: ["resume", id] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
-  function addEducation(education: EducationItem) {
-    const hasExistingUniversity = educations.find(
-      (item) => item.university === education.university,
-    );
-    const hasExistingDegree = educations.find(
-      (item) => item.degree === education.degree,
-    );
+  const { mutateAsync: editEducation, isPending: isEditing } = useMutation({
+    mutationFn: async ({
+      educationId,
+      education,
+    }: {
+      educationId: string;
+      education: EducationItem;
+    }) => {
+      const res = await updateEducationService(
+        generatedResumeId,
+        educationId,
+        education,
+      );
+      return res.data;
+    },
+    onSuccess: () => {
+      toast.success("Education updated successfully");
+      queryClient.invalidateQueries({ queryKey: ["resume", id] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
-    if (hasExistingUniversity || hasExistingDegree) {
-      return toast.error("Education already exists.");
-    }
+  const { mutateAsync: deleteEducation, isPending: isDeleting } = useMutation({
+    mutationFn: async (educationId: string) => {
+      const res = await deleteEducationService(generatedResumeId, educationId);
+      return res.data;
+    },
+    onSuccess: () => {
+      toast.success("Education deleted successfully");
+      queryClient.invalidateQueries({ queryKey: ["resume", id] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
-    setEducations((previous) => [...previous, education]);
-  }
-
-  function deleteEducation(education: EducationItem) {
-    setEducations((previous) => previous.filter((item) => item !== education));
-  }
-
-  function editEducation(education: EducationItem, index: number) {
-    const existingEducation = educations.at(index);
-
-    if (!existingEducation) {
-      return;
-    }
-
-    const nextEducations = [...educations];
-    nextEducations[index] = education;
-    setEducations(nextEducations);
-  }
-
-  function saveEducation() {
-    return editResume({
-      ...resumeData,
-      education: educations,
-    });
-  }
+  const isPending = isAdding || isEditing || isDeleting;
 
   return {
-    educations,
     isPending,
     addEducation,
-    deleteEducation,
     editEducation,
-    saveEducation,
+    deleteEducation,
   };
 }

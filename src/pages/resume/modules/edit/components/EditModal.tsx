@@ -23,7 +23,7 @@ interface props {
   title: string | null;
   changeVersion: (version: string) => void;
   defaultVersion: string;
-  allVersions?: { id: string; content: string }[];
+  allVersions?: AiGeneratedResume[];
 }
 
 export default function EditModal({

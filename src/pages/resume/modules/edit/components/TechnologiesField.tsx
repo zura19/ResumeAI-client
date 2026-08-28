@@ -5,15 +5,23 @@ import { Label } from "@/components/ui/label";
 import { PlusIcon } from "lucide-react";
 import { useState } from "react";
 
-interface props {
+interface TechnologiesFieldProps {
   technologies: string[];
   setTechnologies: React.Dispatch<React.SetStateAction<string[]>>;
+  label?: string;
+  placeholder?: string;
+  maxCount?: number;
+  id?: string;
 }
 
 export default function TechnologiesField({
-  technologies,
+  technologies = [],
   setTechnologies,
-}: props) {
+  label = "Technologies",
+  placeholder = "React, Node.js, Docker, etc...",
+  maxCount = 10,
+  id = "technologies",
+}: TechnologiesFieldProps) {
   const [tech, setTech] = useState<string>("");
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [editingValue, setEditingValue] = useState("");
@@ -23,8 +31,15 @@ export default function TechnologiesField({
 
     if (!nextTechnology) return;
 
-    setTechnologies((prev) => [...prev, nextTechnology]);
+    setTechnologies((prev) => [...(prev || []), nextTechnology]);
     setTech("");
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleAddTechnology();
+    }
   };
 
   const handleEditStart = (index: number) => {
@@ -38,7 +53,9 @@ export default function TechnologiesField({
     if (editingIndex === null || !nextTechnology) return;
 
     setTechnologies((prev) =>
-      prev.map((item, index) => (index === editingIndex ? nextTechnology : item)),
+      (prev || []).map((item, index) =>
+        index === editingIndex ? nextTechnology : item,
+      ),
     );
     setEditingIndex(null);
     setEditingValue("");
@@ -51,26 +68,27 @@ export default function TechnologiesField({
 
   const handleRemoveTechnology = (indexToRemove: number) => {
     setTechnologies((prev) =>
-      prev.filter((_, index) => index !== indexToRemove),
+      (prev || []).filter((_, index) => index !== indexToRemove),
     );
   };
 
   return (
     <div>
       <div className="relative">
-        <Label htmlFor="technologies" className="font-semibold mb-2">
-          Technologies
+        <Label htmlFor={id} className="font-semibold mb-2">
+          {label}
         </Label>
         <Input
-          disabled={technologies.length >= 6}
+          disabled={(technologies || []).length >= maxCount}
           value={tech}
           onChange={(e) =>
             e.target.value.length <= 20 && setTech(e.target.value)
           }
-          name="technologies"
-          id="technologies"
+          onKeyDown={handleKeyDown}
+          name={id}
+          id={id}
           className="h-10"
-          placeholder="React, Java, C++, etc..."
+          placeholder={placeholder}
         />
 
         {tech && (
@@ -79,14 +97,15 @@ export default function TechnologiesField({
             variant={"default"}
             className="flex size-6 items-center justify-center rounded-full absolute top-[68%] -translate-1/2 right-0 -translate-x-2"
             onClick={handleAddTechnology}
+            type="button"
           >
-            <PlusIcon className="size-4 " strokeWidth={2} />
+            <PlusIcon className="size-4" strokeWidth={2} />
           </Button>
         )}
       </div>
 
       <div className="grid grid-cols-3 items-center justify-center text-xs gap-2 mt-2">
-        {technologies.map((item, index) => (
+        {(technologies || []).map((item, index) => (
           <EditableTagItem
             key={`${item}-${index}`}
             value={item}

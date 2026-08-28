@@ -9,20 +9,25 @@ import {
 import { EditIcon, PlusIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
-// import EducationForm from "./EducationForm";
 import { useState } from "react";
 import ProjectForm from "./ProjectForm";
 
+type ProjectItem = AiGeneratedResume["projects"][0];
+
 interface props {
   session: "edit" | "create";
-  addProject?: (proj: AiGeneratedResume["projects"][0]) => void;
-  editProject?: (edu: AiGeneratedResume["projects"][0]) => void;
-  proj?: AiGeneratedResume["projects"][0];
+  isPending?: boolean;
+  addProject?: (proj: ProjectItem) => Promise<unknown>;
+  editProject?: (payload: {
+    projectId: string;
+    project: ProjectItem;
+  }) => Promise<unknown>;
+  proj?: ProjectItem;
 }
 
 export default function ProjectsModal(props: props) {
   const [open, setOpen] = useState(false);
-  const { session, addProject, proj, editProject } = props;
+  const { session, addProject, proj, editProject, isPending } = props;
 
   function handleClose() {
     setOpen(false);
@@ -32,11 +37,18 @@ export default function ProjectsModal(props: props) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {session === "edit" ? (
-          <Button size={"icon-sm"} className="size-6 rounded-sm">
+          <Button
+            size={"icon-sm"}
+            className="size-6 rounded-sm"
+            disabled={isPending}
+          >
             <EditIcon className="size-3" />
           </Button>
         ) : (
-          <Button className="flex items-center text-foreground ml-auto rounded-full bg-indigo-500 hover:bg-indigo-600">
+          <Button
+            className="flex items-center text-foreground ml-auto rounded-full bg-indigo-500 hover:bg-indigo-600"
+            disabled={isPending}
+          >
             <span className="font-medium">Add Project</span>
             <PlusIcon className="size-5" strokeWidth={2.5} />
           </Button>
@@ -56,13 +68,6 @@ export default function ProjectsModal(props: props) {
           editProject={editProject}
           proj={proj}
         />
-        {/* <EducationForm
-          handleClose={handleClose}
-          session={session}
-          addEducation={addEducation}
-          editEducation={editEducation}
-          edu={edu}
-        /> */}
       </DialogContent>
     </Dialog>
   );
