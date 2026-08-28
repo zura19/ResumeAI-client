@@ -64,13 +64,27 @@ export default function Experience({ data, colors }: props) {
       marginRight: 5,
       marginTop: 2,
     },
+    techContainer: {
+      display: "flex",
+      flexDirection: "row",
+      flexWrap: "wrap",
+      gap: 3,
+      marginTop: 3,
+    },
+    techBadge: {
+      backgroundColor: colors.primaryLight,
+      color: colors.primary,
+      borderRadius: 2,
+      padding: "2px 5px",
+      fontSize: 7,
+    },
   });
 
   return (
     <View>
       <Text style={styles.title}>WORK EXPERIENCE</Text>
       {data.map((exp, index) => (
-        <View key={index} style={styles.experienceItem}>
+        <View key={exp.id || index} style={styles.experienceItem}>
           <View style={styles.header}>
             <View style={styles.leftHeader}>
               <Text style={styles.position}>{exp.position}</Text>
@@ -86,6 +100,15 @@ export default function Experience({ data, colors }: props) {
               <Text style={{ flex: 1 }}>{resp}</Text>
             </View>
           ))}
+          {exp.technologies && exp.technologies.length > 0 && (
+            <View style={styles.techContainer}>
+              {exp.technologies.map((tech, idx) => (
+                <Text key={idx} style={styles.techBadge}>
+                  {tech}
+                </Text>
+              ))}
+            </View>
+          )}
         </View>
       ))}
     </View>

@@ -1,6 +1,8 @@
-import useEditResume from "@/lib/hooks/useEditResume";
+import { createProjectService } from "@/lib/services/resume/edit/createProjectService";
+import { updateProjectService } from "@/lib/services/resume/edit/updateProjectService";
+import { deleteProjectService } from "@/lib/services/resume/edit/deleteProjectService";
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
-import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 interface UseEditProjectsActionProps {
@@ -9,58 +11,71 @@ interface UseEditProjectsActionProps {
   generatedResumeId: string;
 }
 
-type ProjectItem = AiGeneratedResume["projects"][0];
+type ProjectItem = Omit<AiGeneratedResume["projects"][0], "id">;
 
 export default function useEditProjectsAction({
-  resumeData,
   id,
   generatedResumeId,
 }: UseEditProjectsActionProps) {
-  const [projects, setProjects] = useState<AiGeneratedResume["projects"]>(
-    resumeData.projects || [],
-  );
+  const queryClient = useQueryClient();
 
-  const { editResume, isPending } = useEditResume(id, generatedResumeId);
+  const { mutateAsync: addProject, isPending: isAdding } = useMutation({
+    mutationFn: async (project: ProjectItem) => {
+      const res = await createProjectService(generatedResumeId, project);
+      return res.data;
+    },
+    onSuccess: () => {
+      toast.success("Project added successfully");
+      queryClient.invalidateQueries({ queryKey: ["resume", id] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
-  function addProject(project: ProjectItem) {
-    const existingProject = projects.find((item) => item.title === project.title);
+  const { mutateAsync: editProject, isPending: isEditing } = useMutation({
+    mutationFn: async ({
+      projectId,
+      project,
+    }: {
+      projectId: string;
+      project: ProjectItem;
+    }) => {
+      const res = await updateProjectService(
+        generatedResumeId,
+        projectId,
+        project,
+      );
+      return res.data;
+    },
+    onSuccess: () => {
+      toast.success("Project updated successfully");
+      queryClient.invalidateQueries({ queryKey: ["resume", id] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
-    if (existingProject) {
-      return toast.error("Education already exists.");
-    }
+  const { mutateAsync: deleteProject, isPending: isDeleting } = useMutation({
+    mutationFn: async (projectId: string) => {
+      await deleteProjectService(generatedResumeId, projectId);
+    },
+    onSuccess: () => {
+      toast.success("Project deleted successfully");
+      queryClient.invalidateQueries({ queryKey: ["resume", id] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
-    setProjects((previous) => [...previous, project]);
-  }
-
-  function deleteProject(project: ProjectItem) {
-    setProjects((previous) => previous.filter((item) => item !== project));
-  }
-
-  function editProject(project: ProjectItem, index: number) {
-    const existingProject = projects.at(index);
-
-    if (!existingProject) {
-      return;
-    }
-
-    const nextProjects = [...projects];
-    nextProjects[index] = project;
-    setProjects(nextProjects);
-  }
-
-  function saveProjects() {
-    return editResume({
-      ...resumeData,
-      projects,
-    });
-  }
+  const isPending = isAdding || isEditing || isDeleting;
 
   return {
-    projects,
     isPending,
     addProject,
-    deleteProject,
     editProject,
-    saveProjects,
+    deleteProject,
   };
 }

@@ -71,7 +71,7 @@ export default function Education({ data, colors }: props) {
         const educationLine = formatEducationLine(edu.degree, edu.fieldOfStudy);
 
         return (
-          <View key={index} style={styles.educationItem}>
+          <View key={edu.id || index} style={styles.educationItem}>
             <View style={styles.iconCircle}>
               {/* <Text style={styles.icon}>Education</Text> */}
             </View>

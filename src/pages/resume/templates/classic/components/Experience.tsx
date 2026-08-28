@@ -43,6 +43,12 @@ export default function Experience({ data, colors }: props) {
       color: colors.text,
       marginBottom: 4,
     },
+    technologies: {
+      fontSize: 8.5,
+      fontFamily: "Times-Italic",
+      color: colors.text,
+      marginBottom: 3,
+    },
     responsibility: {
       fontSize: 9,
       color: colors.text,
@@ -66,7 +72,7 @@ export default function Experience({ data, colors }: props) {
     <View>
       <Text style={styles.title}>Work Experience</Text>
       {data.map((exp, index) => (
-        <View key={index} style={styles.experienceItem}>
+        <View key={exp.id || index} style={styles.experienceItem}>
           <View style={styles.header}>
             <Text style={styles.company}>{exp.company}</Text>
             <Text style={styles.dates}>
@@ -74,6 +80,11 @@ export default function Experience({ data, colors }: props) {
             </Text>
           </View>
           <Text style={styles.position}>{exp.position}</Text>
+          {exp.technologies && exp.technologies.length > 0 && (
+            <Text style={styles.technologies}>
+              {exp.technologies.join(", ")}
+            </Text>
+          )}
           {exp.responsibilities.map((resp, idx) => (
             <View key={idx} style={styles.responsibility}>
               <View style={styles.bullet} />

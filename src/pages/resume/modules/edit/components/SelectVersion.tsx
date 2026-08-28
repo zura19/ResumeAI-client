@@ -9,7 +9,7 @@ import {
 interface props {
   defaultVersion: string;
   changeVersion: (value: string) => void;
-  allVersions?: { id: string; content: string }[];
+  allVersions?: { id?: string }[];
 }
 
 export default function SelectVersion({
@@ -23,11 +23,13 @@ export default function SelectVersion({
         <SelectValue placeholder="Select Version" />
       </SelectTrigger>
       <SelectContent>
-        {allVersions?.map((r, i) => (
-          <SelectItem key={r.id} value={r.id}>
-            Version {i + 1}
-          </SelectItem>
-        ))}
+        {allVersions?.map((r, i) =>
+          r.id ? (
+            <SelectItem key={r.id} value={r.id}>
+              Version {i + 1}
+            </SelectItem>
+          ) : null,
+        )}
       </SelectContent>
     </Select>
   );

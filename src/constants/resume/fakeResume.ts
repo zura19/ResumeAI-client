@@ -30,6 +30,7 @@ export const fakeResume: AiGeneratedResume = {
     {
       company: "TechCorp Solutions",
       position: "Senior Full Stack Developer",
+      technologies: ["React", "Node.js", "Docker", "Kubernetes", "TypeScript"],
       responsibilities: [
         "Led a team of 5 developers in building a customer-facing e-commerce platform serving 100K+ users",
         "Architected and implemented microservices infrastructure using Node.js, Docker, and Kubernetes",
@@ -42,6 +43,7 @@ export const fakeResume: AiGeneratedResume = {
     {
       company: "StartupHub Inc",
       position: "Full Stack Developer",
+      technologies: ["React", "Redux", "Express.js", "MongoDB", "OAuth 2.0"],
       responsibilities: [
         "Developed and maintained React-based web applications with Redux state management",
         "Built RESTful APIs using Express.js and integrated with MongoDB databases",
@@ -54,6 +56,7 @@ export const fakeResume: AiGeneratedResume = {
     {
       company: "Digital Innovations",
       position: "Junior Developer",
+      technologies: ["JavaScript", "HTML5", "CSS3", "Git"],
       responsibilities: [
         "Assisted in developing features for client websites using JavaScript, HTML, and CSS",
         "Participated in daily stand-ups and sprint planning meetings",

@@ -1,7 +1,8 @@
-import useEditResume from "@/lib/hooks/useEditResume";
+import { updateSkillsService } from "@/lib/services/resume/edit/updateSkillsService";
 import type { skillType } from "@/lib/types/buildResumeTypes";
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 import { useMemo, useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 interface UseEditSkillsActionProps {
@@ -21,18 +22,37 @@ export default function useEditSkillsAction({
   id,
   generatedResumeId,
 }: UseEditSkillsActionProps) {
-  const [skillsData, setSkillsData] = useState(
-    resumeData.skills || {
-      soft: [],
-      languages: [],
-      technical: [],
-    },
-  );
+  const [skillsData, setSkillsData] = useState({
+    soft: resumeData.skills.soft || [],
+    languages: resumeData.skills.languages || [],
+    technical: resumeData.skills.technical || [],
+  });
   const [softSkill, setSoftSkill] = useState("");
   const [language, setLanguage] = useState("");
   const [technical, setTechnical] = useState("");
 
-  const { editResume, isPending } = useEditResume(id, generatedResumeId);
+  const queryClient = useQueryClient();
+
+  const { mutateAsync: editSkills, isPending } = useMutation({
+    mutationFn: async (skills: {
+      technical: string[];
+      soft: string[];
+      languages: string[];
+    }) => {
+      console.log(skills);
+      const res = await updateSkillsService(generatedResumeId, skills);
+      return res.data;
+    },
+    onSuccess: () => {
+      toast.success("Skills updated successfully");
+      queryClient.invalidateQueries({
+        queryKey: ["resume", id],
+      });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
   function areSkillsEqual(current: string[], initial: string[]) {
     if (current.length !== initial.length) {
@@ -137,10 +157,7 @@ export default function useEditSkillsAction({
   }, [resumeData.skills, skillsData]);
 
   function handleSaveSkills() {
-    editResume({
-      ...resumeData,
-      skills: skillsData,
-    });
+    editSkills(skillsData);
   }
 
   return {

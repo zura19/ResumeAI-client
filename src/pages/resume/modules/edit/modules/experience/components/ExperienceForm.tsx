@@ -4,14 +4,21 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 import ResponsebilitiesField from "./ResponsebilitiesField";
+import TechnologiesField from "@/pages/resume/modules/edit/components/TechnologiesField";
 import useExperienceForm from "@/pages/resume/hooks/actions/experience/useExperienceForm";
+import { LoaderIcon } from "lucide-react";
+
+type ExperienceItem = AiGeneratedResume["experience"][0];
 
 interface props {
   session: "edit" | "create";
   handleClose: () => void;
-  addExperience?: (edu: AiGeneratedResume["experience"][0]) => void;
-  editExperience?: (edu: AiGeneratedResume["experience"][0]) => void;
-  exp?: AiGeneratedResume["experience"][0];
+  addExperience?: (edu: ExperienceItem) => Promise<unknown>;
+  editExperience?: (payload: {
+    experienceId: string;
+    experience: ExperienceItem;
+  }) => Promise<unknown>;
+  exp?: ExperienceItem;
 }
 
 export default function ExperienceForm({
@@ -27,6 +34,8 @@ export default function ExperienceForm({
     position,
     setPosition,
     responsibilities,
+    technologies,
+    setTechnologies,
     addResponsibility,
     removeResponsibility,
     updateResponsibility,
@@ -39,6 +48,7 @@ export default function ExperienceForm({
     generateResponsibilitie,
     isGenerating,
     isDisabled,
+    isSubmitting,
     handleSubmit,
   } = useExperienceForm({
     exp,
@@ -85,6 +95,11 @@ export default function ExperienceForm({
         updateResponsibility={updateResponsibility}
         generateResponsibilitie={generateResponsibilitie}
         isGenerating={isGenerating}
+      />
+
+      <TechnologiesField
+        technologies={technologies}
+        setTechnologies={setTechnologies}
       />
 
       <div className="flex w-full gap-4">
@@ -135,8 +150,19 @@ export default function ExperienceForm({
           )}
         </div>
       </div>
-      <Button onClick={handleSubmit} disabled={isDisabled()} className="w-full">
-        {session === "edit" ? "Save" : "Add Experience"}
+      <Button
+        onClick={handleSubmit}
+        disabled={isDisabled() || isSubmitting}
+        className="w-full flex items-center justify-center gap-2"
+      >
+        {isSubmitting && <LoaderIcon className="size-4 animate-spin" />}
+        {session === "edit"
+          ? isSubmitting
+            ? "Saving..."
+            : "Save"
+          : isSubmitting
+            ? "Adding..."
+            : "Add Experience"}
       </Button>
     </div>
   );

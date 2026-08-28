@@ -5,12 +5,17 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
 
+type ExperienceItem = AiGeneratedResume["experience"][0];
+
 interface UseExperienceFormProps {
   session: "edit" | "create";
   handleClose: () => void;
-  addExperience?: (experience: AiGeneratedResume["experience"][0]) => void;
-  editExperience?: (experience: AiGeneratedResume["experience"][0]) => void;
-  exp?: AiGeneratedResume["experience"][0];
+  addExperience?: (experience: ExperienceItem) => Promise<unknown>;
+  editExperience?: (payload: {
+    experienceId: string;
+    experience: ExperienceItem;
+  }) => Promise<unknown>;
+  exp?: ExperienceItem & { id?: string };
 }
 
 export default function useExperienceForm({
@@ -25,6 +30,9 @@ export default function useExperienceForm({
   const [responsibilities, setResponsibilities] = useState(
     exp?.responsibilities || [],
   );
+  const [technologies, setTechnologies] = useState<string[]>(
+    exp?.technologies || [],
+  );
   const [startDate, setStartDate] = useState(
     exp?.startDate
       ? parseResumeDate(exp.startDate)
@@ -34,6 +42,7 @@ export default function useExperienceForm({
     parseResumeDate(exp?.endDate),
   );
   const [stillWorking, setStillWorking] = useState(exp?.endDate === "Present");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { mutateAsync: generateResponsibilitie, isPending: isGenerating } =
     useMutation({
@@ -83,24 +92,31 @@ export default function useExperienceForm({
     return false;
   }
 
-  function handleSubmit() {
-    const experience = {
-      company,
-      position,
+  async function handleSubmit() {
+    const experience: ExperienceItem = {
+      company: company.trim(),
+      position: position.trim(),
       responsibilities,
+      technologies,
       startDate: formatResumeDate(startDate),
       endDate: stillWorking ? "Present" : formatResumeDate(endDate),
     };
 
-    if (session === "create" && addExperience) {
-      addExperience(experience);
-    }
+    setIsSubmitting(true);
 
-    if (session === "edit" && editExperience) {
-      editExperience(experience);
-    }
+    try {
+      if (session === "create" && addExperience) {
+        await addExperience(experience);
+      }
 
-    handleClose();
+      if (session === "edit" && editExperience && exp?.id) {
+        await editExperience({ experienceId: exp.id, experience });
+      }
+
+      handleClose();
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return {
@@ -110,6 +126,8 @@ export default function useExperienceForm({
     setPosition,
     responsibilities,
     setResponsibilities,
+    technologies,
+    setTechnologies,
     addResponsibility,
     removeResponsibility,
     updateResponsibility,
@@ -122,6 +140,7 @@ export default function useExperienceForm({
     generateResponsibilitie,
     isGenerating,
     isDisabled,
+    isSubmitting,
     handleSubmit,
   };
 }
