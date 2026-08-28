@@ -30,6 +30,9 @@ export default function useExperienceForm({
   const [responsibilities, setResponsibilities] = useState(
     exp?.responsibilities || [],
   );
+  const [technologies, setTechnologies] = useState<string[]>(
+    exp?.technologies || [],
+  );
   const [startDate, setStartDate] = useState(
     exp?.startDate
       ? parseResumeDate(exp.startDate)
@@ -94,6 +97,7 @@ export default function useExperienceForm({
       company: company.trim(),
       position: position.trim(),
       responsibilities,
+      technologies,
       startDate: formatResumeDate(startDate),
       endDate: stillWorking ? "Present" : formatResumeDate(endDate),
     };
@@ -122,6 +126,8 @@ export default function useExperienceForm({
     setPosition,
     responsibilities,
     setResponsibilities,
+    technologies,
+    setTechnologies,
     addResponsibility,
     removeResponsibility,
     updateResponsibility,

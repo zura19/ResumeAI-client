@@ -100,6 +100,11 @@ export default function ExperienceCard({
         <p className="text-xs text-muted-foreground">
           {exp.responsibilities.length} Responsibilities
         </p>
+        {exp.technologies && exp.technologies.length > 0 && (
+          <p className="text-xs text-muted-foreground">
+            {exp.technologies.length} Technologies
+          </p>
+        )}
       </div>
 
       <div className="flex items-center gap-2 mt-2">

@@ -62,6 +62,21 @@ export default function Experience({ data, colors }: props) {
       fontFamily: "Helvetica-Bold",
       marginRight: 5,
     },
+    techContainer: {
+      display: "flex",
+      flexDirection: "row",
+      flexWrap: "wrap",
+      gap: 3,
+      marginTop: 3,
+      marginBottom: 2,
+    },
+    techBadge: {
+      backgroundColor: colors.primary,
+      color: colors.white,
+      borderRadius: 2,
+      padding: "2px 5px",
+      fontSize: 7,
+    },
   });
 
   return (
@@ -82,6 +97,15 @@ export default function Experience({ data, colors }: props) {
               <Text style={{ flex: 1 }}>{item}</Text>
             </View>
           ))}
+          {exp.technologies && exp.technologies.length > 0 && (
+            <View style={styles.techContainer}>
+              {exp.technologies.map((tech, i) => (
+                <Text key={i} style={styles.techBadge}>
+                  {tech}
+                </Text>
+              ))}
+            </View>
+          )}
         </View>
       ))}
     </View>

@@ -1,10 +1,11 @@
 import { API, getCredentials } from "@/lib/services/helpers";
-import type { Resume } from "@/lib/types/buildResumeTypes";
+// import type { Resume } from "@/lib/types/buildResumeTypes";
 import type { PromiseResponseSuccess } from "@/lib/types/requestResponseTypes";
+import type { Resume } from "@/lib/types/resume";
 
 export async function getResumeByIdService(
   id: string,
-): PromiseResponseSuccess<Resume> {
+): PromiseResponseSuccess<{ resume: Resume }> {
   try {
     const res = await fetch(`${API}/resume/${id}`, {
       ...getCredentials,

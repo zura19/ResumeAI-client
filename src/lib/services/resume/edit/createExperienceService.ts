@@ -7,6 +7,7 @@ interface ExperienceBody {
   startDate: string;
   endDate?: string;
   responsibilities: string[];
+  technologies?: string[];
 }
 
 export async function createExperienceService(

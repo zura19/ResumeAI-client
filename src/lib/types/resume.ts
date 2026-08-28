@@ -4,7 +4,7 @@ export interface Resume {
   id: string;
   type: ResumeType;
   title: string | null;
-  resumes: AiGeneratedResume[];
+  generatedResumes: AiGeneratedResume[];
   createdAt: string;
   updatedAt: string;
 }

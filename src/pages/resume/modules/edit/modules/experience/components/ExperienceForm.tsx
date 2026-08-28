@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 import ResponsebilitiesField from "./ResponsebilitiesField";
+import TechnologiesField from "@/pages/resume/modules/edit/components/TechnologiesField";
 import useExperienceForm from "@/pages/resume/hooks/actions/experience/useExperienceForm";
 import { LoaderIcon } from "lucide-react";
 
@@ -33,6 +34,8 @@ export default function ExperienceForm({
     position,
     setPosition,
     responsibilities,
+    technologies,
+    setTechnologies,
     addResponsibility,
     removeResponsibility,
     updateResponsibility,
@@ -92,6 +95,11 @@ export default function ExperienceForm({
         updateResponsibility={updateResponsibility}
         generateResponsibilitie={generateResponsibilitie}
         isGenerating={isGenerating}
+      />
+
+      <TechnologiesField
+        technologies={technologies}
+        setTechnologies={setTechnologies}
       />
 
       <div className="flex w-full gap-4">

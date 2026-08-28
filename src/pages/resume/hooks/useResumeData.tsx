@@ -12,7 +12,6 @@ function extractResumeData(
     summary: generated.summary,
     personalInfo: generated.personalInfo,
     education: generated.education,
-    // @ts-expect-error TODO: fix this is all types
     experience: generated.experiences,
     skills: generated.skills,
     projects: generated.projects,

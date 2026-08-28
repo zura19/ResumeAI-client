@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 import FeaturesField from "./FeaturesField";
-import TechnologiesField from "./TechnologiesField";
+import TechnologiesField from "@/pages/resume/modules/edit/components/TechnologiesField";
 import useProjectForm from "@/pages/resume/hooks/actions/projects/useProjectForm";
 
 type ProjectItem = AiGeneratedResume["projects"][0];
