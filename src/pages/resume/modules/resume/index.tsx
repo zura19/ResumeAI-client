@@ -17,7 +17,7 @@ interface props {
   id: string;
   title?: string | null;
   isChangingVersion: boolean;
-  allVersions?: { id: string; content: string }[];
+  allVersions?: AiGeneratedResume[];
   changeVersion: (version: string) => void;
   defaultVersion: string;
 }

@@ -1,20 +1,24 @@
 import { getResumeByIdService } from "@/lib/services/resume/getResumeByIdService";
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
-import type { GeneratedResumeResponse } from "@/lib/services/resume/getResumeByIdService";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 
 function extractResumeData(
-  generated: GeneratedResumeResponse,
+  generated: AiGeneratedResume,
 ): AiGeneratedResume {
   return {
+    ...generated,
     summary: generated.summary,
     personalInfo: generated.personalInfo,
-    education: generated.education,
-    experience: generated.experiences,
+    education: generated.education || [],
+    experience:
+      (generated as unknown as { experiences?: AiGeneratedResume["experience"] })
+        .experiences ||
+      generated.experience ||
+      [],
     skills: generated.skills,
-    projects: generated.projects,
+    projects: generated.projects || [],
   };
 }
 

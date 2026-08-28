@@ -1,7 +1,7 @@
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 import { useState } from "react";
 
-type ProjectItem = Omit<AiGeneratedResume["projects"][0], "id" | "order">;
+type ProjectItem = AiGeneratedResume["projects"][0];
 
 interface UseProjectFormProps {
   session: "edit" | "create";

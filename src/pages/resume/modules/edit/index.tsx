@@ -25,7 +25,7 @@ interface props {
   disabledToOpen?: boolean;
   id: string;
   title: string | null;
-  allVersions?: { id: string; content: string }[];
+  allVersions?: AiGeneratedResume[];
   changeVersion: (version: string) => void;
   defaultVersion: string;
 }

@@ -4,9 +4,14 @@ import type {
   AiGeneratedResume,
   Experience,
 } from "@/lib/types/AiGeneratedResume";
-import type { Resume } from "@/lib/types/resume";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+
+interface ResumeQueryData {
+  resumes: AiGeneratedResume[];
+  type: string;
+  title: string | null;
+}
 
 interface UseReorderExperienceProps {
   id: string;
@@ -38,12 +43,15 @@ export default function useReorderExperience({
       onMutate: async ({ experienceId, order }) => {
         await queryClient.cancelQueries({ queryKey: ["resume", id] });
 
-        const previousData = queryClient.getQueryData(["resume", id]);
+        const previousData = queryClient.getQueryData<ResumeQueryData>([
+          "resume",
+          id,
+        ]);
 
         queryClient.setQueryData(
           ["resume", id],
-          (oldData: Resume | undefined) => {
-            if (!oldData || !oldData) return oldData;
+          (oldData: ResumeQueryData | undefined) => {
+            if (!oldData || !oldData.resumes) return oldData;
 
             const updatedResumes = oldData.resumes.map(
               (resume: AiGeneratedResume) => {

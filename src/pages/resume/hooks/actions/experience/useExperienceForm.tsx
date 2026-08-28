@@ -93,7 +93,7 @@ export default function useExperienceForm({
   }
 
   async function handleSubmit() {
-    const experience = {
+    const experience: ExperienceItem = {
       company: company.trim(),
       position: position.trim(),
       responsibilities,
@@ -106,11 +106,11 @@ export default function useExperienceForm({
 
     try {
       if (session === "create" && addExperience) {
-        await addExperience(experience as ExperienceItem);
+        await addExperience(experience);
       }
 
       if (session === "edit" && editExperience && exp?.id) {
-        await editExperience({ experienceId: exp.id, experience: experience as ExperienceItem });
+        await editExperience({ experienceId: exp.id, experience });
       }
 
       handleClose();

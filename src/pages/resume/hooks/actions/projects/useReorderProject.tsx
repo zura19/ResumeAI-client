@@ -1,8 +1,13 @@
 import { reorderProjectService } from "@/lib/services/resume/edit/reorderProjectService";
 import type { AiGeneratedResume, Project } from "@/lib/types/AiGeneratedResume";
-import type { Resume } from "@/lib/types/resume";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+
+interface ResumeQueryData {
+  resumes: AiGeneratedResume[];
+  type: string;
+  title: string | null;
+}
 
 interface UseReorderProjectProps {
   id: string;
@@ -35,12 +40,15 @@ export default function useReorderProject({
       await queryClient.cancelQueries({ queryKey: ["resume", id] });
 
       // Snapshot the previous value in case we need to roll back
-      const previousData = queryClient.getQueryData(["resume", id]);
+      const previousData = queryClient.getQueryData<ResumeQueryData>([
+        "resume",
+        id,
+      ]);
 
       // Optimistically update the cache to the new state
       queryClient.setQueryData(
         ["resume", id],
-        (oldData: Resume | undefined) => {
+        (oldData: ResumeQueryData | undefined) => {
           if (!oldData || !oldData.resumes) return oldData;
 
           const updatedResumes = oldData.resumes.map(
