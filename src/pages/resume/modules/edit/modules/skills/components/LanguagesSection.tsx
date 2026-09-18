@@ -12,6 +12,7 @@ interface LanguagesSectionProps {
   onAdd: () => void;
   onRemove: (type: skillType, index: number) => void;
   onUpdate: (type: skillType, index: number, value: string) => void;
+  onReorder?: (type: skillType, fromIndex: number, toIndex: number) => void;
 }
 
 export default function LanguagesSection({
@@ -22,6 +23,7 @@ export default function LanguagesSection({
   onAdd,
   onRemove,
   onUpdate,
+  onReorder,
 }: LanguagesSectionProps) {
   return (
     <div>
@@ -45,6 +47,7 @@ export default function LanguagesSection({
         type="languages"
         onRemove={onRemove}
         onUpdate={onUpdate}
+        onReorder={onReorder}
       />
     </div>
   );

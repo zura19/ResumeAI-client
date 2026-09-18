@@ -18,6 +18,7 @@ interface props {
   handleAdd: (type: skillType, skill: string) => void;
   handleRemove: (type: skillType, skill: string) => void;
   handleUpdate: (type: skillType, currentSkill: string, nextSkill: string) => void;
+  handleReorder?: (type: skillType, fromIndex: number, toIndex: number) => void;
 }
 
 export default function SkillField({
@@ -26,6 +27,7 @@ export default function SkillField({
   handleAdd,
   handleRemove,
   handleUpdate,
+  handleReorder,
   label,
   placeholder,
   description,
@@ -33,6 +35,41 @@ export default function SkillField({
   const [temp, setTemp] = useState("");
   const [editingSkill, setEditingSkill] = useState<string | null>(null);
   const [editingValue, setEditingValue] = useState("");
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+
+  const handleDragStart = (index: number) => {
+    setDraggedIndex(index);
+  };
+
+  const handleDragOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault();
+    if (draggedIndex === null || draggedIndex === index) return;
+    setDragOverIndex(index);
+  };
+
+  const handleDragLeave = (index: number) => {
+    if (dragOverIndex === index) {
+      setDragOverIndex(null);
+    }
+  };
+
+  const handleDrop = (index: number) => {
+    if (draggedIndex === null || draggedIndex === index) {
+      setDraggedIndex(null);
+      setDragOverIndex(null);
+      return;
+    }
+
+    handleReorder?.(type, draggedIndex, index);
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
   const suggestions = useMemo(
     () =>
       skillsData[type].filter(
@@ -116,7 +153,7 @@ export default function SkillField({
       <p className="text-xs text-muted-foreground mt-2">{description}</p>
 
       <div className="grid grid-cols-3 items-center justify-center text-xs gap-2 mt-2">
-        {data.map((skill) => (
+        {data.map((skill, index) => (
           <EditableTagItem
             key={skill}
             value={skill}
@@ -130,6 +167,14 @@ export default function SkillField({
             onEditCancel={handleEditCancel}
             onRemove={() => handleRemove(type, skill)}
             maxLength={20}
+            draggable={Boolean(handleReorder) && editingSkill === null}
+            onDragStart={() => handleDragStart(index)}
+            onDragOver={(e) => handleDragOver(e, index)}
+            onDragLeave={() => handleDragLeave(index)}
+            onDrop={() => handleDrop(index)}
+            onDragEnd={handleDragEnd}
+            isDragging={draggedIndex === index}
+            isDragOver={dragOverIndex === index}
           />
         ))}
       </div>

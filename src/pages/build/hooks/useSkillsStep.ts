@@ -7,6 +7,7 @@ export default function useSkillsStep() {
     handleAddSkill,
     handleRemoveSkill,
     handleUpdateSkill,
+    handleReorderSkill,
     data,
   } = useBuildResume();
 
@@ -24,5 +25,6 @@ export default function useSkillsStep() {
     handleAdd,
     handleRemoveSkill,
     handleUpdateSkill,
+    handleReorderSkill,
   };
 }
