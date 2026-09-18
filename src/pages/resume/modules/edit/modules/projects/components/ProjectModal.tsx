@@ -54,7 +54,7 @@ export default function ProjectsModal(props: props) {
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="overflow-y-scroll max-h-[80vh]">
         <DialogHeader>
           <DialogTitle>
             {session === "edit" ? "Edit Project" : "Add Project"}

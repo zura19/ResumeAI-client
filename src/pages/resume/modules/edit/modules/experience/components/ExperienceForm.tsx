@@ -59,7 +59,7 @@ export default function ExperienceForm({
   });
 
   return (
-    <div className="overflow-scroll h-[490px]  flex flex-col  gap-7 px-1">
+    <div className="flex flex-col  gap-7 px-1">
       <div className="space-y-2">
         <Label htmlFor="company" className="font-semibold">
           Company

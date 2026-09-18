@@ -51,7 +51,7 @@ export default function ExperienceModal(props: props) {
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="overflow-y-scroll max-h-[80vh]">
         <DialogHeader>
           <DialogTitle>
             {session === "edit" ? "Edit Experience" : "Add Experience"}
