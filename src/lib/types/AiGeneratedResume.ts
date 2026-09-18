@@ -44,6 +44,7 @@ export interface Project {
   title: string;
   technologies: string[];
   features: string[];
+  url?: string;
 }
 
 export interface Education {

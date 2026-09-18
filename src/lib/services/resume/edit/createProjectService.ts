@@ -5,6 +5,7 @@ interface ProjectBody {
   title: string;
   technologies: string[];
   features: string[];
+  url?: string;
 }
 
 export async function createProjectService(

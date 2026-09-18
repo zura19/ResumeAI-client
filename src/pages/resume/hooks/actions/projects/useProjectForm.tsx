@@ -22,6 +22,7 @@ export default function useProjectForm({
   proj,
 }: UseProjectFormProps) {
   const [title, setTitle] = useState<string>(proj?.title || "");
+  const [url, setUrl] = useState<string>(proj?.url || "");
   const [features, setFeatures] = useState<string[]>(proj?.features || []);
   const [technologies, setTechnologies] = useState<string[]>(
     proj?.technologies || [],
@@ -41,6 +42,7 @@ export default function useProjectForm({
       title,
       features,
       technologies,
+      url: url.trim() || undefined,
     };
 
     setIsSubmitting(true);
@@ -63,6 +65,8 @@ export default function useProjectForm({
   return {
     title,
     setTitle,
+    url,
+    setUrl,
     features,
     setFeatures,
     technologies,

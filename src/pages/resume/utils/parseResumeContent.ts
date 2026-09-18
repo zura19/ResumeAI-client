@@ -69,6 +69,7 @@ const resumeContentSchema = objectSchema({
         title: stringSchema,
         technologies: stringArraySchema,
         features: stringArraySchema,
+        url: stringSchema.optional(),
       }),
     ),
   ),
