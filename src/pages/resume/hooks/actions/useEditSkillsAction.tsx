@@ -142,6 +142,24 @@ export default function useEditSkillsAction({
     }));
   }
 
+  function handleReorderSkills(
+    type: skillType,
+    fromIndex: number,
+    toIndex: number,
+  ) {
+    if (fromIndex === toIndex) return;
+
+    setSkillsData((previous) => {
+      const updated = [...previous[type]];
+      const [removed] = updated.splice(fromIndex, 1);
+      updated.splice(toIndex, 0, removed);
+      return {
+        ...previous,
+        [type]: updated,
+      };
+    });
+  }
+
   const allowSave = useMemo(() => {
     const isSoftSame = areSkillsEqual(skillsData.soft, resumeData.skills.soft);
     const isLangSame = areSkillsEqual(
@@ -174,6 +192,7 @@ export default function useEditSkillsAction({
     handleAdd,
     handleRemoveSkillAtIndex,
     handleUpdateSkill,
+    handleReorderSkills,
     handleSaveSkills,
   };
 }

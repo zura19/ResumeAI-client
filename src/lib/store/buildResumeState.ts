@@ -32,6 +32,11 @@ interface ResumeActions {
     currentSkill: string,
     nextSkill: string,
   ) => void;
+  handleReorderSkill: (
+    type: skillType,
+    fromIndex: number,
+    toIndex: number,
+  ) => void;
   handleAddProject: (project: Project) => void;
   handleRemoveProject: (index: number) => void;
   handleChangeType: (type: ResumeType) => void;
@@ -183,6 +188,27 @@ const useBuildResume = create<ResumeStore>((set, get) => ({
           [type]: state.skills[type].map((skill) =>
             skill === currentSkill ? trimmedSkill : skill,
           ),
+        },
+      },
+    });
+  },
+
+  handleReorderSkill: (
+    type: skillType,
+    fromIndex: number,
+    toIndex: number,
+  ) => {
+    if (fromIndex === toIndex) return;
+    const state = get().data;
+    const updated = [...state.skills[type]];
+    const [removed] = updated.splice(fromIndex, 1);
+    updated.splice(toIndex, 0, removed);
+    set({
+      data: {
+        ...state,
+        skills: {
+          ...state.skills,
+          [type]: updated,
         },
       },
     });

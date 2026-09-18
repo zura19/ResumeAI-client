@@ -29,6 +29,8 @@ export default function ProjectForm({
   const {
     title,
     setTitle,
+    url,
+    setUrl,
     features,
     setFeatures,
     technologies,
@@ -56,6 +58,22 @@ export default function ProjectForm({
           name="title"
           id="title"
           placeholder="Project Title"
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="url" className="font-semibold">
+          URL{" "}
+          <span className="text-muted-foreground text-xs font-normal">
+            (optional)
+          </span>
+        </Label>
+        <Input
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+          name="url"
+          id="url"
+          placeholder="https://example.com"
         />
       </div>
 

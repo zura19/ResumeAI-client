@@ -1,10 +1,22 @@
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 import type { ClassicColors } from "..";
-import { Text, View, StyleSheet } from "@react-pdf/renderer";
+import { Text, View, StyleSheet, Link } from "@react-pdf/renderer";
 
 interface props {
   data: AiGeneratedResume["projects"];
   colors: ClassicColors;
+}
+
+function normalizeUrl(url: string): string {
+  if (!url) return "";
+  if (url.startsWith("http://") || url.startsWith("https://")) {
+    return url;
+  }
+  return `https://${url}`;
+}
+
+function formatProjectUrl(url: string): string {
+  return url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
 }
 
 export default function Projects({ data, colors }: props) {
@@ -21,11 +33,23 @@ export default function Projects({ data, colors }: props) {
     projectItem: {
       marginBottom: 4,
     },
+    header: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: 1,
+    },
     projectTitle: {
       fontSize: 10,
       fontFamily: "Times-Bold",
       color: colors.text,
-      marginBottom: 1,
+    },
+    projectLink: {
+      fontSize: 9,
+      fontFamily: "Times-Italic",
+      color: colors.text,
+      textDecoration: "underline",
     },
     technologies: {
       fontSize: 9,
@@ -57,7 +81,14 @@ export default function Projects({ data, colors }: props) {
       <Text style={styles.title}>Projects</Text>
       {data.map((project, index) => (
         <View wrap={false} key={project.id || index} style={styles.projectItem}>
-          <Text style={styles.projectTitle}>{project.title}</Text>
+          <View style={styles.header}>
+            <Text style={styles.projectTitle}>{project.title}</Text>
+            {project.url && (
+              <Link src={normalizeUrl(project.url)} style={styles.projectLink}>
+                {formatProjectUrl(project.url)}
+              </Link>
+            )}
+          </View>
           {project.technologies.length > 0 && (
             <Text style={styles.technologies}>
               {project.technologies.join(", ")}

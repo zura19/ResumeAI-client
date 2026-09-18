@@ -12,6 +12,7 @@ interface TechnicalSkillsSectionProps {
   onAdd: () => void;
   onRemove: (type: skillType, index: number) => void;
   onUpdate: (type: skillType, index: number, value: string) => void;
+  onReorder?: (type: skillType, fromIndex: number, toIndex: number) => void;
 }
 
 export default function TechnicalSkillsSection({
@@ -22,6 +23,7 @@ export default function TechnicalSkillsSection({
   onAdd,
   onRemove,
   onUpdate,
+  onReorder,
 }: TechnicalSkillsSectionProps) {
   return (
     <div>
@@ -45,6 +47,7 @@ export default function TechnicalSkillsSection({
         type="technical"
         onRemove={onRemove}
         onUpdate={onUpdate}
+        onReorder={onReorder}
       />
     </div>
   );

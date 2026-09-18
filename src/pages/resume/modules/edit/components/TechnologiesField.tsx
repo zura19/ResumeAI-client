@@ -25,6 +25,47 @@ export default function TechnologiesField({
   const [tech, setTech] = useState<string>("");
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [editingValue, setEditingValue] = useState("");
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+
+  const handleDragStart = (index: number) => {
+    setDraggedIndex(index);
+  };
+
+  const handleDragOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault();
+    if (draggedIndex === null || draggedIndex === index) return;
+    setDragOverIndex(index);
+  };
+
+  const handleDragLeave = (index: number) => {
+    if (dragOverIndex === index) {
+      setDragOverIndex(null);
+    }
+  };
+
+  const handleDrop = (index: number) => {
+    if (draggedIndex === null || draggedIndex === index) {
+      setDraggedIndex(null);
+      setDragOverIndex(null);
+      return;
+    }
+
+    setTechnologies((prev) => {
+      const updated = [...(prev || [])];
+      const [removed] = updated.splice(draggedIndex, 1);
+      updated.splice(index, 0, removed);
+      return updated;
+    });
+
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
 
   const handleAddTechnology = () => {
     const nextTechnology = tech.trim();
@@ -119,6 +160,14 @@ export default function TechnologiesField({
             onEditCancel={handleEditCancel}
             onRemove={() => handleRemoveTechnology(index)}
             maxLength={20}
+            draggable={editingIndex === null}
+            onDragStart={() => handleDragStart(index)}
+            onDragOver={(e) => handleDragOver(e, index)}
+            onDragLeave={() => handleDragLeave(index)}
+            onDrop={() => handleDrop(index)}
+            onDragEnd={handleDragEnd}
+            isDragging={draggedIndex === index}
+            isDragOver={dragOverIndex === index}
           />
         ))}
       </div>

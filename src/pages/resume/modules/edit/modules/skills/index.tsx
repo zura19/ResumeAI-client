@@ -27,6 +27,7 @@ export default function Skills({ resumeData, id, generatedResumeId }: props) {
     handleAdd,
     handleRemoveSkillAtIndex,
     handleUpdateSkill,
+    handleReorderSkills,
     handleSaveSkills,
   } = useEditSkillsAction({
     resumeData,
@@ -46,6 +47,7 @@ export default function Skills({ resumeData, id, generatedResumeId }: props) {
         onAdd={() => handleAdd("soft")}
         onRemove={handleRemoveSkillAtIndex}
         onUpdate={handleUpdateSkill}
+        onReorder={handleReorderSkills}
       />
 
       <LanguagesSection
@@ -56,6 +58,7 @@ export default function Skills({ resumeData, id, generatedResumeId }: props) {
         onAdd={() => handleAdd("languages")}
         onRemove={handleRemoveSkillAtIndex}
         onUpdate={handleUpdateSkill}
+        onReorder={handleReorderSkills}
       />
 
       <TechnicalSkillsSection
@@ -66,6 +69,7 @@ export default function Skills({ resumeData, id, generatedResumeId }: props) {
         onAdd={() => handleAdd("technical")}
         onRemove={handleRemoveSkillAtIndex}
         onUpdate={handleUpdateSkill}
+        onReorder={handleReorderSkills}
       />
       <FormButton
         onClick={handleSaveSkills}

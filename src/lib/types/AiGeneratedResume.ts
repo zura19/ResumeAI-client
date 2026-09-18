@@ -14,13 +14,37 @@ export interface AiGeneratedResume {
   experience: Experience[];
   skills: Skills;
   projects: Project[];
+  links?: Link[];
 }
+
+export type LinkType =
+  | "facebook"
+  | "github"
+  | "portfolio"
+  | "linkedin"
+  | "twitter"
+  | "website"
+  | "instagram"
+  | "other";
+
+export interface Link {
+  id: string;
+  url: string;
+  type: LinkType;
+  order?: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export type ResumeLink = Link;
+
 export interface Project {
   id?: string;
   order?: number;
   title: string;
   technologies: string[];
   features: string[];
+  url?: string;
 }
 
 export interface Education {

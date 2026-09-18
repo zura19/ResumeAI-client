@@ -12,6 +12,7 @@ interface SoftSkillsSectionProps {
   onAdd: () => void;
   onRemove: (type: skillType, index: number) => void;
   onUpdate: (type: skillType, index: number, value: string) => void;
+  onReorder?: (type: skillType, fromIndex: number, toIndex: number) => void;
 }
 
 export default function SoftSkillsSection({
@@ -22,6 +23,7 @@ export default function SoftSkillsSection({
   onAdd,
   onRemove,
   onUpdate,
+  onReorder,
 }: SoftSkillsSectionProps) {
   return (
     <div>
@@ -45,6 +47,7 @@ export default function SoftSkillsSection({
         type="soft"
         onRemove={onRemove}
         onUpdate={onUpdate}
+        onReorder={onReorder}
       />
     </div>
   );

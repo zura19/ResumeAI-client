@@ -19,6 +19,7 @@ function extractResumeData(
       [],
     skills: generated.skills,
     projects: generated.projects || [],
+    links: generated.links || [],
   };
 }
 
