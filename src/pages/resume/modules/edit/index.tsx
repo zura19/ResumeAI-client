@@ -11,6 +11,7 @@ import Skills from "./modules/skills";
 import Education from "./modules/education";
 import Experience from "./modules/experience";
 import Projects from "./modules/projects";
+import Links from "./modules/links";
 import SelectVersion from "./components/SelectVersion";
 import { useUser } from "@/lib/store/userState";
 import DeleteModal from "./components/DeleteModal";
@@ -94,6 +95,19 @@ export default function Edit({
               id={id}
               generatedResumeId={defaultVersion}
               resumeData={resumeData}
+            />
+          </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem disabled={disabledToOpen} value="links">
+          <AccordionTrigger className={triggerClassName}>
+            Links
+          </AccordionTrigger>
+          <AccordionContent>
+            <Links
+              id={id}
+              resumeData={resumeData}
+              generatedResumeId={defaultVersion}
             />
           </AccordionContent>
         </AccordionItem>
