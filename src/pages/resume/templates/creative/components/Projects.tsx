@@ -1,10 +1,22 @@
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 import type { ICreativeColors } from "..";
-import { Text, View, StyleSheet } from "@react-pdf/renderer";
+import { Text, View, StyleSheet, Link } from "@react-pdf/renderer";
 
 interface props {
   data: AiGeneratedResume["projects"];
   colors: ICreativeColors;
+}
+
+function normalizeUrl(url: string): string {
+  if (!url) return "";
+  if (url.startsWith("http://") || url.startsWith("https://")) {
+    return url;
+  }
+  return `https://${url}`;
+}
+
+function formatProjectUrl(url: string): string {
+  return url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
 }
 
 export default function Projects({ data, colors }: props) {
@@ -24,12 +36,23 @@ export default function Projects({ data, colors }: props) {
       border: `1px solid ${colors.accent}`,
       borderRadius: 3,
     },
+    header: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: 2,
+    },
     projectTitle: {
       fontSize: 10,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
-      marginBottom: 2,
+    },
+    projectLink: {
+      fontSize: 8,
+      color: colors.primary,
+      textDecoration: "underline",
     },
     feature: {
       fontSize: 9,
@@ -58,7 +81,14 @@ export default function Projects({ data, colors }: props) {
       <Text style={styles.title}>Projects</Text>
       {data.map((project, index) => (
         <View wrap={false} key={project.id || index} style={styles.projectItem}>
-          <Text style={styles.projectTitle}>{project.title}</Text>
+          <View style={styles.header}>
+            <Text style={styles.projectTitle}>{project.title}</Text>
+            {project.url && (
+              <Link src={normalizeUrl(project.url)} style={styles.projectLink}>
+                {formatProjectUrl(project.url)}
+              </Link>
+            )}
+          </View>
           {project.features.map((feature, i) => (
             <Text key={i} style={styles.feature}>
               • {feature}

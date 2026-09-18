@@ -1,10 +1,22 @@
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 import type { ExecutiveColors } from "..";
-import { Text, View, StyleSheet } from "@react-pdf/renderer";
+import { Text, View, StyleSheet, Link } from "@react-pdf/renderer";
 
 interface props {
   data: AiGeneratedResume["projects"];
   colors: ExecutiveColors;
+}
+
+function normalizeUrl(url: string): string {
+  if (!url) return "";
+  if (url.startsWith("http://") || url.startsWith("https://")) {
+    return url;
+  }
+  return `https://${url}`;
+}
+
+function formatProjectUrl(url: string): string {
+  return url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
 }
 
 export default function Projects({ data, colors }: props) {
@@ -30,14 +42,20 @@ export default function Projects({ data, colors }: props) {
     projectHeader: {
       display: "flex",
       flexDirection: "row",
-      gap: 4,
-      // marginBottom: 12,
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: 2,
     },
     projectTitle: {
       fontSize: 11,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
+    },
+    projectLink: {
+      fontSize: 8,
+      color: colors.primary,
+      textDecoration: "underline",
     },
     section: {
       marginTop: 4,
@@ -79,8 +97,12 @@ export default function Projects({ data, colors }: props) {
       {data.map((project, index) => (
         <View wrap={false} key={project.id || index} style={styles.projectItem}>
           <View style={styles.projectHeader}>
-            {/* <Text style={{ fontSize: 16 }}>🏆</Text> */}
             <Text style={styles.projectTitle}>{project.title}</Text>
+            {project.url && (
+              <Link src={normalizeUrl(project.url)} style={styles.projectLink}>
+                {formatProjectUrl(project.url)}
+              </Link>
+            )}
           </View>
 
           <View style={styles.section}>

@@ -1,10 +1,22 @@
 import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 import type { ModernColors } from "..";
-import { Text, View, StyleSheet } from "@react-pdf/renderer";
+import { Text, View, StyleSheet, Link } from "@react-pdf/renderer";
 
 interface props {
   data: AiGeneratedResume["projects"];
   colors: ModernColors;
+}
+
+function normalizeUrl(url: string): string {
+  if (!url) return "";
+  if (url.startsWith("http://") || url.startsWith("https://")) {
+    return url;
+  }
+  return `https://${url}`;
+}
+
+function formatProjectUrl(url: string): string {
+  return url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
 }
 
 export default function Projects({ data, colors }: props) {
@@ -23,12 +35,23 @@ export default function Projects({ data, colors }: props) {
       paddingLeft: 6,
       borderLeft: `2px solid ${colors.primary}`,
     },
+    header: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: 2,
+    },
     projectTitle: {
       fontSize: 10,
       fontWeight: "bold",
       fontFamily: "Helvetica-Bold",
       color: colors.text,
-      marginBottom: 2,
+    },
+    projectLink: {
+      fontSize: 8,
+      color: colors.primary,
+      textDecoration: "underline",
     },
     techSection: {
       marginBottom: 4,
@@ -74,7 +97,14 @@ export default function Projects({ data, colors }: props) {
       <Text style={styles.title}>PROJECTS</Text>
       {data.map((project, index) => (
         <View wrap={false} key={project.id || index} style={styles.projectItem}>
-          <Text style={styles.projectTitle}>{project.title}</Text>
+          <View style={styles.header}>
+            <Text style={styles.projectTitle}>{project.title}</Text>
+            {project.url && (
+              <Link src={normalizeUrl(project.url)} style={styles.projectLink}>
+                {formatProjectUrl(project.url)}
+              </Link>
+            )}
+          </View>
 
           {project.technologies.length > 0 && (
             <View style={styles.techSection}>

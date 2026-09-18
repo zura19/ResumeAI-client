@@ -1,13 +1,31 @@
-import type { PersonalInfo } from "@/lib/types/buildResumeTypes";
+import type { PersonalInfo as IPersonalInfo } from "@/lib/types/buildResumeTypes";
+import type { AiGeneratedResume } from "@/lib/types/AiGeneratedResume";
 import type { ICreativeColors } from "..";
-import { Text, View, StyleSheet } from "@react-pdf/renderer";
+import { Text, View, StyleSheet, Link } from "@react-pdf/renderer";
+import LinkIcon from "../../components/LinkIcon";
 
 interface props {
-  data: PersonalInfo;
+  data: IPersonalInfo;
   colors: ICreativeColors;
+  links?: AiGeneratedResume["links"];
 }
 
-export default function PersonalInfo({ data, colors }: props) {
+function normalizeUrl(url: string): string {
+  if (!url) return "";
+  if (url.startsWith("http://") || url.startsWith("https://")) {
+    return url;
+  }
+  return `https://${url}`;
+}
+
+function formatLinkText(link: { url: string; type: string }): string {
+  const cleanUrl = link.url
+    .replace(/^https?:\/\/(www\.)?/, "")
+    .replace(/\/$/, "");
+  return cleanUrl;
+}
+
+export default function PersonalInfo({ data, colors, links }: props) {
   const styles = StyleSheet.create({
     container: {
       // background: `linear-gradient(to right, ${colors.primary}, ${colors.accent})`,
@@ -26,20 +44,26 @@ export default function PersonalInfo({ data, colors }: props) {
     contactGrid: {
       display: "flex",
       flexDirection: "row",
-      justifyContent: "space-between",
+      flexWrap: "wrap",
+      alignItems: "center",
+      gap: 10,
       fontSize: 9,
-      gap: 6,
     },
     contactItem: {
-      //   display: "flex",
+      display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      gap: 5,
-      flex: 1,
+      gap: 4,
     },
-    label: {
-      fontWeight: "bold",
-      marginRight: 4,
+    linkItem: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 4,
+    },
+    linkText: {
+      color: colors.background,
+      textDecoration: "none",
     },
   });
 
@@ -47,15 +71,32 @@ export default function PersonalInfo({ data, colors }: props) {
     <View style={styles.container}>
       <Text style={styles.name}>{data.fullName}</Text>
       <View style={styles.contactGrid}>
-        <View style={styles.contactItem}>
-          <Text style={styles.label}>{data.email}</Text>
-        </View>
-        <View style={styles.contactItem}>
-          <Text style={styles.label}>{data.phone}</Text>
-        </View>
-        <View style={styles.contactItem}>
-          <Text style={styles.label}>{data.address}</Text>
-        </View>
+        {data.email ? (
+          <View style={styles.contactItem}>
+            <LinkIcon type="email" size={8} color={colors.background} />
+            <Text>{data.email}</Text>
+          </View>
+        ) : null}
+        {data.phone ? (
+          <View style={styles.contactItem}>
+            <LinkIcon type="phone" size={8} color={colors.background} />
+            <Text>{data.phone}</Text>
+          </View>
+        ) : null}
+        {data.address ? (
+          <View style={styles.contactItem}>
+            <LinkIcon type="address" size={8} color={colors.background} />
+            <Text>{data.address}</Text>
+          </View>
+        ) : null}
+        {links?.map((link, idx) => (
+          <View key={link.id || idx} style={styles.linkItem}>
+            <LinkIcon type={link.type} size={8} color={colors.background} />
+            <Link src={normalizeUrl(link.url)} style={styles.linkText}>
+              {formatLinkText(link)}
+            </Link>
+          </View>
+        ))}
       </View>
     </View>
   );

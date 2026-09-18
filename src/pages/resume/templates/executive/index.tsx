@@ -42,9 +42,9 @@ interface props {
 }
 
 export default function ResumeExecutive({ resumeData }: props) {
-  const hasPersonalInfo = Object.values(resumeData.personalInfo).some((value) =>
-    value.trim()
-  );
+  const hasPersonalInfo =
+    Object.values(resumeData.personalInfo).some((value) => value.trim()) ||
+    Boolean(resumeData.links && resumeData.links.length > 0);
   const hasSummary = resumeData.summary.trim().length > 0;
   const hasSkills =
     resumeData.skills.soft.length > 0 ||
@@ -74,7 +74,11 @@ export default function ResumeExecutive({ resumeData }: props) {
     <Document>
       <Page size="A4" style={styles.page}>
         {hasPersonalInfo && (
-          <PersonalInfo colors={colors} data={resumeData.personalInfo} />
+          <PersonalInfo
+            colors={colors}
+            data={resumeData.personalInfo}
+            links={resumeData.links}
+          />
         )}
         <View style={styles.content}>
           {hasSummary && <Summary colors={colors} text={resumeData.summary} />}
